@@ -26,4 +26,4 @@
   1. wav 파일을 매번 입력하기 귀찮겠다.
 -->
 
-git hook test
+git hook test 냥
