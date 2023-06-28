@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://{HOST_NAME}:{PORT_NUM}/{DB_NAME}?serverTimezone=Asia/Seoul
+    username: root
+    password: {ROOT_PW}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    generate-ddl: true
+    properties:
+      hibernate:
+        show_sql: true         # hibernate? DB? ??? ?? ?? ??
+        format_sql: true       # sql format ??
+        use_sql_comments: true # ?? ??
+        highlight_sql: true    # ANSI SQL? ?? ? ??
+
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql: trace # parameter ?? ??
