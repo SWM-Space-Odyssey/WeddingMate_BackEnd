@@ -1,1 +1,0 @@
-Jira 이슈 prepare-commit-msg 테스트 6차
