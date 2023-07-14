@@ -19,11 +19,12 @@ jobs:
 
       #ec2 서버에 접속 해 리모트 디렉토리 생성
       - name: create remote directory
-        uses: appleboy/ssh-action@v0.1.5
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ubuntu
           key: ${{ secrets.KEY }}
+          port : 22
           script: mkdir -p /home/ubuntu/srv/weddingmate
 
       #      - name: create env file
