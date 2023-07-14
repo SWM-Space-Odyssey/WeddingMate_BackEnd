@@ -3,6 +3,7 @@ FROM gradle:latest AS BUILD
 RUN mkdir /app
 COPY . /app/
 WORKDIR /app
+RUN chmod +x ./gradlew
 RUN ./gradlew clean build
 
 #FROM openjdk:17 as builder
