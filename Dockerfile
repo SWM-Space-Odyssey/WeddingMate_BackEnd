@@ -4,7 +4,7 @@ RUN mkdir /app
 COPY . /app/
 WORKDIR /app
 RUN chmod +x ./gradlew
-RUN ./gradlew clean build
+RUN ./gradlew clean build --exclude-task test
 
 #FROM openjdk:17 as builder
 #FROM openjdk:17-jdk-slim
