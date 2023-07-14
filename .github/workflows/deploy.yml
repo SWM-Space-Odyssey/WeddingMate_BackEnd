@@ -7,7 +7,7 @@ on: #develop branch에 push 될 경우에만 수행
 jobs:
   build:
     name: Build
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - name: checkout #develop branch로 checkout
         uses: actions/checkout@feature/SO-30-github-action
