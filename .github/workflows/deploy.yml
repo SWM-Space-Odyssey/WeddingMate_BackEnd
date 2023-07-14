@@ -2,7 +2,7 @@ name: Deploy to EC2
 on: #develop branch에 push 될 경우에만 수행
   push:
     branches:
-      - develop
+      - feature/SO-30-github-action
 
 jobs:
   build:
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - name: checkout #develop branch로 checkout
-        uses: actions/checkout@develop
+        uses: actions/checkout@feature/SO-30-github-action
 
       - name: create env file
         run: |
