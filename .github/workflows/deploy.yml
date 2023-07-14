@@ -9,8 +9,8 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - name: checkout #develop branch로 checkout
-        uses: actions/checkout@feature/SO-30-github-action
+      - name: checkout #branch로 checkout
+        uses: actions/checkout@main
 
       - name: create env file
         run: |
