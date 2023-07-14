@@ -27,15 +27,6 @@ jobs:
           port : 22
           script: mkdir -p /home/ubuntu/srv/weddingmate
 
-      #      - name: create env file
-      #        uses: appleboy/ssh-action@v0.1.5
-      #        with:
-      #          host: ${{ secrets.HOST }}
-      #          username: ubuntu
-      #          key: ${{ secrets.KEY }}
-      #          script: |
-      #              echo '${{ secrets.ENV_VARS }}' >> /home/ubuntu/srv/weddingmate/.env
-
       #ssh key로 현재 푸시된 소스를 서버에 복사
       - name: copy source via ssh key
         uses: burnett01/rsync-deployments@4.1
