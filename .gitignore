@@ -38,3 +38,10 @@ out/
 
 ### ENV ###
 .env
+
+### 설정파일 ###
+application.yml
+application-dev.yml
+application-oauth.yml
+application-app.yml
+application-cloud.yml
