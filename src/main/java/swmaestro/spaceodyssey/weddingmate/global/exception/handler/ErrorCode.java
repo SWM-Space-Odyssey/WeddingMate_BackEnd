@@ -1,4 +1,4 @@
-package swmaestro.spaceodyssey.weddingmate.global.exception;
+package swmaestro.spaceodyssey.weddingmate.global.exception.handler;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

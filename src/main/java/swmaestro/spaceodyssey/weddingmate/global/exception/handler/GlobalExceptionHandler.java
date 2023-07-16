@@ -1,4 +1,4 @@
-package swmaestro.spaceodyssey.weddingmate.global.exception;
+package swmaestro.spaceodyssey.weddingmate.global.exception.handler;
 
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
