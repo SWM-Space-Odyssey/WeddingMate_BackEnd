@@ -1,4 +1,4 @@
-package swmaestro.spaceodyssey.weddingmate.domain.users.entity;
+package swmaestro.spaceodyssey.weddingmate.domain.users.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -14,6 +14,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.oauth2.OAuth2UserInfo;
 import swmaestro.spaceodyssey.weddingmate.domain.oauth2.enums.AuthProvider;
+import swmaestro.spaceodyssey.weddingmate.domain.users.enums.UserEnum;
 import swmaestro.spaceodyssey.weddingmate.global.entity.BaseTimeEntity;
 
 @SuppressWarnings("checkstyle:RegexpMultiline")
