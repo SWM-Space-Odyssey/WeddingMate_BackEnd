@@ -6,9 +6,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
-public class OAuthUnAuthURLException extends RuntimeException {
+public class OAuthUnauthUrlException extends RuntimeException {
 
-	public OAuthUnAuthURLException() {
+	public OAuthUnauthUrlException() {
 		super(OAUTH_UNAUTHORIZED_URL);
 	}
 }

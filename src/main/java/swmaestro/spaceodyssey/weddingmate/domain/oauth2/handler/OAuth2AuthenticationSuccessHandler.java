@@ -18,9 +18,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.oauth2.repository.CookieAuthorizationRequestRepository;
 import swmaestro.spaceodyssey.weddingmate.domain.oauth2.utils.CookieUtils;
-import swmaestro.spaceodyssey.weddingmate.global.properties.AppProperties;
 import swmaestro.spaceodyssey.weddingmate.global.config.jwt.JwtTokenProvider;
-import swmaestro.spaceodyssey.weddingmate.global.exception.oauth2.OAuthUnAuthURLException;
+import swmaestro.spaceodyssey.weddingmate.global.exception.oauth2.OAuthUnauthUrlException;
+import swmaestro.spaceodyssey.weddingmate.global.properties.AppProperties;
 
 @Component
 @RequiredArgsConstructor
@@ -51,7 +51,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 			.map(Cookie::getValue);
 
 		if (redirectUri.isPresent() && !isAuthorizedRedirectUri(redirectUri.get())) {
-			throw new OAuthUnAuthURLException();
+			throw new OAuthUnauthUrlException();
 		}
 		String targetUri = redirectUri.orElse(getDefaultTargetUrl());
 		String token = tokenProvider.createToken(authentication);
