@@ -5,7 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6731f480-c7cd-43bb-9ac8-952384607021" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.github/hook-test.md" beforeDir="false" afterPath="$PROJECT_DIR$/.github/hook-test.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,17 +21,8 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="JpbToolWindowState">
-    <option name="myId2FirstActivated">
-      <map>
-        <entry key="com.haulmont.jpb.jpaStructure" value="true" />
-      </map>
-    </option>
-    <option name="myId2Visible">
-      <map>
-        <entry key="com.haulmont.jpb.jpaStructure" value="false" />
-      </map>
-    </option>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
     <option name="selectedIndex" value="1" />
@@ -43,20 +35,20 @@
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Program Files (x86)/MySQL/Connector J 8.0/mysql-connector-java-8.0.30.jar" />
-    <property name="node.js.detected.package.eslint" value="true" />
-    <property name="node.js.detected.package.tslint" value="true" />
-    <property name="node.js.selected.package.eslint" value="(autodetect)" />
-    <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="configurable.group.language" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "WebServerToolWindowFactoryState": "false",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "spring.configuration.checksum": "49fd28e25dc049ffa2a12e82456c0593",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
   <component name="RunManager">
     <configuration name="WeddingmateApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="weddingmate.main" />
@@ -77,6 +69,7 @@
       <workItem from="1687963052576" duration="511000" />
       <workItem from="1687964071174" duration="4260000" />
       <workItem from="1687971741491" duration="3755000" />
+      <workItem from="1689660277402" duration="654000" />
     </task>
     <servers />
   </component>
