@@ -21,3 +21,11 @@ services:
       - "80:80"
     depends_on:
       - web
+
+  redis:
+    image: redis:latest
+    container_name: 127.0.0.1
+    ports:
+      - 6379:6379
+    depends_on:
+      - web

@@ -1,4 +1,4 @@
-package swmaestro.spaceodyssey.weddingmate.global.exception.oauth2;
+package swmaestro.spaceodyssey.weddingmate.global.exception.token;
 
 import static swmaestro.spaceodyssey.weddingmate.global.constant.ResponseConstant.*;
 
@@ -6,9 +6,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.UNAUTHORIZED)
-public class OAuthUnauthUrlException extends RuntimeException {
+public class UnAuthorizedRefreshTokenException extends RuntimeException{
 
-	public OAuthUnauthUrlException() {
-		super(OAUTH_UNAUTHORIZED_URL);
+	public UnAuthorizedRefreshTokenException() {
+		super(REFRESH_TOKEN_UNAUTHORIZED);
 	}
 }

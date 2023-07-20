@@ -3,5 +3,4 @@ spring:
     include:
       - dev
       - oauth
-      - app
       - cloud
