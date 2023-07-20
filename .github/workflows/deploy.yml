@@ -2,7 +2,7 @@ name: Deploy to EC2
 on: #develop branch에 push 될 경우에만 수행
   push:
     branches:
-      - develop
+      - feature/SO-34-kakao-oauth2
 
 jobs:
   build:
