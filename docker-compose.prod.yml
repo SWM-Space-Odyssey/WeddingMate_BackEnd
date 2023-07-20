@@ -25,6 +25,9 @@ services:
   redis:
     image: redis:latest
     container_name: 127.0.0.1
+    command: redis-server /usr/local/conf/redis.conf
+    build:
+        context: ./config/redis
     ports:
       - 6379:6379
     depends_on:
