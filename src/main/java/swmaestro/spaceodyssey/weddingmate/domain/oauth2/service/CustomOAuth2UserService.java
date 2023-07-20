@@ -4,11 +4,13 @@ import java.util.Optional;
 
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.oauth2.OAuth2UserInfo;
 import swmaestro.spaceodyssey.weddingmate.domain.oauth2.OAuth2UserInfoFactory;
@@ -19,6 +21,7 @@ import swmaestro.spaceodyssey.weddingmate.domain.users.repository.UsersRepositor
 import swmaestro.spaceodyssey.weddingmate.global.exception.oauth2.OAuth2AuthProviderIdNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.oauth2.OAuth2DuplicateEmailException;
 
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
@@ -28,7 +31,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 	/* OAuth2UserRequest에 이는 Access Token으로 유저 정보를 가져온다 */
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-		OAuth2User oAuth2User = super.loadUser(userRequest);
+
+		OAuth2UserService<OAuth2UserRequest, OAuth2User> service = new DefaultOAuth2UserService();
+		OAuth2User oAuth2User = service.loadUser(userRequest);
+
 		return processOAuth2User(userRequest, oAuth2User);
 	}
 
@@ -37,6 +43,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 		// 로그인 플랫폼 확인(원래는 enum으로 하지만 우리는 kakao만 함)
 		AuthProvider authProvider = AuthProvider.valueOf(
 			userRequest.getClientRegistration().getRegistrationId().toUpperCase());
+
 		OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(authProvider,
 			oAuth2User.getAttributes());
 

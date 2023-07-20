@@ -1,8 +1,10 @@
 package swmaestro.spaceodyssey.weddingmate.global.config.jwt;
 
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,64 +12,66 @@ import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.UnsupportedJwtException;
-import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import swmaestro.spaceodyssey.weddingmate.domain.oauth2.UserPrincipal;
 import swmaestro.spaceodyssey.weddingmate.domain.oauth2.service.CustomUserDetailsService;
-import swmaestro.spaceodyssey.weddingmate.global.properties.AppProperties;
 
 @Component
 @Slf4j
 @RequiredArgsConstructor
 public class JwtTokenProvider {
 
-	private final AppProperties appProperties;
 	private final CustomUserDetailsService customUserDetailsService;
 
-	public String createToken(Authentication authentication) {
-		UserPrincipal userPrincipal = (UserPrincipal)authentication.getPrincipal();
+	@Value("${spring.jwt.secret}")
+	private String secretKey;
+	private final Long accessTokenValidationMs = 30 * 60 * 1000L;
+	private final Long refreshTokenValidationMs = 15 * 24 * 60 * 60 * 1000L;
 
-		Date now = new Date();
-		Date expiredDate = new Date(now.getTime() + appProperties.getAuth().getTokenExpirationMsec());
+	public Long getRefreshTokenValidationMs() {
+		return refreshTokenValidationMs;
+	}
 
-		byte[] keyBytes = Decoders.BASE64.decode(appProperties.getAuth().getTokenSecret());
-		Key key = Keys.hmacShaKeyFor(keyBytes);
+	public String createAccessToken(String email) {
+		Claims claims = Jwts.claims()
+			.setSubject(email)
+			.setIssuedAt(new Date())
+			.setExpiration(new Date(System.currentTimeMillis() + accessTokenValidationMs));
 
 		return Jwts.builder()
-			.setSubject(Long.toString(userPrincipal.getId()))
-			.setIssuedAt(new Date())
-			.setExpiration(expiredDate)
-			.signWith(key, SignatureAlgorithm.HS256)
+			.setHeaderParam(Header.TYPE, Header.JWT_TYPE)
+			.setClaims(claims)
+			.signWith(getSignKey(secretKey), SignatureAlgorithm.HS256)
 			.compact();
 	}
 
-	public Long getUserIdFromToken(String token) {
-		byte[] keyBytes = Decoders.BASE64.decode(appProperties.getAuth().getTokenSecret());
-		Key key = Keys.hmacShaKeyFor(keyBytes);
+	public String createRefreshToken(String email) {
+		Claims claims = Jwts.claims()
+			.setSubject(email)
+			.setIssuedAt(new Date())
+			.setExpiration(new Date(System.currentTimeMillis() + refreshTokenValidationMs));
 
-		Claims claims = Jwts.parserBuilder()
-			.setSigningKey(key)
-			.build()
-			.parseClaimsJws(token)
-			.getBody();
-
-		return Long.parseLong(claims.getSubject());
+		return Jwts.builder()
+			.setHeaderParam(Header.TYPE, Header.JWT_TYPE)
+			.setClaims(claims)
+			.signWith(getSignKey(secretKey), SignatureAlgorithm.HS256)
+			.compact();
 	}
 
+	private Key getSignKey(String secretKey) {
+		return Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
+	}
 	public boolean validateToken(String authToken) {
-		byte[] keyBytes = Decoders.BASE64.decode(appProperties.getAuth().getTokenSecret());
-		Key key = Keys.hmacShaKeyFor(keyBytes);
-
 		try {
 			Jwts.parserBuilder()
-				.setSigningKey(key)
+				.setSigningKey(getSignKey(secretKey))
 				.build()
 				.parseClaimsJws(authToken);
 			return true;
@@ -85,10 +89,38 @@ public class JwtTokenProvider {
 		return false;
 	}
 
+	public Claims getClaims(String token) {
+		try {
+			return Jwts.parserBuilder() // JwtParserBuilder 인스턴스 생성
+				.setSigningKey(getSignKey(secretKey)) // JWT Signature 검증을 위한 SecretKey 설정
+				.build() // Thread-Safe한 JwtParser를 반환하기 위해 build 호출
+				.parseClaimsJws(token) // Claim(Payload) 파싱
+				.getBody();
+		} catch (ExpiredJwtException e) {
+			// 만료된 토큰이어도 refresh token 검증 후 재발급할 수 있또록 claims 반환
+			return e.getClaims();
+		} catch (Exception e) {
+			// 다른 예외인 경우 throw
+			log.error("유효하지 않은 토큰입니다. {}", e.toString());
+			throw new IllegalStateException("Access Token" + token + e.toString());
+		}
+	}
+
 	public Authentication getAuthentication(String token) {
-		Long userId = getUserIdFromToken(token);
-		UserDetails userDetails = customUserDetailsService.loadUserById(userId);
+		String email = getClaims(token).getSubject();
+
+		if (email == null){
+			throw new IllegalStateException("Access token" + token + "권한 정보가 없는 토큰입니다.");
+		}
+
+		UserDetails userDetails = customUserDetailsService.loadUserByUsername(email);
 		return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+	}
+
+	public Long getRemainingTime(String token) {
+		Date expiration = getClaims(token).getExpiration();
+		Date now = new Date();
+		return expiration.getTime() - now.getTime();
 	}
 
 }

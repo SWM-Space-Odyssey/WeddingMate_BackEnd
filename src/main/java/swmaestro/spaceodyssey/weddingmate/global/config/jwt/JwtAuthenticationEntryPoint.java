@@ -2,9 +2,11 @@ package swmaestro.spaceodyssey.weddingmate.global.config.jwt;
 
 import java.io.IOException;
 
+import org.json.JSONObject;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
+
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,6 +18,10 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 		AuthenticationException authException) throws IOException, ServletException {
-		response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
+		response.setContentType("application/json");
+		response.setCharacterEncoding("utf-8");
+		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		response.getWriter().write(new JSONObject()
+			.put("message", authException.getMessage()).toString());
 	}
 }
