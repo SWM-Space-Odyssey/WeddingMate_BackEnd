@@ -1,11 +1,13 @@
 package swmaestro.spaceodyssey.weddingmate.global.config.jwt;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -13,10 +15,15 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import swmaestro.spaceodyssey.weddingmate.global.config.redis.RedisService;
 
+@Component
+@RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-	private JwtTokenProvider jwtTokenProvider;
+	private final JwtTokenProvider jwtTokenProvider;
+	private final RedisService redisService;
 
 	private static final Logger log = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
@@ -32,6 +39,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 			// 2. Validate method로 token 유효성 검사
 			if (StringUtils.hasText(token) && jwtTokenProvider.validateToken(token)) {
+				// BlackList에 존재하는 토큰으로 요청이 온 경우
+				Optional<String> isBlackList = redisService.getBlackList(token);
+				if (isBlackList.isPresent()){
+					throw new RuntimeException("이미 로그아웃된 토큰입니다.");
+				}
+
 				Authentication authentication = jwtTokenProvider.getAuthentication(token);
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 			}
