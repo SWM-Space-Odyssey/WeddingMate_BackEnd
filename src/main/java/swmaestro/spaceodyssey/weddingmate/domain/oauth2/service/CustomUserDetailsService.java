@@ -16,14 +16,17 @@ import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserNotFoundExc
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-	private UsersRepository usersRepository;
+	private final UsersRepository usersRepository;
+
+	public CustomUserDetailsService(UsersRepository usersRepository) {
+		this.usersRepository = usersRepository;
+	}
 
 	@Override
 	@Transactional
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		Users users = usersRepository.findByEmail(email)
 			.orElseThrow(UserNameNotFoundException::new);
-
 		return UserPrincipal.create(users);
 	}
 

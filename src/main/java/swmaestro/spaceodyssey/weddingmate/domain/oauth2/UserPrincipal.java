@@ -21,14 +21,16 @@ public class UserPrincipal implements UserDetails, OAuth2User {
 
 	private Long id;
 	private String email;
+	private Users users;
 	private Collection<? extends GrantedAuthority> authorities;
 	@Setter
 	private transient Map<String, Object> attributes;
 
-	public UserPrincipal(Long id, String email, Collection<? extends GrantedAuthority> authorities) {
+	public UserPrincipal(Long id, String email, Users users, Collection<? extends GrantedAuthority> authorities) {
 		this.id = id;
 		this.email = email;
 		this.authorities = authorities;
+		this.users = users;
 	}
 
 	public static UserPrincipal create(Users users) {
@@ -37,6 +39,7 @@ public class UserPrincipal implements UserDetails, OAuth2User {
 		return new UserPrincipal(
 			users.getUserId(),
 			users.getEmail(),
+			users,
 			authorityList
 		);
 	}
