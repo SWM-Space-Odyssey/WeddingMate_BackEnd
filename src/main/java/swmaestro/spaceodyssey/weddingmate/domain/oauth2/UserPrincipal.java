@@ -23,6 +23,7 @@ public class UserPrincipal implements UserDetails, OAuth2User {
 	private String email;
 	private Users users;
 	private Collection<? extends GrantedAuthority> authorities;
+
 	@Setter
 	private transient Map<String, Object> attributes;
 
