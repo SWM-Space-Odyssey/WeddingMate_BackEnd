@@ -1,5 +1,8 @@
 package swmaestro.spaceodyssey.weddingmate.domain.tag.entity;
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -8,9 +11,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.category.entity.Category;
+import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.ItemTag;
+import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.PortfolioTag;
 import swmaestro.spaceodyssey.weddingmate.global.entity.BaseTimeEntity;
 
 @NoArgsConstructor
@@ -29,4 +36,17 @@ public class Tag extends BaseTimeEntity {
 	@JoinColumn(name = "category_id")
 	private Category category;
 
+	@OneToMany(mappedBy = "tag", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<ItemTag> itemTagList;
+
+	@OneToMany(mappedBy = "tag", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<PortfolioTag> portfolioTagList;
+
+	@Builder
+	public Tag(String content, Category category, List<ItemTag> itemTagList, List<PortfolioTag> portfolioTagList){
+		this.content = content;
+		this.category = category;
+		this.itemTagList = itemTagList;
+		this.portfolioTagList = portfolioTagList;
+	}
 }

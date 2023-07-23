@@ -19,4 +19,11 @@ public class ResponseConstant {
 	public static final String OAUTH_PROVIDERID_NOTFOUND = "OAuth2 Provider에서 ProviderId을 찾을 수 없습니다.";
 	public static final String OAUTH_DUPLICATE_EMAIL = "회원가입을 통해 이미 가입하였습니다. 해당 SNS 계정으로 다시 시도해주세요.";
 	public static final String OAUTH_UNAUTHORIZED_URL = "해당 url은 인증되지 않았습니다.";
+
+	/* PORTFOLIO */
+	public static final String PORTFOLIO_NOTFOUND = "포트폴리오를 찾을 수 없습니다";
+
+	/* CATEGORY */
+	public static final String CATEGORY_NOTFOUND = "카테고리를 찾을 수 없습니다";
+
 }

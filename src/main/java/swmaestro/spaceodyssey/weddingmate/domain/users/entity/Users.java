@@ -1,5 +1,8 @@
 package swmaestro.spaceodyssey.weddingmate.domain.users.entity;
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -7,6 +10,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import lombok.Builder;
@@ -14,6 +18,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.oauth2.OAuth2UserInfo;
 import swmaestro.spaceodyssey.weddingmate.domain.oauth2.enums.AuthProvider;
+import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.Portfolio;
 import swmaestro.spaceodyssey.weddingmate.domain.users.enums.UserEnum;
 import swmaestro.spaceodyssey.weddingmate.global.entity.BaseTimeEntity;
 
@@ -56,6 +61,9 @@ public class Users extends BaseTimeEntity {
 
 	@Column(nullable = false)
 	private Integer reportCnt = 0;
+
+	@OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Portfolio> portfolioList;
 
 	@Builder
 	public Users(String email, String nickname, String imageUrl, AuthProvider authProvider, String authProviderId) {
