@@ -24,7 +24,8 @@ services:
 
   redis:
     image: redis:latest
-    container_name: 127.0.0.1
+    container_name: redis
+    hostname: redis
     command: redis-server /usr/local/conf/redis.conf
     build:
         context: ./config/redis
