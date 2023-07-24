@@ -62,10 +62,10 @@ public class SecurityConfig {
 			.httpBasic(AbstractHttpConfigurer::disable);
 
 		// 요청에 대한 권한 설정
-		http.authorizeHttpRequests(auth ->
-			auth
-				.requestMatchers("/oauth2/**", "/api/v1/oauth/**", "/api/v1/users/signup/**").permitAll()
-				.anyRequest().authenticated());
+		// http.authorizeHttpRequests(auth ->
+		// 	auth
+		// 		.requestMatchers("/oauth2/**", "/api/v1/oauth/**", "/api/v1/users/signup/**", "/api").permitAll()
+		// 		.anyRequest().authenticated());
 
 		// OAuth2
 		http.oauth2Login(oauth ->
