@@ -29,8 +29,10 @@ public enum ErrorCode {
 
 	REFRESH_TOKEN_NOTFOUND(NOT_FOUND, "C3002", "REFRESH_TOKEN_NOTFOUND"),
 
-  // Portfolio - C4***
+	// Portfolio - C4***
+
 	PORTFOLIO_NOTFOUND(NOT_FOUND, "C4001", "PORTFOLIO_NOTFOUND"),
+	ITEM_NOTFOUND(NOT_FOUND, "C4002", "ITEM_NOTFOUND"),
 
 	// Category - C5***
 	CATEGORY_NOTFOUND(NOT_FOUND, "C5001", "CATEGORY_NOTFOUND");
@@ -42,4 +44,3 @@ public enum ErrorCode {
 	private final String code;
 	private final String message;
 }
-

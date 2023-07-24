@@ -22,6 +22,7 @@ public class ResponseConstant {
 
 	/* PORTFOLIO */
 	public static final String PORTFOLIO_NOTFOUND = "포트폴리오를 찾을 수 없습니다";
+	public static final String ITEM_NOTFOUND = "해당 아이템을 찾을 수 없습니다";
 
 	/* CATEGORY */
 	public static final String CATEGORY_NOTFOUND = "카테고리를 찾을 수 없습니다";

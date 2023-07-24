@@ -9,6 +9,7 @@ import swmaestro.spaceodyssey.weddingmate.global.exception.category.CategoryNotF
 import swmaestro.spaceodyssey.weddingmate.global.exception.oauth2.OAuth2AuthProviderIdNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.oauth2.OAuth2DuplicateEmailException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.oauth2.OAuthUnauthUrlException;
+import swmaestro.spaceodyssey.weddingmate.global.exception.portfolio.ItemNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.portfolio.PortfolioNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.token.RefreshTokenNotEqualException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.token.UnAuthorizedRefreshTokenException;
@@ -72,6 +73,12 @@ public class GlobalExceptionHandler {
 	protected final ResponseEntity<ErrorResponse> handlePortfolioNotFoundException(PortfolioNotFoundException e) {
 		return ErrorResponse.toErrorResponseEntity(ErrorCode.PORTFOLIO_NOTFOUND, e.getMessage());
 	}
+
+	@ExceptionHandler(ItemNotFoundException.class)
+	protected final ResponseEntity<ErrorResponse> handleItemNotFoundException(ItemNotFoundException e) {
+		return ErrorResponse.toErrorResponseEntity(ErrorCode.ITEM_NOTFOUND, e.getMessage());
+	}
+
 	@ExceptionHandler(CategoryNotFoundException.class)
 	protected final ResponseEntity<ErrorResponse> handleCategoryNotFoundException(CategoryNotFoundException e) {
 		return ErrorResponse.toErrorResponseEntity(ErrorCode.CATEGORY_NOTFOUND, e.getMessage());

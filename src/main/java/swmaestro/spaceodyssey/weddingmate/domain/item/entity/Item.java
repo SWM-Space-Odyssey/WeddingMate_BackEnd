@@ -1,4 +1,4 @@
-package swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity;
+package swmaestro.spaceodyssey.weddingmate.domain.item.entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +17,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.category.entity.Category;
+import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.Portfolio;
 import swmaestro.spaceodyssey.weddingmate.global.entity.BaseTimeEntity;
 
 @Getter

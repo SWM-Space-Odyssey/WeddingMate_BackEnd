@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.ItemSaveReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.PortfolioDetailResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.PortfolioListResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.PortfolioSaveReqDto;
@@ -31,12 +30,6 @@ public class PortfolioController {
 	public ResponseEntity<HttpStatus> createPortfolio(@AuthUsers Users users,
 															@RequestBody PortfolioSaveReqDto portfolioSaveReqDto) {
 		portfolioService.createPortfolio(users, portfolioSaveReqDto);
-		return ResponseEntity.ok().body(HttpStatus.CREATED);
-	}
-
-	@PostMapping("item/save")
-	public ResponseEntity<HttpStatus> createItem(@RequestBody ItemSaveReqDto itemSaveReqDto) {
-		portfolioService.createItem(itemSaveReqDto);
 		return ResponseEntity.ok().body(HttpStatus.CREATED);
 	}
 
