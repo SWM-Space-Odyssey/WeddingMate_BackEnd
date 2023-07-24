@@ -40,7 +40,7 @@ public class PortfolioController {
 		return ResponseEntity.ok().body(HttpStatus.CREATED);
 	}
 
-	@GetMapping("/me")
+	@GetMapping("/")
 	public ResponseEntity<List<PortfolioListResDto>> getPortfolioByUser(@AuthUsers Users users) {
 		return  ResponseEntity.ok().body(portfolioService.findByUser(users.getUserId()));
 	}

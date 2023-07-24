@@ -28,7 +28,7 @@ public class Item extends BaseTimeEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long itemId;
 
-	@OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "item", cascade = CascadeType.PERSIST, orphanRemoval = true)
 	private List<ItemTag> itemTagList = new ArrayList<>();
 
 	@Column(nullable = false)

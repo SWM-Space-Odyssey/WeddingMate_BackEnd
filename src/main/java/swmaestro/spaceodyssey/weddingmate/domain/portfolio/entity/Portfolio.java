@@ -34,7 +34,7 @@ public class Portfolio extends BaseTimeEntity {
 	@Column(nullable = true)
 	private String repImageUrl;
 
-	@OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "portfolio", cascade = CascadeType.PERSIST, orphanRemoval = true)
 	private List<PortfolioTag> portfolioTagList = new ArrayList<>();
 
 	@OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL)

@@ -2,7 +2,6 @@ package swmaestro.spaceodyssey.weddingmate.domain.tag.entity;
 
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -36,10 +35,10 @@ public class Tag extends BaseTimeEntity {
 	@JoinColumn(name = "category_id")
 	private Category category;
 
-	@OneToMany(mappedBy = "tag", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "tag")
 	private List<ItemTag> itemTagList;
 
-	@OneToMany(mappedBy = "tag", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "tag")
 	private List<PortfolioTag> portfolioTagList;
 
 	@Builder
