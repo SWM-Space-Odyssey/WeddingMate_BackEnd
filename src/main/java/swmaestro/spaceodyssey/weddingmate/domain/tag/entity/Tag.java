@@ -15,7 +15,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.category.entity.Category;
-import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.ItemTag;
+import swmaestro.spaceodyssey.weddingmate.domain.item.entity.ItemTag;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.PortfolioTag;
 import swmaestro.spaceodyssey.weddingmate.global.entity.BaseTimeEntity;
 

@@ -37,4 +37,10 @@ out/
 .vscode/
 
 ### ENV ###
-.env
+src/main/resources/properties/env.properties
+/src/main/java/swmaestro/spaceodyssey/weddingmate/global/config/PropertyConfig.java
+/.idea/
+
+docker-compose.prod.yml
+.idea/workspace.xml
+*.xml
