@@ -1,4 +1,4 @@
-package swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity;
+package swmaestro.spaceodyssey.weddingmate.domain.item.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

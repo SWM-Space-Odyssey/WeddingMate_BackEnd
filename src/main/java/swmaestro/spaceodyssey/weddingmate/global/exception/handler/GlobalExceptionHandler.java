@@ -11,6 +11,8 @@ import swmaestro.spaceodyssey.weddingmate.global.exception.oauth2.OAuth2Duplicat
 import swmaestro.spaceodyssey.weddingmate.global.exception.oauth2.OAuthUnauthUrlException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.portfolio.ItemNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.portfolio.PortfolioNotFoundException;
+import swmaestro.spaceodyssey.weddingmate.global.exception.token.RefreshTokenNotEqualException;
+import swmaestro.spaceodyssey.weddingmate.global.exception.token.UnAuthorizedRefreshTokenException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserNameNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserNotFoundException;
 
@@ -53,7 +55,18 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(UserNameNotFoundException.class)
 	protected final ResponseEntity<ErrorResponse> handleUserNameNotFoundException(UserNameNotFoundException e) {
-		return ErrorResponse.toErrorResponseEntity(ErrorCode.USER_NAME_NOTFOUN, e.getMessage());
+		return ErrorResponse.toErrorResponseEntity(ErrorCode.USER_NAME_NOTFOUND, e.getMessage());
+	}
+
+	/*================== Token Exception ==================*/
+	@ExceptionHandler(RefreshTokenNotEqualException.class)
+	protected final ResponseEntity<ErrorResponse> handleRefreshTokenNotEqualException(RefreshTokenNotEqualException e) {
+		return ErrorResponse.toErrorResponseEntity(ErrorCode.REFRESH_TOKEN_UNAUTHORIZED, e.getMessage());
+	}
+
+	@ExceptionHandler(UnAuthorizedRefreshTokenException.class)
+	protected final ResponseEntity<ErrorResponse> handlerUnAuthorizedRefreshTokenException(UnAuthorizedRefreshTokenException e) {
+		return ErrorResponse.toErrorResponseEntity(ErrorCode.REFRESH_TOKEN_NOTFOUND, e.getMessage());
 	}
 
 	@ExceptionHandler(PortfolioNotFoundException.class)

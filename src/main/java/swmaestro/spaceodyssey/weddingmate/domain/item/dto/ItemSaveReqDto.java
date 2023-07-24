@@ -1,4 +1,4 @@
-package swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto;
+package swmaestro.spaceodyssey.weddingmate.domain.item.dto;
 
 import java.util.List;
 

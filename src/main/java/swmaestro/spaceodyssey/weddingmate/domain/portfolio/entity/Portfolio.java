@@ -16,6 +16,7 @@ import jakarta.persistence.OneToMany;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import swmaestro.spaceodyssey.weddingmate.domain.item.entity.Item;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 import swmaestro.spaceodyssey.weddingmate.global.entity.BaseTimeEntity;
 
