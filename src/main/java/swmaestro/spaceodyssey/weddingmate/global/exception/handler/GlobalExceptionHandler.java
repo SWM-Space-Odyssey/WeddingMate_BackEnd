@@ -5,9 +5,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import swmaestro.spaceodyssey.weddingmate.global.exception.category.CategoryNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.oauth2.OAuth2AuthProviderIdNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.oauth2.OAuth2DuplicateEmailException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.oauth2.OAuthUnauthUrlException;
+import swmaestro.spaceodyssey.weddingmate.global.exception.portfolio.PortfolioNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.token.RefreshTokenNotEqualException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.token.UnAuthorizedRefreshTokenException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserNameNotFoundException;
@@ -64,6 +66,15 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(UnAuthorizedRefreshTokenException.class)
 	protected final ResponseEntity<ErrorResponse> handlerUnAuthorizedRefreshTokenException(UnAuthorizedRefreshTokenException e) {
 		return ErrorResponse.toErrorResponseEntity(ErrorCode.REFRESH_TOKEN_NOTFOUND, e.getMessage());
+	}
+
+	@ExceptionHandler(PortfolioNotFoundException.class)
+	protected final ResponseEntity<ErrorResponse> handlePortfolioNotFoundException(PortfolioNotFoundException e) {
+		return ErrorResponse.toErrorResponseEntity(ErrorCode.PORTFOLIO_NOTFOUND, e.getMessage());
+	}
+	@ExceptionHandler(CategoryNotFoundException.class)
+	protected final ResponseEntity<ErrorResponse> handleCategoryNotFoundException(CategoryNotFoundException e) {
+		return ErrorResponse.toErrorResponseEntity(ErrorCode.CATEGORY_NOTFOUND, e.getMessage());
 	}
 
 }
