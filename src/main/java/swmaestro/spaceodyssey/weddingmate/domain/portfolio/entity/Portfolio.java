@@ -35,7 +35,7 @@ public class Portfolio extends BaseTimeEntity {
 	@Column(nullable = true)
 	private String repImageUrl;
 
-	@OneToMany(mappedBy = "portfolio", cascade = CascadeType.PERSIST, orphanRemoval = true)
+	@OneToMany(mappedBy = "portfolio", cascade = CascadeType.PERSIST)
 	private List<PortfolioTag> portfolioTagList = new ArrayList<>();
 
 	@OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL)
@@ -45,6 +45,10 @@ public class Portfolio extends BaseTimeEntity {
 	@JoinColumn(name = "user_id")
 	private Users users;
 
+	public void updatePortfolio(String title, List<PortfolioTag> portfolioTagList) {
+		this.title = title;
+		this.portfolioTagList = portfolioTagList;
+	}
 	@Builder
 	public Portfolio(String title, String repImageUrl, Users users, List<PortfolioTag> portfolioTagList) {
 		this.title = title;

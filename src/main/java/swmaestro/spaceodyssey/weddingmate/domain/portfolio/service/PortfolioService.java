@@ -7,12 +7,16 @@ import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import swmaestro.spaceodyssey.weddingmate.domain.category.dto.CategoryMapper;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemMapper;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemResDto;
+import swmaestro.spaceodyssey.weddingmate.domain.item.entity.Item;
+import swmaestro.spaceodyssey.weddingmate.domain.item.repository.ItemRepository;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.PortfolioDetailResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.PortfolioListResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.PortfolioMapper;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.PortfolioSaveReqDto;
+import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.PortfolioUpdateReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.Portfolio;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.PortfolioTag;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.repository.PortfolioRepository;
@@ -21,8 +25,10 @@ import swmaestro.spaceodyssey.weddingmate.domain.tag.dto.TagResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.tag.entity.Tag;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 import swmaestro.spaceodyssey.weddingmate.domain.users.repository.UsersRepository;
+import swmaestro.spaceodyssey.weddingmate.global.exception.portfolio.ItemNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.portfolio.PortfolioNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserNotFoundException;
+import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserUnAuthorizedException;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +36,8 @@ import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserNotFoundExc
 public class PortfolioService {
 	private final PortfolioRepository portfolioRepository;
 	private final UsersRepository usersRepository;
+	private final ItemRepository itemRepository;
+	private final CategoryMapper categoryMapper;
 	private final TagMapper tagMapper;
 	private final ItemMapper itemMapper;
 	private final PortfolioMapper portfolioMapper;
@@ -43,7 +51,7 @@ public class PortfolioService {
 			.build();
 
 		portfolioSaveReqDto.getTags().forEach(portfolioTag -> {
-			Tag tag = this.tagMapper.contentToEntity(portfolioTag);
+			Tag tag = this.tagMapper.contentToEntity(portfolioTag, categoryMapper.findCategoryByContentOrElseCreate("분위기"));
 			tagList.add(new PortfolioTag(portfolio, tag));
 		});
 
@@ -52,8 +60,7 @@ public class PortfolioService {
 	}
 
 	public PortfolioDetailResDto findById(Long id) {
-		Portfolio portfolio = portfolioRepository.findById(id)
-			.orElseThrow(PortfolioNotFoundException::new);
+		Portfolio portfolio = findPortfolioById(id);
 
 		List<TagResDto> tagList = portfolio.getPortfolioTagList().stream()
 			.map(PortfolioTag::getTag)
@@ -79,5 +86,39 @@ public class PortfolioService {
 		return users.getPortfolioList().stream()
 			.map(portfolioMapper::entityToDto)
 			.toList();
+	}
+
+	public void updatePortfolio(Users users, Long portfolioId, PortfolioUpdateReqDto portfolioUpdateReqDto) {
+		Portfolio portfolio = this.findPortfolioById(portfolioId);
+
+		//작성자가 아닌 user 예외처리
+		if (!portfolio.getUsers().getUserId().equals(users.getUserId())) {
+			throw new UserUnAuthorizedException();
+		}
+
+		List<PortfolioTag> tagList = new ArrayList<>();
+
+		portfolioUpdateReqDto.getTags().forEach(portfolioTag -> {
+			Tag tag = tagMapper.contentToEntity(portfolioTag, categoryMapper.findCategoryByContentOrElseCreate("분위기"));
+			tagList.add(new PortfolioTag(portfolio, tag));
+		});
+
+		portfolio.updatePortfolio(portfolioUpdateReqDto.getTitle(), tagList);
+		portfolioRepository.save(portfolio);
+
+		List<Integer> orderList = portfolioUpdateReqDto.getOrderList();
+		List <Long> itemList = portfolioUpdateReqDto.getItemList();
+
+		for (int i = 0; i < orderList.size(); i++) {
+			Item item = itemRepository.findById(itemList.get(i))
+				.orElseThrow(ItemNotFoundException::new);
+			item.updateOrder(orderList.get(i));
+			itemRepository.save(item);
+		}
+	}
+
+	public Portfolio findPortfolioById(Long id) {
+		return portfolioRepository.findById(id)
+			.orElseThrow(PortfolioNotFoundException::new);
 	}
 }
