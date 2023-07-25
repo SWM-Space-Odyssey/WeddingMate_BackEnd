@@ -8,7 +8,6 @@ import jakarta.persistence.Id;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import swmaestro.spaceodyssey.weddingmate.global.entity.BaseTimeEntity;
 
 @NoArgsConstructor
 @Getter
@@ -21,4 +20,13 @@ public class Category {
 
 	@Column(nullable = false)
 	private String content;
+
+	@Column(nullable = false)
+	private Boolean isDefault;
+
+	@Builder
+	public Category(String content, Boolean isDefault) {
+		this.content = content;
+		this.isDefault = isDefault;
+	}
 }

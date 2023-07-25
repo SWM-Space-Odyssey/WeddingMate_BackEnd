@@ -31,6 +31,9 @@ public class Tag extends BaseTimeEntity {
 	@Column(nullable = false)
 	private String content;
 
+	@Column(nullable = false)
+	private Boolean isDefault;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "category_id")
 	private Category category;
@@ -42,10 +45,9 @@ public class Tag extends BaseTimeEntity {
 	private List<PortfolioTag> portfolioTagList;
 
 	@Builder
-	public Tag(String content, Category category, List<ItemTag> itemTagList, List<PortfolioTag> portfolioTagList){
+	public Tag(String content, Category category, Boolean isDefault) {
 		this.content = content;
 		this.category = category;
-		this.itemTagList = itemTagList;
-		this.portfolioTagList = portfolioTagList;
+		this.isDefault = isDefault;
 	}
 }
