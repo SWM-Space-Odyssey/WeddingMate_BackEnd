@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import swmaestro.spaceodyssey.weddingmate.domain.category.entity.Category;
 import swmaestro.spaceodyssey.weddingmate.domain.tag.entity.Tag;
 import swmaestro.spaceodyssey.weddingmate.domain.tag.repository.TagRepository;
 
@@ -13,10 +14,16 @@ import swmaestro.spaceodyssey.weddingmate.domain.tag.repository.TagRepository;
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class TagMapper {
 	private final TagRepository tagRepository;
-	public Tag contentToEntity(String keyword) {
+	public Tag contentToEntity(String keyword, Category category) {
 		Optional<Tag> tagOptional = tagRepository.findByContent(keyword);
-		return tagOptional.orElse(null);
-		//ToDo: 기존에 없던 태그 입력 시 생성
+
+		if (tagOptional.isEmpty()) {
+			Tag tag = Tag.builder().content(keyword).category(category).isDefault(false).build();
+			tagRepository.save(tag);
+
+			return tag;
+		}
+		return tagOptional.get();
 	}
 
 	public TagResDto entityToDto(Tag tag) {

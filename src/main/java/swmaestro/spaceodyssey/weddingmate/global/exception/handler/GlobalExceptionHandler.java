@@ -15,6 +15,7 @@ import swmaestro.spaceodyssey.weddingmate.global.exception.token.RefreshTokenNot
 import swmaestro.spaceodyssey.weddingmate.global.exception.token.UnAuthorizedRefreshTokenException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserNameNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserNotFoundException;
+import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserUnAuthorizedException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -58,6 +59,11 @@ public class GlobalExceptionHandler {
 		return ErrorResponse.toErrorResponseEntity(ErrorCode.USER_NAME_NOTFOUND, e.getMessage());
 	}
 
+	@ExceptionHandler(UserUnAuthorizedException.class)
+	protected final ResponseEntity<ErrorResponse> handleUserUnAuthorizedException(UserUnAuthorizedException e) {
+		return ErrorResponse.toErrorResponseEntity(ErrorCode.USER_UNAUTHORIZED, e.getMessage());
+	}
+
 	/*================== Token Exception ==================*/
 	@ExceptionHandler(RefreshTokenNotEqualException.class)
 	protected final ResponseEntity<ErrorResponse> handleRefreshTokenNotEqualException(RefreshTokenNotEqualException e) {
@@ -69,6 +75,7 @@ public class GlobalExceptionHandler {
 		return ErrorResponse.toErrorResponseEntity(ErrorCode.REFRESH_TOKEN_NOTFOUND, e.getMessage());
 	}
 
+	/*================== Portfolio Exception ==================*/
 	@ExceptionHandler(PortfolioNotFoundException.class)
 	protected final ResponseEntity<ErrorResponse> handlePortfolioNotFoundException(PortfolioNotFoundException e) {
 		return ErrorResponse.toErrorResponseEntity(ErrorCode.PORTFOLIO_NOTFOUND, e.getMessage());
@@ -79,6 +86,7 @@ public class GlobalExceptionHandler {
 		return ErrorResponse.toErrorResponseEntity(ErrorCode.ITEM_NOTFOUND, e.getMessage());
 	}
 
+	/*================== Category Exception ==================*/
 	@ExceptionHandler(CategoryNotFoundException.class)
 	protected final ResponseEntity<ErrorResponse> handleCategoryNotFoundException(CategoryNotFoundException e) {
 		return ErrorResponse.toErrorResponseEntity(ErrorCode.CATEGORY_NOTFOUND, e.getMessage());

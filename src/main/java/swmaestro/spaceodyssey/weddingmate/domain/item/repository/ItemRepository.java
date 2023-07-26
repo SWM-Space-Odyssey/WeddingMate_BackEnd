@@ -1,4 +1,4 @@
-package swmaestro.spaceodyssey.weddingmate.domain.portfolio.repository;
+package swmaestro.spaceodyssey.weddingmate.domain.item.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

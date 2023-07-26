@@ -50,6 +50,17 @@ public class Item extends BaseTimeEntity {
 	@JoinColumn(name = "category_id")
 	private Category category;
 
+	public void updateItem(String itemRecord, List<ItemTag> itemTagList, String company, String itemDate, Category category) {
+		this.itemRecord = itemRecord;
+		this.itemTagList = itemTagList;
+		this.company = company;
+		this.itemDate = itemDate;
+		this.category = category;
+	}
+
+	public void updateOrder(Integer itemOrder) {
+		this.itemOrder = itemOrder;
+	}
 	@Builder
 	public Item(String itemRecord, List<ItemTag> itemTagList, String company, String itemDate, Integer itemOrder, Portfolio portfolio, Category category) {
 		this.itemRecord = itemRecord;

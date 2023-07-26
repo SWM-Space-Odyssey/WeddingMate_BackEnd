@@ -6,7 +6,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.item.entity.Item;
 import swmaestro.spaceodyssey.weddingmate.domain.item.entity.ItemTag;
-import swmaestro.spaceodyssey.weddingmate.domain.portfolio.repository.ItemRepository;
+import swmaestro.spaceodyssey.weddingmate.domain.item.repository.ItemRepository;
 import swmaestro.spaceodyssey.weddingmate.domain.tag.entity.Tag;
 
 @Component
