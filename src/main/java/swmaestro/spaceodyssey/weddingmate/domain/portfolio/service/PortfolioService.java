@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import swmaestro.spaceodyssey.weddingmate.domain.category.CategoryEnum;
 import swmaestro.spaceodyssey.weddingmate.domain.category.dto.CategoryMapper;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemMapper;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemResDto;
@@ -51,7 +52,8 @@ public class PortfolioService {
 			.build();
 
 		portfolioSaveReqDto.getTags().forEach(portfolioTag -> {
-			Tag tag = this.tagMapper.contentToEntity(portfolioTag, categoryMapper.findCategoryByContentOrElseCreate("분위기"));
+			Tag tag = this.tagMapper.contentToEntity(portfolioTag,
+				categoryMapper.findCategoryByContentOrElseCreate(CategoryEnum.PORTFOLIO.name()));
 			tagList.add(new PortfolioTag(portfolio, tag));
 		});
 
@@ -115,7 +117,7 @@ public class PortfolioService {
 		portfolioRepository.save(portfolio);
 
 		List<Integer> orderList = portfolioUpdateReqDto.getOrderList();
-		List <Long> itemList = portfolioUpdateReqDto.getItemList();
+		List<Long> itemList = portfolioUpdateReqDto.getItemList();
 
 		for (int i = 0; i < orderList.size(); i++) {
 			Item item = itemRepository.findById(itemList.get(i))
