@@ -29,7 +29,7 @@ public class Item extends BaseTimeEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long itemId;
 
-	@OneToMany(mappedBy = "item", cascade = CascadeType.PERSIST, orphanRemoval = true)
+	@OneToMany(mappedBy = "item", cascade = CascadeType.PERSIST)
 	private List<ItemTag> itemTagList = new ArrayList<>();
 
 	@Column(nullable = false)
@@ -50,6 +50,9 @@ public class Item extends BaseTimeEntity {
 	@JoinColumn(name = "category_id")
 	private Category category;
 
+	@Column(nullable = false)
+	private Boolean isDeleted;
+
 	public void updateItem(String itemRecord, List<ItemTag> itemTagList, String company, String itemDate, Category category) {
 		this.itemRecord = itemRecord;
 		this.itemTagList = itemTagList;
@@ -61,6 +64,11 @@ public class Item extends BaseTimeEntity {
 	public void updateOrder(Integer itemOrder) {
 		this.itemOrder = itemOrder;
 	}
+
+	public void deleteItem() {
+		this.isDeleted = true;
+	}
+
 	@Builder
 	public Item(String itemRecord, List<ItemTag> itemTagList, String company, String itemDate, Integer itemOrder, Portfolio portfolio, Category category) {
 		this.itemRecord = itemRecord;
@@ -70,6 +78,7 @@ public class Item extends BaseTimeEntity {
 		this.itemOrder = itemOrder;
 		this.portfolio = portfolio;
 		this.category = category;
+		this.isDeleted = false;
 	}
 
 	public void setItemTag(List<ItemTag> itemTagList) {

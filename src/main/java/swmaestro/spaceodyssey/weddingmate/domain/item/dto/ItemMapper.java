@@ -22,7 +22,7 @@ public class ItemMapper {
 			item.getItemDate(),
 			item.getPortfolio().getPortfolioId(),
 			item.getItemTagList().stream().map(ItemTag::getTag).map(Tag::getContent).toList(),
-			item.getCategory().getCategoryId(),
+			item.getCategory().getContent(),
 			item.getItemOrder(),
 			item.getItemId()
 		);

@@ -62,12 +62,15 @@ public class PortfolioService {
 	public PortfolioDetailResDto findById(Long id) {
 		Portfolio portfolio = findPortfolioById(id);
 
+		checkPortfolioDeleted(portfolio);
+
 		List<TagResDto> tagList = portfolio.getPortfolioTagList().stream()
 			.map(PortfolioTag::getTag)
 			.map(tagMapper::entityToDto)
 			.toList();
 
 		List<ItemResDto> itemResDtoList = portfolio.getPortfolioItemList().stream()
+			.filter(item -> (Boolean.FALSE.equals(item.getIsDeleted())))
 			.map(itemMapper::entityToDto)
 			.toList();
 
@@ -84,12 +87,17 @@ public class PortfolioService {
 			.orElseThrow(UserNotFoundException::new);
 
 		return users.getPortfolioList().stream()
+			//삭제된 portfolio 제외
+			.filter(portfolio -> (Boolean.FALSE.equals(portfolio.getIsDeleted())))
 			.map(portfolioMapper::entityToDto)
+
 			.toList();
 	}
 
 	public void updatePortfolio(Users users, Long portfolioId, PortfolioUpdateReqDto portfolioUpdateReqDto) {
 		Portfolio portfolio = this.findPortfolioById(portfolioId);
+
+		checkPortfolioDeleted(portfolio);
 
 		//작성자가 아닌 user 예외처리
 		if (!portfolio.getUsers().getUserId().equals(users.getUserId())) {
@@ -117,8 +125,35 @@ public class PortfolioService {
 		}
 	}
 
+	public void deletePortfolio(Users users, Long portfolioId) {
+		Portfolio portfolio = this.findPortfolioById(portfolioId);
+
+		checkPortfolioDeleted(portfolio);
+
+		//작성자가 아닌 user 예외처리
+		if (!portfolio.getUsers().getUserId().equals(users.getUserId())) {
+			throw new UserUnAuthorizedException();
+		}
+
+		portfolio.deletePortfolio();
+
+		portfolio.getPortfolioItemList().forEach(item -> {
+			item.deleteItem();
+			itemRepository.save(item);
+		});
+
+		portfolioRepository.save(portfolio);
+	}
+
 	public Portfolio findPortfolioById(Long id) {
 		return portfolioRepository.findById(id)
 			.orElseThrow(PortfolioNotFoundException::new);
+	}
+
+	public Portfolio checkPortfolioDeleted(Portfolio portfolio) {
+		if (Boolean.TRUE.equals(portfolio.getIsDeleted())) {
+			throw new PortfolioNotFoundException();
+		}
+		return portfolio;
 	}
 }

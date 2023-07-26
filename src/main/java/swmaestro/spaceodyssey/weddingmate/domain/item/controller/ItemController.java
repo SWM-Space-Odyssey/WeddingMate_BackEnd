@@ -2,6 +2,7 @@ package swmaestro.spaceodyssey.weddingmate.domain.item.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,6 +38,13 @@ public class ItemController {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<HttpStatus> updateItem(@AuthUsers Users users, @PathVariable("id") Long id, @RequestBody ItemUpdateReqDto itemUpdateReqDto) {
+		itemService.update(users, id, itemUpdateReqDto);
+		return ResponseEntity.ok().body(HttpStatus.OK);
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<HttpStatus> deleteItem(@AuthUsers Users users, @PathVariable("id") Long id) {
+		itemService.delete(users, id);
 		return ResponseEntity.ok().body(HttpStatus.OK);
 	}
 }

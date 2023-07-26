@@ -13,7 +13,7 @@ public class ItemResDto {
 	private final String date;
 	private final Long portfolioId;
 	private final List<String> itemTagList;
-	private final Long categoryId;
+	private final String categoryContent;
 	private final Integer order;
 	private final Long itemId;
 }

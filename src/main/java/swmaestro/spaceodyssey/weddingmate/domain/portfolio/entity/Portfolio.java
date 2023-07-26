@@ -45,16 +45,25 @@ public class Portfolio extends BaseTimeEntity {
 	@JoinColumn(name = "user_id")
 	private Users users;
 
+	@Column(nullable = false)
+	private Boolean isDeleted;
+
 	public void updatePortfolio(String title, List<PortfolioTag> portfolioTagList) {
 		this.title = title;
 		this.portfolioTagList = portfolioTagList;
 	}
+
+	public void deletePortfolio() {
+		this.isDeleted = true;
+	}
+
 	@Builder
 	public Portfolio(String title, String repImageUrl, Users users, List<PortfolioTag> portfolioTagList) {
 		this.title = title;
 		this.repImageUrl = repImageUrl;
 		this.users = users;
 		this.portfolioTagList = portfolioTagList;
+		this.isDeleted = false;
 	}
 
 	public void setPortfolioTag(List<PortfolioTag> portfolioTagList) {
