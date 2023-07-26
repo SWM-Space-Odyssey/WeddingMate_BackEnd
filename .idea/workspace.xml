@@ -5,8 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6731f480-c7cd-43bb-9ac8-952384607021" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/portfolio/entity/PortfolioTag.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/portfolio/entity/PortfolioTag.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/portfolio/service/PortfolioService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/portfolio/service/PortfolioService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/tag/dto/TagMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/tag/dto/TagMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/entity/Users.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/entity/Users.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/repository/UsersRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/repository/UsersRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-dev.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application-dev.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,8 +23,21 @@
       <ProjectState />
     </projectState>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="package-info" />
+        <option value="Interface" />
+        <option value="Enum" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JpbToolWindowState">
+    <option name="isToolWindowVisible" value="false" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -45,6 +63,10 @@
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
     "spring.configuration.checksum": "49fd28e25dc049ffa2a12e82456c0593",
     "vue.rearranger.settings.migration": "true"
   }
@@ -70,6 +92,8 @@
       <workItem from="1687964071174" duration="4260000" />
       <workItem from="1687971741491" duration="3755000" />
       <workItem from="1689660277402" duration="654000" />
+      <workItem from="1690361146351" duration="18388000" />
+      <workItem from="1690381273037" duration="4356000" />
     </task>
     <servers />
   </component>
