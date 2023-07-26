@@ -9,5 +9,7 @@ import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 public interface UsersRepository extends JpaRepository<Users, Long> {
 	Optional<Users> findByEmail(String email);
 
+	Optional<Users> findByNickname(String nickname);
+
 	Optional<Users> findByAuthProviderId(String authProviderId);
 }
