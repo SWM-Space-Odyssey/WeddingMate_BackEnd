@@ -17,6 +17,7 @@ import lombok.NoArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.category.entity.Category;
 import swmaestro.spaceodyssey.weddingmate.domain.item.entity.ItemTag;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.PortfolioTag;
+import swmaestro.spaceodyssey.weddingmate.domain.users.entity.PlannerTag;
 import swmaestro.spaceodyssey.weddingmate.global.entity.BaseTimeEntity;
 
 @NoArgsConstructor
@@ -44,10 +45,21 @@ public class Tag extends BaseTimeEntity {
 	@OneToMany(mappedBy = "tag")
 	private List<PortfolioTag> portfolioTagList;
 
+	@OneToMany(mappedBy = "tag")
+	private List<PlannerTag> plannerTagList;
+
 	@Builder
 	public Tag(String content, Category category, Boolean isDefault) {
 		this.content = content;
 		this.category = category;
 		this.isDefault = isDefault;
+	}
+
+	@Builder
+	public Tag(String content, Category category, List<ItemTag> itemTagList, List<PortfolioTag> portfolioTagList) {
+		this.content = content;
+		this.category = category;
+		this.itemTagList = itemTagList;
+		this.portfolioTagList = portfolioTagList;
 	}
 }
