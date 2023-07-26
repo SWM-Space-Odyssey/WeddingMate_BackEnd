@@ -71,7 +71,7 @@ public class ItemService {
 
 	public void update(Users users, Long itemId, ItemUpdateReqDto itemUpdateReqDto) {
 		Item item = this.findItemById(itemId);
-
+    
 		checkItemDeleted(item);
 
 		if (!item.getPortfolio().getUsers().getUserId().equals(users.getUserId())) {

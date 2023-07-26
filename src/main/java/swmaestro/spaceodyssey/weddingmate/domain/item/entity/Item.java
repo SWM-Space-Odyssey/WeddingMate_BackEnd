@@ -68,6 +68,7 @@ public class Item extends BaseTimeEntity {
 	public void deleteItem() {
 		this.isDeleted = true;
 	}
+
 	@Builder
 	public Item(String itemRecord, List<ItemTag> itemTagList, String company, String itemDate, Integer itemOrder, Portfolio portfolio, Category category) {
 		this.itemRecord = itemRecord;
