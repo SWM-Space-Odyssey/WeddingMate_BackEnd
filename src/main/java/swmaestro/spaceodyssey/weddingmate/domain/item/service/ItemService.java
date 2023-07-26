@@ -64,11 +64,15 @@ public class ItemService {
 	public ItemResDto findById(Long id) {
 		Item item = this.findItemById(id);
 
+		checkItemDeleted(item);
+
 		return itemMapper.entityToDto(item);
 	}
 
 	public void update(Users users, Long itemId, ItemUpdateReqDto itemUpdateReqDto) {
 		Item item = this.findItemById(itemId);
+
+		checkItemDeleted(item);
 
 		if (!item.getPortfolio().getUsers().getUserId().equals(users.getUserId())) {
 			throw new UserUnAuthorizedException();
@@ -94,8 +98,28 @@ public class ItemService {
 		itemRepository.save(item);
 	}
 
+	public void delete(Users users, Long itemId) {
+		Item item = this.findItemById(itemId);
+
+		checkItemDeleted(item);
+
+		if (!item.getPortfolio().getUsers().getUserId().equals(users.getUserId())) {
+			throw new UserUnAuthorizedException();
+		}
+
+		item.deleteItem();
+		itemRepository.save(item);
+	}
+
 	public Item findItemById(Long id) {
 		return itemRepository.findById(id)
 			.orElseThrow(ItemNotFoundException::new);
+	}
+
+	public Item checkItemDeleted(Item item) {
+		if (Boolean.TRUE.equals(item.getIsDeleted())) {
+			throw new ItemNotFoundException();
+		}
+		return item;
 	}
 }

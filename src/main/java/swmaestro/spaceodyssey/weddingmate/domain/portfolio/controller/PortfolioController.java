@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,6 +50,12 @@ public class PortfolioController {
 	public ResponseEntity<HttpStatus> updatePortfolio(@AuthUsers Users users, @PathVariable("id") Long id,
 																	@RequestBody PortfolioUpdateReqDto portfolioUpdateReqDto) {
 		portfolioService.updatePortfolio(users, id, portfolioUpdateReqDto);
+		return ResponseEntity.ok().body(HttpStatus.OK);
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<HttpStatus> deletePortfolio(@AuthUsers Users users, @PathVariable("id") Long id) {
+		portfolioService.deletePortfolio(users, id);
 		return ResponseEntity.ok().body(HttpStatus.OK);
 	}
 }

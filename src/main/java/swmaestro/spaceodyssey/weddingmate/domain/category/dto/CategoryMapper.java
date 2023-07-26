@@ -19,6 +19,13 @@ public class CategoryMapper {
 
 	public Category findCategoryByContentOrElseCreate(String content) {
 		Optional<Category> categoryOptional = categoryRepository.findByContent(content);
-		return categoryOptional.orElseGet(() -> Category.builder().content(content).isDefault(false).build());
+
+		if (categoryOptional.isEmpty()) {
+			Category category = Category.builder().content(content).isDefault(false).build();
+			categoryRepository.save(category);
+
+			return category;
+		}
+		return categoryOptional.get();
 	}
 }
