@@ -7,12 +7,16 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +27,7 @@ import swmaestro.spaceodyssey.weddingmate.domain.users.enums.UserEnum;
 import swmaestro.spaceodyssey.weddingmate.global.entity.BaseTimeEntity;
 
 @SuppressWarnings("checkstyle:RegexpMultiline")
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 public class Users extends BaseTimeEntity {
@@ -62,6 +66,14 @@ public class Users extends BaseTimeEntity {
 	@Column(nullable = false)
 	private Integer reportCnt = 0;
 
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "planner_id")
+	private Planner planner;
+
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "customer_id")
+	private Customer customer;
+
 	@OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Portfolio> portfolioList;
 
@@ -83,5 +95,29 @@ public class Users extends BaseTimeEntity {
 		this.authProviderId = oAuth2UserInfo.getOAuth2Id();
 
 		return this;
+	}
+
+	public void setPlanner(Planner planner) {
+		this.planner = planner;
+
+		if (planner.getUsers() != this) {
+			planner.setUsers(this);
+		}
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+
+		if (customer.getUsers() != this) {
+			customer.setUsers(this);
+		}
+	}
+
+	public void updateNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	public void createPhone(String phone) {
+		this.phone = phone;
 	}
 }
