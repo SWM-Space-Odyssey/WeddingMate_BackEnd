@@ -6,12 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="6731f480-c7cd-43bb-9ac8-952384607021" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/portfolio/entity/PortfolioTag.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/portfolio/entity/PortfolioTag.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/portfolio/service/PortfolioService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/portfolio/service/PortfolioService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/tag/dto/TagMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/tag/dto/TagMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/entity/Users.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/entity/Users.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/repository/UsersRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/repository/UsersRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application-dev.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application-dev.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/entity/Planner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/entity/Planner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/mapper/CustomerMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/mapper/CustomerMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/mapper/PlannerMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/mapper/PlannerMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/service/UsersService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/service/UsersService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,24 +51,24 @@
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "WebServerToolWindowFactoryState": "false",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
-    "spring.configuration.checksum": "49fd28e25dc049ffa2a12e82456c0593",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;49fd28e25dc049ffa2a12e82456c0593&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="WeddingmateApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="weddingmate.main" />

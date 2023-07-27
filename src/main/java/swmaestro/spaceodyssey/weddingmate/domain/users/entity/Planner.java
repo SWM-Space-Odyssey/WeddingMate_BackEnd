@@ -52,6 +52,7 @@ public class Planner extends BaseTimeEntity {
 		this.users = users;
 		users.setPlanner(this);
 	}
+
 	public void createPlannerTagList(List<PlannerTag> plannerTagList) {
 		this.plannerTagList = plannerTagList;
 	}

@@ -1,11 +1,7 @@
 package swmaestro.spaceodyssey.weddingmate.domain.users.service;
 
-import java.util.Objects;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.users.dto.CustomerSignupReqDto;
@@ -33,39 +29,27 @@ public class UsersService {
 
 	@Transactional
 	public void signupPlanner(Users users, PlannerSignupReqDto reqDto) {
-		Users pUsers = findUserByEmail(users, reqDto.getNickname());
+		Users pUsers = findUserByEmail(users.getEmail());
 		pUsers.updateNickname(reqDto.getNickname());
 
-		Planner planner = plannerMapper.toEntity(pUsers, reqDto);
+		Planner planner = plannerMapper.toEntity(reqDto);
+		planner.setUsers(pUsers);
 		plannerRepository.save(planner);
 	}
 
 	@Transactional
 	public void signupCustomer(Users users, CustomerSignupReqDto reqDto) {
-		System.out.println("서비스 진입");
-		Users pUsers = findUserByEmail(users, reqDto.getNickname());
+		Users pUsers = findUserByEmail(users.getEmail());
 		pUsers.updateNickname(reqDto.getNickname());
 
-		System.out.println("유저 닉네임 업데이트 완");
-		Customer customer = customerMapper.toEntity(pUsers, reqDto);
+		Customer customer = customerMapper.toEntity(reqDto);
+		customer.setUsers(pUsers);
 		customerRepository.save(customer);
 	}
 
 	@Transactional
-	public Users findUserByEmail(Users users, String nickname) {
-		Users pUsers = usersRepository.findByEmail(users.getEmail())
+	public Users findUserByEmail(String email) {
+		return usersRepository.findByEmail(email)
 			.orElseThrow(UserNotFoundException::new);
-		if (isEntityManaged(pUsers)){
-			return pUsers;
-		}
-		else
-			return null;
-	}
-
-	@Autowired
-	private EntityManager entityManager;
-
-	public boolean isEntityManaged(Users user) {
-		return entityManager.contains(user);
 	}
 }
