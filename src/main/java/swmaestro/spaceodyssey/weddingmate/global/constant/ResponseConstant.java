@@ -35,4 +35,7 @@ public class ResponseConstant {
 	/* Token */
 	public static final String REFRESH_TOKEN_UNAUTHORIZED = "Refresh Token 검증에 실패했습니다.";
 	public static final String REFRESH_TOKEN_NOT_EQUAL = "저장된 Refresh Token과 일치하지 않습니다.";
+
+	/* File */
+	public static final String FILE_NOTFOUND = "파일을 찾을 수 없습니다";
 }

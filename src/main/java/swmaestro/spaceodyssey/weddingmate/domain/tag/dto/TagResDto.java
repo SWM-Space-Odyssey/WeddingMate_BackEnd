@@ -9,10 +9,12 @@ import lombok.NoArgsConstructor;
 public class TagResDto {
 	Long tagId;
 	String content;
+	String categoryContent;
 
 	@Builder
-	public TagResDto(Long tagId, String content){
+	public TagResDto(Long tagId, String content, String categoryContent) {
 		this.tagId = tagId;
 		this.content = content;
+		this.categoryContent = categoryContent;
 	}
 }

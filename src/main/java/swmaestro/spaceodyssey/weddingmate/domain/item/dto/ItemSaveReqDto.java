@@ -15,4 +15,5 @@ public class ItemSaveReqDto {
 	private List<String> itemTagList;
 	private String categoryContent;
 	private Integer order;
+	private List<String> imageList;
 }

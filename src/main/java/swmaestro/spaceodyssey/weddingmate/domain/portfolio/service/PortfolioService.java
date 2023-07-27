@@ -1,13 +1,18 @@
 package swmaestro.spaceodyssey.weddingmate.domain.portfolio.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import swmaestro.spaceodyssey.weddingmate.domain.category.CategoryEnum;
 import swmaestro.spaceodyssey.weddingmate.domain.category.dto.CategoryMapper;
+import swmaestro.spaceodyssey.weddingmate.domain.file.entity.File;
+import swmaestro.spaceodyssey.weddingmate.domain.file.service.FileService;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemMapper;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.item.entity.Item;
@@ -41,8 +46,10 @@ public class PortfolioService {
 	private final TagMapper tagMapper;
 	private final ItemMapper itemMapper;
 	private final PortfolioMapper portfolioMapper;
+	private final FileService fileService;
 
-	public void createPortfolio(Users users, PortfolioSaveReqDto portfolioSaveReqDto) {
+	public Portfolio createPortfolio(Users users, MultipartFile multipartFile, PortfolioSaveReqDto portfolioSaveReqDto) throws
+		IOException {
 		List<PortfolioTag> tagList = new ArrayList<>();
 
 		Portfolio portfolio = Portfolio.builder()
@@ -51,12 +58,23 @@ public class PortfolioService {
 			.build();
 
 		portfolioSaveReqDto.getTags().forEach(portfolioTag -> {
-			Tag tag = this.tagMapper.contentToEntity(portfolioTag, categoryMapper.findCategoryByContentOrElseCreate("분위기"));
+			Tag tag = this.tagMapper.contentToEntity(portfolioTag, categoryMapper.findCategoryByContentOrElseCreate(
+				CategoryEnum.PORTFOLIO.getValue()));
 			tagList.add(new PortfolioTag(portfolio, tag));
 		});
 
 		portfolio.setPortfolioTag(tagList);
+
 		portfolioRepository.save(portfolio);
+
+		updatePortfolioImage(multipartFile, portfolio);
+
+		return portfolio;
+	}
+
+	public void updatePortfolioImage(MultipartFile multipartFile, Portfolio portfolio) throws IOException {
+		File file = fileService.uploadPortfolioImage(multipartFile, portfolio.getPortfolioId());
+		portfolio.setFile(file);
 	}
 
 	public PortfolioDetailResDto findById(Long id) {
@@ -79,6 +97,7 @@ public class PortfolioService {
 			.id(portfolio.getPortfolioId())
 			.tagResDtoList(tagList)
 			.itemResDtoList(itemResDtoList)
+			.repImgUrl(portfolio.getFile().getUrl())
 			.build();
 	}
 
@@ -94,7 +113,8 @@ public class PortfolioService {
 			.toList();
 	}
 
-	public void updatePortfolio(Users users, Long portfolioId, PortfolioUpdateReqDto portfolioUpdateReqDto) {
+	public void updatePortfolio(Users users, Long portfolioId, PortfolioUpdateReqDto portfolioUpdateReqDto, MultipartFile multipartFile) throws
+		IOException {
 		Portfolio portfolio = this.findPortfolioById(portfolioId);
 
 		checkPortfolioDeleted(portfolio);
@@ -112,7 +132,7 @@ public class PortfolioService {
 		});
 
 		portfolio.updatePortfolio(portfolioUpdateReqDto.getTitle(), tagList);
-		portfolioRepository.save(portfolio);
+		updatePortfolioImage(multipartFile, portfolio);
 
 		List<Integer> orderList = portfolioUpdateReqDto.getOrderList();
 		List <Long> itemList = portfolioUpdateReqDto.getItemList();
@@ -137,12 +157,7 @@ public class PortfolioService {
 
 		portfolio.deletePortfolio();
 
-		portfolio.getPortfolioItemList().forEach(item -> {
-			item.deleteItem();
-			itemRepository.save(item);
-		});
-
-		portfolioRepository.save(portfolio);
+		portfolio.getPortfolioItemList().forEach(Item::deleteItem);
 	}
 
 	public Portfolio findPortfolioById(Long id) {

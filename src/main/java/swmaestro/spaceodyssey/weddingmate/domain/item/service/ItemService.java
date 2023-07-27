@@ -9,7 +9,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.category.dto.CategoryMapper;
 import swmaestro.spaceodyssey.weddingmate.domain.category.entity.Category;
-import swmaestro.spaceodyssey.weddingmate.domain.category.repository.CategoryRepository;
+import swmaestro.spaceodyssey.weddingmate.domain.file.dto.FileMapper;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemMapper;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemSaveReqDto;
@@ -31,11 +31,11 @@ import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserUnAuthorize
 @Transactional
 public class ItemService {
 	private final ItemRepository itemRepository;
-	private final CategoryRepository categoryRepository;
 	private final PortfolioRepository portfolioRepository;
 	private final TagMapper tagMapper;
 	private final ItemMapper itemMapper;
 	private final CategoryMapper categoryMapper;
+	private final FileMapper fileMapper;
 
 	public void createItem(ItemSaveReqDto itemSaveReqDto) {
 		List<ItemTag> tagList = new ArrayList<>();
@@ -58,8 +58,10 @@ public class ItemService {
 			Tag tag = tagMapper.contentToEntity(itemTag, category);
 			tagList.add(new ItemTag(item, tag));
 		});
+		itemSaveReqDto.getImageList().stream().map(fileMapper::urlToEntity).forEach(file -> file.setItem(item));
 
 		item.setItemTag(tagList);
+
 		itemRepository.save(item);
 	}
 
@@ -89,6 +91,8 @@ public class ItemService {
 			tagList.add(new ItemTag(item, tag));
 		});
 
+		itemUpdateReqDto.getImageList().stream().map(fileMapper::urlToEntity).forEach(file -> file.setItem(item));
+
 		item.updateItem(
 			itemUpdateReqDto.getItemRecord(),
 			tagList,
@@ -96,8 +100,6 @@ public class ItemService {
 			itemUpdateReqDto.getDate(),
 			category
 		);
-
-		itemRepository.save(item);
 	}
 
 	public void delete(Users users, Long itemId) {
@@ -110,7 +112,6 @@ public class ItemService {
 		}
 
 		item.deleteItem();
-		itemRepository.save(item);
 	}
 
 	public Item findItemById(Long id) {

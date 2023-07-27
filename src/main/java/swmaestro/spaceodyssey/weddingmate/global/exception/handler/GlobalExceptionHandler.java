@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import swmaestro.spaceodyssey.weddingmate.global.exception.category.CategoryNotFoundException;
+import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.oauth2.OAuth2AuthProviderIdNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.oauth2.OAuth2DuplicateEmailException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.oauth2.OAuthUnauthUrlException;
@@ -90,6 +91,12 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(CategoryNotFoundException.class)
 	protected final ResponseEntity<ErrorResponse> handleCategoryNotFoundException(CategoryNotFoundException e) {
 		return ErrorResponse.toErrorResponseEntity(ErrorCode.CATEGORY_NOTFOUND, e.getMessage());
+	}
+
+	/*================== File Exception ==================*/
+	@ExceptionHandler(FileNotFoundException.class)
+	protected final ResponseEntity<ErrorResponse> handleFileNotFoundException(FileNotFoundException e) {
+		return ErrorResponse.toErrorResponseEntity(ErrorCode.FILE_NOTFOUND, e.getMessage());
 	}
 
 }

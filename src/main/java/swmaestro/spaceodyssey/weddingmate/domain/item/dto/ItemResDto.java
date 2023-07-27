@@ -16,4 +16,5 @@ public class ItemResDto {
 	private final String categoryContent;
 	private final Integer order;
 	private final Long itemId;
+	private final List<String> imageList;
 }
