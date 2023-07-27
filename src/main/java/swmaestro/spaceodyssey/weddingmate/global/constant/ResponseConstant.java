@@ -10,6 +10,11 @@ public class ResponseConstant {
 	public static final String LOGIN_SUCCESS = "성공적으로 로그인되었습니다.";
 
 	/* USERS */
+	// planner
+	public static final String PLANNER_SIGNUP_SUCCESS = " 플래너님의 회원가입이 완료되었습니다.";
+
+	// customer
+	public static final String CUSTOMER_SIGNUP_SUCCESS = " 고객님의 회원가입이 완료되었습니다.";
 
 	// exception
 	public static final String USER_NOTFOUND = "해당 유저를 찾을 수 없습니다.";

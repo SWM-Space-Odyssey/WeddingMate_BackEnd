@@ -9,6 +9,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.category.dto.CategoryMapper;
 import swmaestro.spaceodyssey.weddingmate.domain.category.entity.Category;
+import swmaestro.spaceodyssey.weddingmate.domain.category.repository.CategoryRepository;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemMapper;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemSaveReqDto;
@@ -30,6 +31,7 @@ import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserUnAuthorize
 @Transactional
 public class ItemService {
 	private final ItemRepository itemRepository;
+	private final CategoryRepository categoryRepository;
 	private final PortfolioRepository portfolioRepository;
 	private final TagMapper tagMapper;
 	private final ItemMapper itemMapper;
