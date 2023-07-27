@@ -6,10 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="6731f480-c7cd-43bb-9ac8-952384607021" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/entity/Planner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/entity/Planner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/mapper/CustomerMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/mapper/CustomerMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/mapper/PlannerMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/mapper/PlannerMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/service/UsersService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/service/UsersService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/dto/PlannerSignupReqDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/dto/PlannerSignupReqDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/global/constant/ResponseConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/global/constant/ResponseConstant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/global/exception/handler/ErrorCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/global/exception/handler/ErrorCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/global/exception/handler/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/global/exception/handler/GlobalExceptionHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,11 +25,14 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="package-info" />
-        <option value="Interface" />
         <option value="Enum" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
+  </component>
+  <component name="FormatOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -39,6 +42,9 @@
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="OptimizeOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
   </component>
   <component name="ProblemsViewState">
     <option name="selectedIndex" value="1" />
@@ -51,25 +57,40 @@
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;,
-    &quot;spring.configuration.checksum&quot;: &quot;49fd28e25dc049ffa2a12e82456c0593&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "WebServerToolWindowFactoryState": "false",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "preferences.sourceCode",
+    "spring.configuration.checksum": "49fd28e25dc049ffa2a12e82456c0593",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RunManager">
+}]]></component>
+  <component name="RunManager" selected="Spring Boot.WeddingmateApplication">
+    <configuration name="UsersServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="weddingmate.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="swmaestro.spaceodyssey.weddingmate.domain.users.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="swmaestro.spaceodyssey.weddingmate.domain.users.service" />
+      <option name="MAIN_CLASS_NAME" value="swmaestro.spaceodyssey.weddingmate.domain.users.service.UsersServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="WeddingmateApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="weddingmate.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="swmaestro.spaceodyssey.weddingmate.WeddingmateApplication" />
@@ -77,6 +98,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.UsersServiceTest" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -92,6 +118,7 @@
       <workItem from="1689660277402" duration="654000" />
       <workItem from="1690361146351" duration="18388000" />
       <workItem from="1690381273037" duration="4356000" />
+      <workItem from="1690450912655" duration="15650000" />
     </task>
     <servers />
   </component>
