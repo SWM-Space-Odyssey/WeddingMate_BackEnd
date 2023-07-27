@@ -4,9 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6731f480-c7cd-43bb-9ac8-952384607021" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="6731f480-c7cd-43bb-9ac8-952384607021" name="Changes" comment="feat : portfolio delete api 추가">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/item/entity/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/item/entity/Item.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/portfolio/entity/Portfolio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/portfolio/entity/Portfolio.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/tag/dto/TagMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/tag/dto/TagMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/tag/dto/TagResDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/tag/dto/TagResDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/global/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/global/config/SecurityConfig.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,6 +22,31 @@
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="weddingmate" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -41,10 +71,15 @@
     "RequestMappingsPanelOrder1": "1",
     "RequestMappingsPanelWidth0": "75",
     "RequestMappingsPanelWidth1": "75",
+    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
     "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "feature/SO-119-image-S3",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
     "spring.configuration.checksum": "49fd28e25dc049ffa2a12e82456c0593",
     "vue.rearranger.settings.migration": "true"
   }
@@ -71,6 +106,95 @@
       <workItem from="1687971741491" duration="3755000" />
       <workItem from="1689660277402" duration="654000" />
     </task>
+    <task id="LOCAL-00001" summary="feat : portfolio 생성, 조회 기능 추가">
+      <option name="closed" value="true" />
+      <created>1690113550067</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1690113550067</updated>
+    </task>
+    <task id="LOCAL-00002" summary="fix : remove Repository tag and cascade">
+      <option name="closed" value="true" />
+      <created>1690165359331</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1690165359331</updated>
+    </task>
+    <task id="LOCAL-00003" summary="refactor : item directory 분리">
+      <option name="closed" value="true" />
+      <created>1690171142372</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1690171142372</updated>
+    </task>
+    <task id="LOCAL-00004" summary="feat : Item detail api 추가">
+      <option name="closed" value="true" />
+      <created>1690171193719</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1690171193719</updated>
+    </task>
+    <task id="LOCAL-00005" summary="fix : merge changes">
+      <option name="closed" value="true" />
+      <created>1690172802872</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1690172802872</updated>
+    </task>
+    <task id="LOCAL-00006" summary="fix : delete application-app.yml">
+      <option name="closed" value="true" />
+      <created>1690172894776</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1690172894776</updated>
+    </task>
+    <task id="LOCAL-00007" summary="fix : delete AppProperties">
+      <option name="closed" value="true" />
+      <created>1690172919957</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1690172919957</updated>
+    </task>
+    <task id="LOCAL-00008" summary="feat : category, tag에 is_default 칼럼 추가">
+      <option name="closed" value="true" />
+      <created>1690273357183</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1690273357183</updated>
+    </task>
+    <task id="LOCAL-00009" summary="feat : category, tag 리스트 api 추가">
+      <option name="closed" value="true" />
+      <created>1690273433153</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1690273433153</updated>
+    </task>
+    <task id="LOCAL-00010" summary="feat : portfolio update api 추가">
+      <option name="closed" value="true" />
+      <created>1690273604566</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1690273604566</updated>
+    </task>
+    <task id="LOCAL-00011" summary="feat : portfolio delete api 추가">
+      <option name="closed" value="true" />
+      <created>1690345446326</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1690345446326</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -86,6 +210,20 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feat : portfolio 생성, 조회 기능 추가" />
+    <MESSAGE value="fix : remove Repository tag and cascade" />
+    <MESSAGE value="refactor : item directory 분리" />
+    <MESSAGE value="feat : Item detail api 추가" />
+    <MESSAGE value="fix : merge changes" />
+    <MESSAGE value="fix : delete application-app.yml" />
+    <MESSAGE value="fix : delete AppProperties" />
+    <MESSAGE value="feat : category, tag에 is_default 칼럼 추가" />
+    <MESSAGE value="feat : category, tag 리스트 api 추가" />
+    <MESSAGE value="feat : portfolio update api 추가" />
+    <MESSAGE value="feat : portfolio delete api 추가" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat : portfolio delete api 추가" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

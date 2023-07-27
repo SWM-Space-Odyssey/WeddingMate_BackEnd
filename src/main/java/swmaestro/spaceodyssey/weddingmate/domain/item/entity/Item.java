@@ -7,6 +7,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.FieldResult;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -17,6 +18,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.category.entity.Category;
+import swmaestro.spaceodyssey.weddingmate.domain.file.entity.File;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.Portfolio;
 import swmaestro.spaceodyssey.weddingmate.global.entity.BaseTimeEntity;
 
@@ -52,6 +54,9 @@ public class Item extends BaseTimeEntity {
 
 	@Column(nullable = false)
 	private Boolean isDeleted;
+
+	@OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+	private List<File> fileList = new ArrayList<>();
 
 	public void updateItem(String itemRecord, List<ItemTag> itemTagList, String company, String itemDate, Category category) {
 		this.itemRecord = itemRecord;
