@@ -15,7 +15,6 @@ import swmaestro.spaceodyssey.weddingmate.domain.tag.entity.Tag;
 import swmaestro.spaceodyssey.weddingmate.domain.users.dto.PlannerSignupReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Planner;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.PlannerTag;
-import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 
 @Component
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
@@ -24,13 +23,12 @@ public class PlannerMapper {
 	private final TagMapper tagMapper;
 	private final PlannerTagMapper plannerTagMapper;
 
-	public Planner toEntity(Users users, PlannerSignupReqDto reqDto) {
+	public Planner toEntity(PlannerSignupReqDto reqDto) {
 		Planner planner = Planner.builder()
 			.company(reqDto.getCompany())
 			.position(reqDto.getPosition())
 			.region(reqDto.getRegion())
 			.build();
-		planner.setUsers(users);
 
 		Category category = categoryMapper.findCategoryByContentOrElseCreate(CategoryEnum.PLANNER.name());
 		List<Tag> tagList = reqDto.getPlannerTagList()

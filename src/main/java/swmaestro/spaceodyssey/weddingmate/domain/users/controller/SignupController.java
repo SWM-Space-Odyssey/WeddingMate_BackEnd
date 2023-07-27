@@ -4,7 +4,6 @@ import static swmaestro.spaceodyssey.weddingmate.global.constant.ResponseConstan
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,9 +15,7 @@ import swmaestro.spaceodyssey.weddingmate.domain.users.dto.CustomerSignupReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.users.dto.PlannerSignupReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.AuthUsers;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
-import swmaestro.spaceodyssey.weddingmate.domain.users.repository.UsersRepository;
 import swmaestro.spaceodyssey.weddingmate.domain.users.service.UsersService;
-import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserNotFoundException;
 
 @RestController
 @RequestMapping("/api/v1/signup")
@@ -26,7 +23,6 @@ import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserNotFoundExc
 public class SignupController {
 
 	private final UsersService usersService;
-	private final UsersRepository usersRepository;
 
 	@PostMapping("/planner")
 	@ResponseStatus(value = HttpStatus.CREATED)
@@ -40,16 +36,5 @@ public class SignupController {
 	public ResponseEntity<String> customerSignup(@AuthUsers Users users, @RequestBody CustomerSignupReqDto reqDto) {
 		usersService.signupCustomer(users, reqDto);
 		return ResponseEntity.ok().body(reqDto.getNickname() + CUSTOMER_SIGNUP_SUCCESS);
-	}
-
-	@GetMapping("/")
-	public ResponseEntity<String> test(@AuthUsers Users users){
-		Users pUsers = usersRepository.findByEmail(users.getEmail())
-			.orElseThrow(UserNotFoundException::new);
-		pUsers.updateNickname("테스트닉네임");
-
-		Users nUsers = usersRepository.findByNickname(pUsers.getNickname())
-			.orElseThrow(UserNotFoundException::new);
-		return ResponseEntity.ok().body(nUsers.getEmail() + ' ' + nUsers.getNickname());
 	}
 }
