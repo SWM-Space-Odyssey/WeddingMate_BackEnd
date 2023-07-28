@@ -1,15 +1,12 @@
 package swmaestro.spaceodyssey.weddingmate.domain.portfolio.service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import swmaestro.spaceodyssey.weddingmate.domain.category.CategoryEnum;
 import swmaestro.spaceodyssey.weddingmate.domain.category.dto.CategoryMapper;
 import swmaestro.spaceodyssey.weddingmate.domain.file.entity.File;
 import swmaestro.spaceodyssey.weddingmate.domain.file.service.FileService;
@@ -135,7 +132,7 @@ public class PortfolioService {
 		updatePortfolioImage(multipartFile, portfolio);
 
 		List<Integer> orderList = portfolioUpdateReqDto.getOrderList();
-		List <Long> itemList = portfolioUpdateReqDto.getItemList();
+		List<Long> itemList = portfolioUpdateReqDto.getItemList();
 
 		for (int i = 0; i < orderList.size(); i++) {
 			Item item = itemRepository.findById(itemList.get(i))

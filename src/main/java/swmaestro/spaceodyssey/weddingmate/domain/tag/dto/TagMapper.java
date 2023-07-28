@@ -1,6 +1,7 @@
 package swmaestro.spaceodyssey.weddingmate.domain.tag.dto;
 
 import java.util.Optional;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
@@ -14,16 +15,16 @@ import swmaestro.spaceodyssey.weddingmate.domain.tag.repository.TagRepository;
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class TagMapper {
 	private final TagRepository tagRepository;
+
 	public Tag contentToEntity(String keyword, Category category) {
-		Optional<Tag> tagOptional = tagRepository.findByContent(keyword);
-
-		if (tagOptional.isEmpty()) {
-			Tag tag = Tag.builder().content(keyword).category(category).isDefault(false).build();
-			tagRepository.save(tag);
-
-			return tag;
-		}
-		return tagOptional.get();
+		return tagRepository.findByContent(keyword)
+			.orElseGet(() -> tagRepository.save(
+				Tag.builder()
+					.content(keyword)
+					.category(category)
+					.isDefault(false)
+					.build()
+			));
 	}
 
 	public TagResDto entityToDto(Tag tag) {
