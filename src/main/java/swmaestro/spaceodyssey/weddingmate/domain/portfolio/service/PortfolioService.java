@@ -1,12 +1,15 @@
 package swmaestro.spaceodyssey.weddingmate.domain.portfolio.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import swmaestro.spaceodyssey.weddingmate.domain.category.CategoryEnum;
 import swmaestro.spaceodyssey.weddingmate.domain.category.dto.CategoryMapper;
 import swmaestro.spaceodyssey.weddingmate.domain.file.entity.File;
 import swmaestro.spaceodyssey.weddingmate.domain.file.service.FileService;
@@ -45,8 +48,8 @@ public class PortfolioService {
 	private final PortfolioMapper portfolioMapper;
 	private final FileService fileService;
 
-	public Portfolio createPortfolio(Users users, MultipartFile multipartFile, PortfolioSaveReqDto portfolioSaveReqDto) throws
-		IOException {
+	public Portfolio createPortfolio(Users users, MultipartFile multipartFile,
+		PortfolioSaveReqDto portfolioSaveReqDto) throws IOException {
 		List<PortfolioTag> tagList = new ArrayList<>();
 
 		Portfolio portfolio = Portfolio.builder()
@@ -110,7 +113,8 @@ public class PortfolioService {
 			.toList();
 	}
 
-	public void updatePortfolio(Users users, Long portfolioId, PortfolioUpdateReqDto portfolioUpdateReqDto, MultipartFile multipartFile) throws
+	public void updatePortfolio(Users users, Long portfolioId, PortfolioUpdateReqDto portfolioUpdateReqDto,
+		MultipartFile multipartFile) throws
 		IOException {
 		Portfolio portfolio = this.findPortfolioById(portfolioId);
 
