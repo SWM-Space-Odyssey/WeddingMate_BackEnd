@@ -2,11 +2,11 @@ package swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto;
 
 import java.util.List;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
+@AllArgsConstructor
 public class PortfolioSaveReqDto {
 	private String title;
 	private List<String> tags;

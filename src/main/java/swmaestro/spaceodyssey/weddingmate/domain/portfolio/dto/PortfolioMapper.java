@@ -15,6 +15,7 @@ public class PortfolioMapper {
 		return PortfolioListResDto.builder()
 			.portfolioId(portfolio.getPortfolioId())
 			.title(portfolio.getTitle())
+			.repImgUrl(portfolio.getFile().getUrl())
 			.build();
 	}
 }

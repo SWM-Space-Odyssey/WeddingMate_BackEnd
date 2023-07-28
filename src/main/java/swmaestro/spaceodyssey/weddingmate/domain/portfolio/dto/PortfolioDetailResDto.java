@@ -16,12 +16,14 @@ public class PortfolioDetailResDto {
 	private String title;
 	private List<TagResDto> tagResDtoList;
 	private List<ItemResDto> itemResDtoList;
+	private String repImgUrl;
 
 	@Builder
-	public PortfolioDetailResDto(Long id, String title, List<TagResDto> tagResDtoList, List<ItemResDto> itemResDtoList) {
+	public PortfolioDetailResDto(Long id, String title, List<TagResDto> tagResDtoList, List<ItemResDto> itemResDtoList, String repImgUrl) {
 		this.id = id;
 		this.title = title;
 		this.tagResDtoList = tagResDtoList;
 		this.itemResDtoList = itemResDtoList;
+		this.repImgUrl = repImgUrl;
 	}
 }

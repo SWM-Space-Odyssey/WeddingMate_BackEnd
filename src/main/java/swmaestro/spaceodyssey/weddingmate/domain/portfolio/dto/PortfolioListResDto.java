@@ -10,11 +10,13 @@ public class PortfolioListResDto {
 
 	private Long portfolioId;
 	private String title;
+	private String repImgUrl;
 
 	@Builder
-	public PortfolioListResDto(Long portfolioId, String title) {
+	public PortfolioListResDto(Long portfolioId, String title, String repImgUrl) {
 		this.portfolioId = portfolioId;
 		this.title = title;
+		this.repImgUrl = repImgUrl;
 	}
 
 }

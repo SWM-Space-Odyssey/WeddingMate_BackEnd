@@ -53,6 +53,7 @@ public class Item extends BaseTimeEntity {
 	@Column(nullable = false)
 	private Boolean isDeleted;
 
+
 	public void updateItem(String itemRecord, List<ItemTag> itemTagList, String company, String itemDate, Category category) {
 		this.itemRecord = itemRecord;
 		this.itemTagList = itemTagList;
@@ -68,7 +69,6 @@ public class Item extends BaseTimeEntity {
 	public void deleteItem() {
 		this.isDeleted = true;
 	}
-
 	@Builder
 	public Item(String itemRecord, List<ItemTag> itemTagList, String company, String itemDate, Integer itemOrder, Portfolio portfolio, Category category) {
 		this.itemRecord = itemRecord;

@@ -13,9 +13,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import swmaestro.spaceodyssey.weddingmate.domain.file.entity.File;
 import swmaestro.spaceodyssey.weddingmate.domain.item.entity.Item;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 import swmaestro.spaceodyssey.weddingmate.global.entity.BaseTimeEntity;
@@ -32,9 +34,6 @@ public class Portfolio extends BaseTimeEntity {
 	@Column(length =  50, nullable = false)
 	private String title;
 
-	@Column(nullable = true)
-	private String repImageUrl;
-
 	@OneToMany(mappedBy = "portfolio", cascade = CascadeType.PERSIST)
 	private List<PortfolioTag> portfolioTagList = new ArrayList<>();
 
@@ -48,6 +47,10 @@ public class Portfolio extends BaseTimeEntity {
 	@Column(nullable = false)
 	private Boolean isDeleted;
 
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "file_id")
+	private File file;
+
 	public void updatePortfolio(String title, List<PortfolioTag> portfolioTagList) {
 		this.title = title;
 		this.portfolioTagList = portfolioTagList;
@@ -60,7 +63,6 @@ public class Portfolio extends BaseTimeEntity {
 	@Builder
 	public Portfolio(String title, String repImageUrl, Users users, List<PortfolioTag> portfolioTagList) {
 		this.title = title;
-		this.repImageUrl = repImageUrl;
 		this.users = users;
 		this.portfolioTagList = portfolioTagList;
 		this.isDeleted = false;
@@ -68,5 +70,9 @@ public class Portfolio extends BaseTimeEntity {
 
 	public void setPortfolioTag(List<PortfolioTag> portfolioTagList) {
 		this.portfolioTagList = portfolioTagList;
+	}
+
+	public void setFile(File file) {
+		this.file = file;
 	}
 }

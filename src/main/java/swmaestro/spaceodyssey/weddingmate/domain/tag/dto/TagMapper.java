@@ -32,6 +32,7 @@ public class TagMapper {
 		return TagResDto.builder()
 			.tagId(tag.getTagId())
 			.content(tag.getContent())
+			.categoryContent(tag.getCategory().getContent())
 			.build();
 	}
 }
