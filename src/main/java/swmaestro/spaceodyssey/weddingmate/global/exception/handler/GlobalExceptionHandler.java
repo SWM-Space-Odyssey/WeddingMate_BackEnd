@@ -11,8 +11,10 @@ import swmaestro.spaceodyssey.weddingmate.global.exception.oauth2.OAuth2Duplicat
 import swmaestro.spaceodyssey.weddingmate.global.exception.oauth2.OAuthUnauthUrlException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.portfolio.ItemNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.portfolio.PortfolioNotFoundException;
+import swmaestro.spaceodyssey.weddingmate.global.exception.profile.PlannerProfileNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.token.RefreshTokenNotEqualException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.token.UnAuthorizedRefreshTokenException;
+import swmaestro.spaceodyssey.weddingmate.global.exception.users.PlannerNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserNameNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserUnAuthorizedException;
@@ -64,6 +66,19 @@ public class GlobalExceptionHandler {
 		return ErrorResponse.toErrorResponseEntity(ErrorCode.USER_UNAUTHORIZED, e.getMessage());
 	}
 
+	// Planner Exception
+	@ExceptionHandler(PlannerNotFoundException.class)
+	protected final ResponseEntity<ErrorResponse> handlerPlannerNotFoundException(PlannerNotFoundException e) {
+		return ErrorResponse.toErrorResponseEntity(ErrorCode.PLANNER_NOTFOUND, e.getMessage());
+	}
+
+	/*================== Profile Exception ==================*/
+	@ExceptionHandler(PlannerProfileNotFoundException.class)
+	protected final ResponseEntity<ErrorResponse> handlerPlannerProfileNotFoundException(
+		PlannerProfileNotFoundException e) {
+		return ErrorResponse.toErrorResponseEntity(ErrorCode.PLANNER_PROFILE_NOTFOUND, e.getMessage());
+	}
+
 	/*================== Token Exception ==================*/
 	@ExceptionHandler(RefreshTokenNotEqualException.class)
 	protected final ResponseEntity<ErrorResponse> handleRefreshTokenNotEqualException(RefreshTokenNotEqualException e) {
@@ -71,7 +86,8 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler(UnAuthorizedRefreshTokenException.class)
-	protected final ResponseEntity<ErrorResponse> handlerUnAuthorizedRefreshTokenException(UnAuthorizedRefreshTokenException e) {
+	protected final ResponseEntity<ErrorResponse> handlerUnAuthorizedRefreshTokenException(
+		UnAuthorizedRefreshTokenException e) {
 		return ErrorResponse.toErrorResponseEntity(ErrorCode.REFRESH_TOKEN_NOTFOUND, e.getMessage());
 	}
 
