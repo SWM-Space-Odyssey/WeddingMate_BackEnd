@@ -5,10 +5,9 @@ import static swmaestro.spaceodyssey.weddingmate.global.constant.ResponseConstan
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.UNAUTHORIZED)
-public class UserUnAuthorizedException extends RuntimeException {
-	public UserUnAuthorizedException() {
-		super(USER_UNAUTHORIZED);
+@ResponseStatus(HttpStatus.CONFLICT)
+public class PlannerDuplicateRegistrationException extends RuntimeException {
+	public PlannerDuplicateRegistrationException() {
+		super(PLANNER_DUPLICATE_REGISTRATION);
 	}
 }
-

@@ -15,6 +15,8 @@ import swmaestro.spaceodyssey.weddingmate.global.exception.portfolio.PortfolioNo
 import swmaestro.spaceodyssey.weddingmate.global.exception.profile.PlannerProfileNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.token.RefreshTokenNotEqualException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.token.UnAuthorizedRefreshTokenException;
+import swmaestro.spaceodyssey.weddingmate.global.exception.users.CustomerDuplicateRegistrationException;
+import swmaestro.spaceodyssey.weddingmate.global.exception.users.PlannerDuplicateRegistrationException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.users.PlannerNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserNameNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserNotFoundException;
@@ -71,6 +73,19 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(PlannerNotFoundException.class)
 	protected final ResponseEntity<ErrorResponse> handlerPlannerNotFoundException(PlannerNotFoundException e) {
 		return ErrorResponse.toErrorResponseEntity(ErrorCode.PLANNER_NOTFOUND, e.getMessage());
+	}
+
+	@ExceptionHandler(PlannerDuplicateRegistrationException.class)
+	protected final ResponseEntity<ErrorResponse> handlePlannerDuplicateRegistrationException(
+		PlannerDuplicateRegistrationException e) {
+		return ErrorResponse.toErrorResponseEntity(ErrorCode.PLANNER_DUPLICATE_REGISTRATION, e.getMessage());
+	}
+
+	// Customer Exception
+	@ExceptionHandler(CustomerDuplicateRegistrationException.class)
+	protected final ResponseEntity<ErrorResponse> handleCustomerDuplicateResgistrationException(
+		CustomerDuplicateRegistrationException e) {
+		return ErrorResponse.toErrorResponseEntity(ErrorCode.CUSTOMER_DUPLICATE_REGISTRATION, e.getMessage());
 	}
 
 	/*================== Profile Exception ==================*/
