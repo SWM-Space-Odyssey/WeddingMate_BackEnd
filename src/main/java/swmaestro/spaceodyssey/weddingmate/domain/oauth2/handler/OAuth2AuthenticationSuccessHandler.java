@@ -48,7 +48,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 	private String makeRedirectUrl(String email) {
 		String accessToken = tokenProvider.createAccessToken(email);
 
-		return UriComponentsBuilder.fromHttpUrl("http://weddingmate-fe-bucket.s3-website.ap-northeast-2.amazonaws.com")
+		return UriComponentsBuilder.fromHttpUrl("http://weddingmate.co.kr")
 			.queryParam("accessToken", accessToken)
 			.build()
 			.encode()
