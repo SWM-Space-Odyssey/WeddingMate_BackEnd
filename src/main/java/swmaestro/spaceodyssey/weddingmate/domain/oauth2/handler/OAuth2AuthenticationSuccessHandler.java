@@ -67,7 +67,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 			.domain(".com")
 			.maxAge(TimeUnit.MILLISECONDS.toSeconds(refreshTokenValidationTime)) // 쿠키 만료 시기(초). 없으면 브라우저 닫힐 때 제거
 			.secure(true) // HTTPS로 통신할 때만 쿠키가 전송된다.
-			.sameSite("none")
+			.sameSite("None")
 			.httpOnly(true) // JS를 통한 쿠키 접근을 막아, XSS 공격 등을 방어하기 위한 옵션이다.
 			.build();
 	}
