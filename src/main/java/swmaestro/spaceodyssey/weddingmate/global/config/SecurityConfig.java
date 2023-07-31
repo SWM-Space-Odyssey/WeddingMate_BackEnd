@@ -53,11 +53,11 @@ public class SecurityConfig {
 			.formLogin(AbstractHttpConfigurer::disable)
 			.httpBasic(AbstractHttpConfigurer::disable);
 
-		// 요청에 대한 권한 설정
-		http.authorizeHttpRequests(auth ->
-			auth
-				.requestMatchers("/login/**", "/oauth2/**").permitAll()
-				.anyRequest().authenticated());
+		// // 요청에 대한 권한 설정
+		// http.authorizeHttpRequests(auth ->
+		// 	auth
+		// 		.requestMatchers("/login/**", "/oauth2/**").permitAll()
+		// 		.anyRequest().authenticated());
 
 		// OAuth2
 		http.oauth2Login(oauth ->
