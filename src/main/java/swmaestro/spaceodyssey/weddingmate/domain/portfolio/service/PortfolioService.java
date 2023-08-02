@@ -48,8 +48,8 @@ public class PortfolioService {
 	private final PortfolioMapper portfolioMapper;
 	private final FileService fileService;
 
-	public Portfolio createPortfolio(Users users, MultipartFile multipartFile, PortfolioSaveReqDto portfolioSaveReqDto) throws
-		IOException {
+	public Portfolio createPortfolio(Users users, MultipartFile multipartFile,
+		PortfolioSaveReqDto portfolioSaveReqDto) throws IOException {
 		List<PortfolioTag> tagList = new ArrayList<>();
 
 		Portfolio portfolio = Portfolio.builder()
@@ -113,7 +113,8 @@ public class PortfolioService {
 			.toList();
 	}
 
-	public void updatePortfolio(Users users, Long portfolioId, PortfolioUpdateReqDto portfolioUpdateReqDto, MultipartFile multipartFile) throws
+	public void updatePortfolio(Users users, Long portfolioId, PortfolioUpdateReqDto portfolioUpdateReqDto,
+		MultipartFile multipartFile) throws
 		IOException {
 		Portfolio portfolio = this.findPortfolioById(portfolioId);
 
@@ -135,7 +136,7 @@ public class PortfolioService {
 		updatePortfolioImage(multipartFile, portfolio);
 
 		List<Integer> orderList = portfolioUpdateReqDto.getOrderList();
-		List <Long> itemList = portfolioUpdateReqDto.getItemList();
+		List<Long> itemList = portfolioUpdateReqDto.getItemList();
 
 		for (int i = 0; i < orderList.size(); i++) {
 			Item item = itemRepository.findById(itemList.get(i))
