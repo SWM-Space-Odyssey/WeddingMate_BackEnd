@@ -1,3 +1,6 @@
+#tag는 첫번째 인수
+TAG=$1
+
 #docker가 없다면 docker 설치
 if ! type docker > /dev/null
 then
@@ -24,4 +27,6 @@ fi
 echo "start docker-compose up: ubuntu"
 sudo docker-compose -f /home/ubuntu/srv/weddingmate/docker-compose.prod.yml down
 
-sudo docker-compose -f /home/ubuntu/srv/weddingmate/docker-compose.prod.yml up --build -d
+aws ecr get-login-password --region ap-northeast-2 | sudo docker login --username AWS --password-stdin 231494810622.dkr.ecr.ap-northeast-2.amazonaws.com
+sudo docker pull 231494810622.dkr.ecr.ap-northeast-2.amazonaws.com/weddingmate:$TAG
+sudo TAG=$TAG docker-compose -f /home/ubuntu/srv/weddingmate/docker-compose.prod.yml up --build -d
