@@ -128,7 +128,7 @@ public class FileService {
 				}
 			}
 		});
-
+		
 		//이미지 랜덤하게 섞기
 		Collections.shuffle(fileList);
 
