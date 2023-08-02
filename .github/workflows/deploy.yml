@@ -75,4 +75,4 @@ jobs:
           username: ubuntu
           key: ${{ secrets.KEY }}
           script: |
-            sh /home/ubuntu/srv/ubuntu/config/scripts/delete.sh
+            sh /home/ubuntu/srv/weddingmate/config/scripts/delete.sh
