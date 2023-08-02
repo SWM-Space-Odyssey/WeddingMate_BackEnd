@@ -95,7 +95,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 		String refreshToken = tokenProvider.createRefreshToken(email);
 		Long refreshTokenValidationTime = tokenProvider.getRefreshTokenValidationMs();
 
-		redisService.setData("RefreshToken: "+ email, refreshToken, refreshTokenValidationTime);
+		redisService.setData("RefreshToken:" + email, refreshToken, refreshTokenValidationTime);
 
 		return ResponseCookie.from("refreshToken", refreshToken)
 			.path("/") // 해당 경로 하위의 페이지에서만 쿠키 접근 허용. 모든 경로에서 접근 허용한다.
