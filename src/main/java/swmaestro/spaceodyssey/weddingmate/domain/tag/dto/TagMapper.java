@@ -1,8 +1,5 @@
 package swmaestro.spaceodyssey.weddingmate.domain.tag.dto;
 
-import java.util.Optional;
-import java.util.List;
-
 import org.springframework.stereotype.Component;
 
 import lombok.AccessLevel;
