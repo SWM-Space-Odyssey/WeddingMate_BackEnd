@@ -116,19 +116,19 @@ public class FileService {
 
 		List<ImageListResDto> fileList = new ArrayList<>();
 
-		for (File file : fileRepository.findAll()) {
+		fileRepository.findAll().forEach(file-> {
 			if (file.getItem() != null) {
 				if (Boolean.FALSE.equals(file.getItem().getIsDeleted())) {
 					fileList.add(new ImageListResDto(file.getUrl(), file.getItem().getItemId(), null));
 				}
-
 			} else {
 				Optional<Portfolio> portfolio = portfolioRepository.findByFile(file);
 				if (portfolio.isPresent() && Boolean.FALSE.equals(portfolio.get().getIsDeleted())) {
 					fileList.add(new ImageListResDto(file.getUrl(), null, portfolio.get().getPortfolioId()));
 				}
 			}
-		}
+		});
+
 		//이미지 랜덤하게 섞기
 		Collections.shuffle(fileList);
 
