@@ -8,8 +8,10 @@ import com.nimbusds.oauth2.sdk.util.StringUtils;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import swmaestro.spaceodyssey.weddingmate.global.utils.CookieUtils;
 
+@Slf4j
 @Component
 public class CookieAuthorizationRequestRepository
 	implements AuthorizationRequestRepository<OAuth2AuthorizationRequest> {
@@ -38,6 +40,7 @@ public class CookieAuthorizationRequestRepository
 		CookieUtils.addCookie(response, OAUTH2_AUTHORIZATION_REQUEST_COOKIE_KEY,
 			CookieUtils.serialize(authorizationRequest), COOKIE_EXPIRE_SECONDS);
 		String redirectUriAfterLogin = request.getParameter(REDIRECT_URL_PARAM_COOKIE_KEY);
+		log.info("redirectUriAfterLogin "+ redirectUriAfterLogin);
 		if (StringUtils.isNotBlank(redirectUriAfterLogin)) {
 			CookieUtils.addCookie(response, REDIRECT_URL_PARAM_COOKIE_KEY, redirectUriAfterLogin,
 				COOKIE_EXPIRE_SECONDS);
