@@ -52,21 +52,15 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 		}
 
 		Optional<Users> usersOptional = usersRepository.findByAuthProviderId(oAuth2UserInfo.getOAuth2Id());
-		Users user;
-
-		// 이미 해당 이메일을 가진 유저가 존재하는 경우
-		if (usersOptional.isPresent()) {
-			user = usersOptional.get();
-
+		Users user = usersOptional.map(existingUser -> {
 			// 가져온 유저의 provider명과 넘어온 provider명이 다른 경우(ex. kakao vs naver)
-			if (!user.getAuthProvider().equals(authProvider)) {
+			if (!existingUser.getAuthProvider().equals(authProvider)) {
 				// 이미 다른 provider로 가입되어 있기 때문에 가입 불가
-				throw new OAuth2DuplicateEmailException(user.getAuthProvider());
+				throw new OAuth2DuplicateEmailException(existingUser.getAuthProvider());
 			}
-			user = updateUser(user, oAuth2UserInfo);
-		} else {
-			user = registerUser(authProvider, oAuth2UserInfo);
-		}
+			return updateUser(existingUser, oAuth2UserInfo);
+		}).orElseGet(() -> registerUser(authProvider, oAuth2UserInfo));
+
 		return UserPrincipal.create(user, oAuth2UserInfo.getAttributes());
 	}
 

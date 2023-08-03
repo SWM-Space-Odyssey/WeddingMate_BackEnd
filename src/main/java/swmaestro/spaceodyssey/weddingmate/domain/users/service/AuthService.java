@@ -5,12 +5,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import swmaestro.spaceodyssey.weddingmate.domain.users.dto.AccessTokenDto;
 import swmaestro.spaceodyssey.weddingmate.global.config.jwt.JwtTokenProvider;
 import swmaestro.spaceodyssey.weddingmate.global.config.redis.RedisService;
 import swmaestro.spaceodyssey.weddingmate.global.exception.token.RefreshTokenNotEqualException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.token.UnAuthorizedRefreshTokenException;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor

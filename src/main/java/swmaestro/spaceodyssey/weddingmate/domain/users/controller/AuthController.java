@@ -2,28 +2,29 @@ package swmaestro.spaceodyssey.weddingmate.domain.users.controller;
 
 import static org.springframework.http.HttpHeaders.*;
 
-import jakarta.annotation.Nullable;
-import jakarta.servlet.http.Cookie;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import swmaestro.spaceodyssey.weddingmate.domain.users.dto.AccessTokenDto;
 import swmaestro.spaceodyssey.weddingmate.domain.users.service.AuthService;
 
+@Slf4j
 @RestController
-@RequestMapping("/token")
+@RequestMapping("/api/v1/token")
 @RequiredArgsConstructor
 public class AuthController {
 
 	private final AuthService authService;
 
 	@PostMapping("/refresh")
-	public ResponseEntity<AccessTokenDto> refresh(@CookieValue(value = "refreshToken", required = false) Cookie rtCookie) {
+	public ResponseEntity<AccessTokenDto> refresh(
+		@CookieValue(value = "refreshToken", required = false) Cookie rtCookie) {
 
 		String refreshToken = rtCookie.getValue();
-
 		AccessTokenDto resDto = authService.refresh(refreshToken);
 
 		return ResponseEntity.ok()
