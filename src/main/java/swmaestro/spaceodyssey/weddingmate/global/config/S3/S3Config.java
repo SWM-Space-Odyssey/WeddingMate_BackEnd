@@ -1,4 +1,4 @@
-package swmaestro.spaceodyssey.weddingmate.global.config;
+package swmaestro.spaceodyssey.weddingmate.global.config.S3;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
