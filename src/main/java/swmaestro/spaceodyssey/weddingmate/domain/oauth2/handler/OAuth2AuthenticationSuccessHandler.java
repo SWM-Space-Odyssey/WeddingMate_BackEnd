@@ -98,7 +98,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
 		return ResponseCookie.from("refreshToken", refreshToken)
 			.path("/") // 해당 경로 하위의 페이지에서만 쿠키 접근 허용. 모든 경로에서 접근 허용한다.
-			.domain("weddingmate.co.kr")
+			.domain(".weddingmate.co.kr")
 			.maxAge(TimeUnit.MILLISECONDS.toSeconds(refreshTokenValidationTime)) // 쿠키 만료 시기(초). 없으면 브라우저 닫힐 때 제거
 			.secure(true) // HTTPS로 통신할 때만 쿠키가 전송된다.
 			.sameSite("None") // 크로스 사이트에도 쿠키 전송 가능
