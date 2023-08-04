@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import swmaestro.spaceodyssey.weddingmate.domain.file.service.FileUploadService;
 import swmaestro.spaceodyssey.weddingmate.domain.users.dto.CustomerSignupReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Customer;
 import swmaestro.spaceodyssey.weddingmate.domain.users.mapper.CustomerMapper;
@@ -23,6 +24,8 @@ import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserNotFoundExc
 @Service
 @RequiredArgsConstructor
 public class UsersService {
+
+	private final FileUploadService fileUploadService;
 
 	private final UsersRepository usersRepository;
 	private final PlannerRepository plannerRepository;
