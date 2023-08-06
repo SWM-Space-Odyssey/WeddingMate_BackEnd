@@ -13,9 +13,11 @@ import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.file.dto.ImageListResDto;
+import swmaestro.spaceodyssey.weddingmate.domain.file.entity.File;
 import swmaestro.spaceodyssey.weddingmate.domain.file.repository.FileRepository;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.Portfolio;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.repository.PortfolioRepository;
+import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileNotFoundException;
 
 @Service
 @RequiredArgsConstructor
@@ -50,5 +52,10 @@ public class FileService {
 		int end = Math.min((start + pageable.getPageSize()), fileList.size());
 
 		return new PageImpl<>(fileList.subList(start, end), pageable, fileList.size());
+	}
+
+	public File findById(Long fileId) {
+		return fileRepository.findById(fileId)
+			.orElseThrow(FileNotFoundException::new);
 	}
 }
