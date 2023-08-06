@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import swmaestro.spaceodyssey.weddingmate.global.exception.category.CategoryNotFoundException;
+import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileKakaoProfileDownloadFailureException;
+import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileMalformedUrlException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileNameEmptyException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileUnSupportedExtensionTypeException;
@@ -153,5 +155,15 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(FileUploadFailureException.class)
 	protected final ResponseEntity<ErrorResponse> handleFileUploadFailureException(FileUploadFailureException e) {
 		return ErrorResponse.toErrorResponseEntity(ErrorCode.FILE_UPLOAD_FAILURE, e.getMessage());
+	}
+
+	@ExceptionHandler(FileMalformedUrlException.class)
+	protected final ResponseEntity<ErrorResponse> handleFileMalformedUrlException(FileMalformedUrlException e) {
+		return ErrorResponse.toErrorResponseEntity(ErrorCode.FILE_MALFORMED_URL, e.getMessage());
+	}
+
+	@ExceptionHandler(FileKakaoProfileDownloadFailureException.class)
+	protected final ResponseEntity<ErrorResponse> handleKakaoProfileDownloadFailureException(FileKakaoProfileDownloadFailureException e) {
+		return ErrorResponse.toErrorResponseEntity(ErrorCode.FILE_KAKAO_PROFILE_DOWNLOAD_FAILURE, e.getMessage());
 	}
 }
