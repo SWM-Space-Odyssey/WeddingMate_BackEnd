@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,10 +16,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import swmaestro.spaceodyssey.weddingmate.domain.file.dto.FileReqDto;
+import swmaestro.spaceodyssey.weddingmate.domain.file.dto.ItemFileReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.file.dto.ImageListResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.file.service.FileService;
 import swmaestro.spaceodyssey.weddingmate.domain.file.service.FileUploadService;
+import swmaestro.spaceodyssey.weddingmate.domain.users.entity.AuthUsers;
+import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,11 +33,25 @@ public class FileController {
 
 	@PostMapping("/items")
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public ResponseEntity<String> postItem(@RequestPart FileReqDto fileReqDto, @NotNull @RequestPart("file") MultipartFile multipartFile) {
-		return ResponseEntity.ok().body(fileUploadService.uploadItemFile(fileReqDto, multipartFile));
+	public ResponseEntity<String> postItem(@RequestPart ItemFileReqDto itemFileReqDto,
+											@NotNull @RequestPart("file") MultipartFile multipartFile) {
+		return ResponseEntity.ok().body(fileUploadService.uploadItemFile(itemFileReqDto, multipartFile));
 	}
 
-	@GetMapping
+	@PostMapping("/profile")
+	@ResponseStatus(value = HttpStatus.OK)
+	public ResponseEntity<String> updateProfile(@AuthUsers Users users,
+												@NotNull @RequestPart("file") MultipartFile multipartFile) {
+		return ResponseEntity.ok().body(fileUploadService.updateProfileFile(users, multipartFile));
+	}
+
+	@DeleteMapping("/profile")
+	@ResponseStatus(value = HttpStatus.OK)
+	public ResponseEntity<String> deleteProfile(@AuthUsers Users users) {
+		return ResponseEntity.ok().body(fileUploadService.deleteProfileFile(users));
+	}
+
+	@GetMapping()
 	public ResponseEntity<Page<ImageListResDto>> getImagePage(@PageableDefault(size = 18) Pageable pageable) {
 		return ResponseEntity.ok().body(fileService.getImage(pageable));
 	}
