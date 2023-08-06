@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class FileReqDto {
+public class ItemFileReqDto {
 	Long portfolioId;
 	String itemCategory;
 }
