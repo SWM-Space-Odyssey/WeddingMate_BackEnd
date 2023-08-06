@@ -9,12 +9,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PlannerProfileResDto {
 	private Long plannerProfileId;
+	private String profileImageUrl;
 	private String bio;
 	private String sns;
 
 	@Builder
-	public PlannerProfileResDto(Long plannerProfileId, String bio, String sns) {
+	public PlannerProfileResDto(Long plannerProfileId, String profileImageUrl, String bio, String sns) {
 		this.plannerProfileId = plannerProfileId;
+		this.profileImageUrl = profileImageUrl;
 		this.bio = bio;
 		this.sns = sns;
 	}
