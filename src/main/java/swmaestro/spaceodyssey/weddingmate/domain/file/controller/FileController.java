@@ -49,7 +49,7 @@ public class FileController {
 	@ResponseStatus(value = HttpStatus.OK)
 	public ResponseEntity<String> deleteProfile(@AuthUsers Users users) {
 		return ResponseEntity.ok().body(fileUploadService.deleteProfileFile(users));
-	}
+  }
 
 	@GetMapping()
 	public ResponseEntity<Page<ImageListResDto>> getImagePage(@PageableDefault(size = 18) Pageable pageable) {

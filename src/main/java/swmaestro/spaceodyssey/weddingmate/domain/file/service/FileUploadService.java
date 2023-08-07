@@ -24,6 +24,7 @@ import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 import swmaestro.spaceodyssey.weddingmate.global.config.S3.S3Uploader;
 import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileKakaoProfileDownloadFailureException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileMalformedUrlException;
+import swmaestro.spaceodyssey.weddingmate.global.config.S3.S3Uploader;
 import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileUnSupportedExtensionTypeException;
 
 @Service
