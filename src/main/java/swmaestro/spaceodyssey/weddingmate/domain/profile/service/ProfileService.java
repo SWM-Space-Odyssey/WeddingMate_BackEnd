@@ -4,8 +4,11 @@ import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import swmaestro.spaceodyssey.weddingmate.domain.file.entity.File;
+import swmaestro.spaceodyssey.weddingmate.domain.file.service.FileService;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileResDto;
-import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileUpdateDto;
+import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileUpdateReqDto;
+import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileUpdateResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.entity.PlannerProfile;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.mapper.ProfileMapper;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.repository.PlannerProfileRepository;
@@ -17,19 +20,23 @@ import swmaestro.spaceodyssey.weddingmate.global.exception.users.PlannerNotFound
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class ProfileService {
 
 	private final PlannerProfileRepository plannerProfileRepository;
 	private final PlannerRepository plannerRepository;
 	private final ProfileMapper profileMapper;
+	private final FileService fileService;
 
 	public PlannerProfileResDto getPlannerProfile(Users users) {
 		Planner planner = findPlannerByUsers(users);
-		return profileMapper.toPlannerProfileResDto(planner.getPlannerProfile());
+		File profileImage = fileService.findById(users.getProfileImage().getFileId());
+
+		return profileMapper.toPlannerProfileResDto(profileImage.getUrl(), planner.getPlannerProfile());
 	}
 
 	@Transactional
-	public PlannerProfileResDto updatePlannerProfile(PlannerProfileUpdateDto reqDto) {
+	public PlannerProfileUpdateResDto updatePlannerProfile(PlannerProfileUpdateReqDto reqDto) {
 		PlannerProfile plannerProfile = findPlannerProfileById(reqDto.getPlannerProfileId());
 
 		if (reqDto.getBio() != null) {
@@ -39,7 +46,7 @@ public class ProfileService {
 			plannerProfile.updateSns(reqDto.getSns());
 		}
 
-		return profileMapper.toPlannerProfileResDto(plannerProfile);
+		return profileMapper.toPlannerProfileUpdateResDto(plannerProfile);
 	}
 
 	@Transactional

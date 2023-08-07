@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileResDto;
-import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileUpdateDto;
+import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileUpdateReqDto;
+import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileUpdateResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.service.ProfileService;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.AuthUsers;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
@@ -29,8 +30,8 @@ public class UserProfileController { // profileController가 spring 기본 confi
 	}
 
 	@PutMapping("/planner")
-	public ResponseEntity<PlannerProfileResDto> updatePlannerProfile(@RequestBody PlannerProfileUpdateDto reqDto) {
-		PlannerProfileResDto resDto = profileService.updatePlannerProfile(reqDto);
+	public ResponseEntity<PlannerProfileUpdateResDto> updatePlannerProfile(@RequestBody PlannerProfileUpdateReqDto reqDto) {
+		PlannerProfileUpdateResDto resDto = profileService.updatePlannerProfile(reqDto);
 		return new ResponseEntity<>(resDto, HttpStatus.OK);
 	}
 }
