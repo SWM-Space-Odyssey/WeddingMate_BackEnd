@@ -44,4 +44,9 @@ public class ResponseConstant {
 
 	/* File */
 	public static final String FILE_NOTFOUND = "파일을 찾을 수 없습니다";
+	public static final String EMPTY_FILE_NAME = "파일명이 비어있습니다.";
+	public static final String FILE_NOT_IMAGE = "이미지 파일이 아닙니다. 이미지 파일만 올릴 수 있습니다.";
+	public static final String UNSUPPORTED_FILE_EXTENSION = "지원하지 않는 파일 확장자입니다.";
+	public static final String FILE_UPLOAD_FAILURE = "파일 업로드 과정에서 오류가 발생했습니다.";
+	public static final String FILE_IMAGE_READ_FAILURE = " 이미지 파일을 읽는 과정에서 오류가 발생했습니다.";
 }

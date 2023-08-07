@@ -6,7 +6,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import swmaestro.spaceodyssey.weddingmate.global.exception.category.CategoryNotFoundException;
+import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileNameEmptyException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileNotFoundException;
+import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileUnSupportedExtensionTypeException;
+import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileNotImageException;
+import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileUploadFailureException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.oauth2.OAuth2AuthProviderIdNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.oauth2.OAuth2DuplicateEmailException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.oauth2.OAuthUnauthUrlException;
@@ -130,4 +134,24 @@ public class GlobalExceptionHandler {
 		return ErrorResponse.toErrorResponseEntity(ErrorCode.FILE_NOTFOUND, e.getMessage());
 	}
 
+	@ExceptionHandler(FileNameEmptyException.class)
+	protected final ResponseEntity<ErrorResponse> handleFileNameEmptyException(FileNameEmptyException e) {
+		return ErrorResponse.toErrorResponseEntity(ErrorCode.FILE_NAME_EMPTY, e.getMessage());
+	}
+
+	@ExceptionHandler(FileUnSupportedExtensionTypeException.class)
+	protected final ResponseEntity<ErrorResponse> handleUnSupportedExtensionTypeException(
+		FileUnSupportedExtensionTypeException e) {
+		return ErrorResponse.toErrorResponseEntity(ErrorCode.FILE_UNSUPPORTED_EXTENSION, e.getMessage());
+	}
+
+	@ExceptionHandler(FileNotImageException.class)
+	protected final ResponseEntity<ErrorResponse> handleFileNotImageException(FileNotImageException e) {
+		return ErrorResponse.toErrorResponseEntity(ErrorCode.FILE_NOT_IMAGE, e.getMessage());
+	}
+
+	@ExceptionHandler(FileUploadFailureException.class)
+	protected final ResponseEntity<ErrorResponse> handleFileUploadFailureException(FileUploadFailureException e) {
+		return ErrorResponse.toErrorResponseEntity(ErrorCode.FILE_UPLOAD_FAILURE, e.getMessage());
+	}
 }

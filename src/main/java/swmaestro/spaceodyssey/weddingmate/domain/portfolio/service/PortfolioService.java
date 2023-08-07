@@ -11,8 +11,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.category.CategoryEnum;
 import swmaestro.spaceodyssey.weddingmate.domain.category.dto.CategoryMapper;
+import swmaestro.spaceodyssey.weddingmate.domain.file.dto.FileInfoDto;
 import swmaestro.spaceodyssey.weddingmate.domain.file.entity.File;
-import swmaestro.spaceodyssey.weddingmate.domain.file.service.FileService;
+import swmaestro.spaceodyssey.weddingmate.domain.file.service.FileUploadService;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemMapper;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.item.entity.Item;
@@ -30,6 +31,7 @@ import swmaestro.spaceodyssey.weddingmate.domain.tag.dto.TagResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.tag.entity.Tag;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 import swmaestro.spaceodyssey.weddingmate.domain.users.repository.UsersRepository;
+import swmaestro.spaceodyssey.weddingmate.global.config.S3.S3Uploader;
 import swmaestro.spaceodyssey.weddingmate.global.exception.portfolio.ItemNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.portfolio.PortfolioNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserNotFoundException;
@@ -39,14 +41,18 @@ import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserUnAuthorize
 @RequiredArgsConstructor
 @Transactional
 public class PortfolioService {
+
 	private final PortfolioRepository portfolioRepository;
 	private final UsersRepository usersRepository;
 	private final ItemRepository itemRepository;
+
 	private final CategoryMapper categoryMapper;
 	private final TagMapper tagMapper;
 	private final ItemMapper itemMapper;
 	private final PortfolioMapper portfolioMapper;
-	private final FileService fileService;
+
+	private final FileUploadService fileUploadService;
+	private final S3Uploader s3Uploader;
 
 	public Portfolio createPortfolio(Users users, MultipartFile multipartFile,
 		PortfolioSaveReqDto portfolioSaveReqDto) throws IOException {
@@ -72,50 +78,13 @@ public class PortfolioService {
 		return portfolio;
 	}
 
-	public void updatePortfolioImage(MultipartFile multipartFile, Portfolio portfolio) throws IOException {
-		File file = fileService.uploadPortfolioImage(multipartFile, portfolio.getPortfolioId());
+	public void updatePortfolioImage(MultipartFile multipartFile, Portfolio portfolio) {
+		File file = fileUploadService.uploadPortfolioFile(multipartFile, portfolio);
 		portfolio.setFile(file);
 	}
 
-	public PortfolioDetailResDto findById(Long id) {
-		Portfolio portfolio = findPortfolioById(id);
-
-		checkPortfolioDeleted(portfolio);
-
-		List<TagResDto> tagList = portfolio.getPortfolioTagList().stream()
-			.map(PortfolioTag::getTag)
-			.map(tagMapper::entityToDto)
-			.toList();
-
-		List<ItemResDto> itemResDtoList = portfolio.getPortfolioItemList().stream()
-			.filter(item -> (Boolean.FALSE.equals(item.getIsDeleted())))
-			.map(itemMapper::entityToDto)
-			.toList();
-
-		return PortfolioDetailResDto.builder()
-			.title(portfolio.getTitle())
-			.id(portfolio.getPortfolioId())
-			.tagResDtoList(tagList)
-			.itemResDtoList(itemResDtoList)
-			.repImgUrl(portfolio.getFile().getUrl())
-			.build();
-	}
-
-	public List<PortfolioListResDto> findByUser(Long userId) {
-		Users users = usersRepository.findById(userId)
-			.orElseThrow(UserNotFoundException::new);
-
-		return users.getPortfolioList().stream()
-			//삭제된 portfolio 제외
-			.filter(portfolio -> (Boolean.FALSE.equals(portfolio.getIsDeleted())))
-			.map(portfolioMapper::entityToDto)
-
-			.toList();
-	}
-
-	public void updatePortfolio(Users users, Long portfolioId, PortfolioUpdateReqDto portfolioUpdateReqDto,
-		MultipartFile multipartFile) throws
-		IOException {
+	public void updatePortfolio(Users users, Long portfolioId,
+		PortfolioUpdateReqDto portfolioUpdateReqDto, MultipartFile multipartFile) throws IOException {
 		Portfolio portfolio = this.findPortfolioById(portfolioId);
 
 		checkPortfolioDeleted(portfolio);
@@ -159,6 +128,44 @@ public class PortfolioService {
 		portfolio.deletePortfolio();
 
 		portfolio.getPortfolioItemList().forEach(Item::deleteItem);
+	}
+
+	public PortfolioDetailResDto findById(Long id) {
+		Portfolio portfolio = findPortfolioById(id);
+
+		checkPortfolioDeleted(portfolio);
+
+		List<TagResDto> tagList = portfolio.getPortfolioTagList().stream()
+			.map(PortfolioTag::getTag)
+			.map(tagMapper::entityToDto)
+			.toList();
+
+		List<ItemResDto> itemResDtoList = portfolio.getPortfolioItemList().stream()
+			.filter(item -> (Boolean.FALSE.equals(item.getIsDeleted())))
+			.map(itemMapper::entityToDto)
+			.toList();
+
+		return PortfolioDetailResDto.builder()
+			.title(portfolio.getTitle())
+			.id(portfolio.getPortfolioId())
+			.tagResDtoList(tagList)
+			.itemResDtoList(itemResDtoList)
+			.repImgUrl(portfolio.getFile().getUrl())
+			.build();
+	}
+
+	/*================== Repository 접근 ==================*/
+
+	public List<PortfolioListResDto> findByUser(Long userId) {
+		Users users = usersRepository.findById(userId)
+			.orElseThrow(UserNotFoundException::new);
+
+		return users.getPortfolioList().stream()
+			//삭제된 portfolio 제외
+			.filter(portfolio -> (Boolean.FALSE.equals(portfolio.getIsDeleted())))
+			.map(portfolioMapper::entityToDto)
+
+			.toList();
 	}
 
 	public Portfolio findPortfolioById(Long id) {

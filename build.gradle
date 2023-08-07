@@ -47,6 +47,9 @@ dependencies {
     // S3
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
+    // Image
+    implementation group: 'org.apache.tika', name: 'tika-core', version: '2.4.1'
+
     runtimeOnly 'com.mysql:mysql-connector-j'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
