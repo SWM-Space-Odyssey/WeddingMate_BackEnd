@@ -2,6 +2,7 @@ package swmaestro.spaceodyssey.weddingmate.domain.users.controller;
 
 import static org.springframework.http.HttpHeaders.*;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import swmaestro.spaceodyssey.weddingmate.domain.users.dto.AccessTokenDto;
 import swmaestro.spaceodyssey.weddingmate.domain.users.service.AuthService;
+import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponse;
+import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponseStatus;
 
 @Slf4j
 @RestController
@@ -21,24 +24,31 @@ public class AuthController {
 	private final AuthService authService;
 
 	@PostMapping("/refresh")
-	public ResponseEntity<AccessTokenDto> refresh(
+	@ResponseStatus(HttpStatus.OK)
+	public ApiResponse<Object> refresh(
 		@CookieValue(value = "refreshToken", required = false) Cookie rtCookie) {
 
 		String refreshToken = rtCookie.getValue();
 		AccessTokenDto resDto = authService.refresh(refreshToken);
 
-		return ResponseEntity.ok()
-			.body(resDto);
+		return ApiResponse.builder()
+			.status(ApiResponseStatus.SUCCESS)
+			.data(resDto)
+			.build();
 	}
 
 	@PostMapping("/blacklist")
-	public ResponseEntity<AccessTokenDto> signOut(@RequestBody AccessTokenDto requestDto) {
+	@ResponseStatus(HttpStatus.OK)
+	public ResponseEntity<ApiResponse<Object>> signOut(@RequestBody AccessTokenDto requestDto) {
 		AccessTokenDto resDto = authService.signOut(requestDto);
 		ResponseCookie responseCookie = removeRefreshTokenCookie();
 
 		return ResponseEntity.ok()
 			.header(SET_COOKIE, responseCookie.toString())
-			.body(resDto);
+			.body(ApiResponse.builder()
+				.status(ApiResponseStatus.SUCCESS)
+				.data(resDto)
+				.build());
 	}
 
 	public ResponseCookie removeRefreshTokenCookie() {

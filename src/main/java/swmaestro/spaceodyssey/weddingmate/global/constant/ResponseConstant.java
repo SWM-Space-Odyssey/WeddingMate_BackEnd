@@ -32,8 +32,16 @@ public class ResponseConstant {
 	public static final String OAUTH_UNAUTHORIZED_URL = "해당 url은 인증되지 않았습니다.";
 
 	/* PORTFOLIO */
-	public static final String PORTFOLIO_NOTFOUND = "포트폴리오를 찾을 수 없습니다";
+	public static final String PORTFOLIO_NOTFOUND = "해당 포트폴리오를 찾을 수 없습니다";
+	public static final String PORTFOLIO_CREATE_SUCCESS = "해당 포트폴리오를 생성했습니다.";
+	public static final String PORTFOLIO_UPDATE_SUCCESS = "해당 포트폴리오를 수정했습니다.";
+	public static final String PORTFOLIO_DELETE_SUCCESS = "해당 포트폴리오를 삭제했습니다.";
+
+	/* ITEM */
 	public static final String ITEM_NOTFOUND = "해당 아이템을 찾을 수 없습니다";
+	public static final String ITEM_CREATE_SUCCESS = "해당 아이템을 생성했습니다.";
+	public static final String ITEM_UPDATE_SUCCESS = "해당 아이템을 수정했습니다.";
+	public static final String ITEM_DELETE_SUCCESS = "해당 아이템을 삭제했습니다.";
 
 	/* CATEGORY */
 	public static final String CATEGORY_NOTFOUND = "카테고리를 찾을 수 없습니다";
