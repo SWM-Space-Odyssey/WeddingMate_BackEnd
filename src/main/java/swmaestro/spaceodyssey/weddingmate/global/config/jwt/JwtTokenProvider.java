@@ -32,7 +32,7 @@ public class JwtTokenProvider {
 
 	@Value("${spring.jwt.secret}")
 	private String secretKey;
-	private final Long accessTokenValidationMs = 30 * 60 * 1000L;
+	private final Long accessTokenValidationMs = 12 * 60 * 60 * 1000L; // 12시간으로 변경
 	private final Long refreshTokenValidationMs = 15 * 24 * 60 * 60 * 1000L;
 
 	public Long getRefreshTokenValidationMs() {
