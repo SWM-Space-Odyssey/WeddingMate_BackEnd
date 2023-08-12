@@ -93,11 +93,6 @@ public class Users extends BaseTimeEntity {
 		this.reportCnt = 0;
 	}
 
-	@Builder
-	public Users(String email, String nickname) {
-
-	}
-
 	public Users updateOAuth2Info(OAuth2UserInfo oAuth2UserInfo) {
 		this.email = oAuth2UserInfo.getEmail();
 		this.authProviderId = oAuth2UserInfo.getOAuth2Id();
