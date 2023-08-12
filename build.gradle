@@ -47,6 +47,10 @@ dependencies {
     // S3
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
+    // Image
+    implementation group: 'org.apache.tika', name: 'tika-core', version: '2.4.1'
+    testImplementation 'junit:junit:4.13.1'
+
     runtimeOnly 'com.mysql:mysql-connector-j'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
@@ -57,6 +61,11 @@ dependencies {
     // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+    runtimeOnly 'com.h2database:h2'
+
+    //jmh
+    implementation 'org.openjdk.jmh:jmh-core:1.32'
+    implementation 'org.openjdk.jmh:jmh-generator-annprocess:1.32'
 }
 
 tasks.named('test') {

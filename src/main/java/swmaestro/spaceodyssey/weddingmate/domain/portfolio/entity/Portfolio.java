@@ -34,11 +34,12 @@ public class Portfolio extends BaseTimeEntity {
 	@Column(length =  50, nullable = false)
 	private String title;
 
-	@OneToMany(mappedBy = "portfolio", cascade = CascadeType.PERSIST)
-	private List<PortfolioTag> portfolioTagList = new ArrayList<>();
-
 	@OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL)
 	private final List<Item> portfolioItemList = new ArrayList<>();
+
+	private String regionTag;
+
+	private String portfolioTagList;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
@@ -51,8 +52,9 @@ public class Portfolio extends BaseTimeEntity {
 	@JoinColumn(name = "file_id")
 	private File file;
 
-	public void updatePortfolio(String title, List<PortfolioTag> portfolioTagList) {
+	public void updatePortfolio(String title, String regionTag, String portfolioTagList) {
 		this.title = title;
+		this.regionTag = regionTag;
 		this.portfolioTagList = portfolioTagList;
 	}
 
@@ -61,15 +63,12 @@ public class Portfolio extends BaseTimeEntity {
 	}
 
 	@Builder
-	public Portfolio(String title, String repImageUrl, Users users, List<PortfolioTag> portfolioTagList) {
+	public Portfolio(String title, Users users, String portfolioTagList, String regionTag) {
 		this.title = title;
 		this.users = users;
 		this.portfolioTagList = portfolioTagList;
+		this.regionTag = regionTag;
 		this.isDeleted = false;
-	}
-
-	public void setPortfolioTag(List<PortfolioTag> portfolioTagList) {
-		this.portfolioTagList = portfolioTagList;
 	}
 
 	public void setFile(File file) {

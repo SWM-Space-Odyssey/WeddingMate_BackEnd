@@ -2,19 +2,19 @@ package swmaestro.spaceodyssey.weddingmate.domain.item.dto;
 
 import java.util.List;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class ItemResDto {
-	private final String itemRecord;
-	private final String company;
-	private final String date;
-	private final Long portfolioId;
-	private final List<String> itemTagList;
-	private final String categoryContent;
-	private final Integer order;
-	private final Long itemId;
-	private final List<String> imageList;
+	private String itemRecord;
+	private String company;
+	private String date;
+	private Long portfolioId;
+	private String itemTagList;
+	private String category;
+	private Integer order;
+	private Long itemId;
+	private List<String> imageList;
 }

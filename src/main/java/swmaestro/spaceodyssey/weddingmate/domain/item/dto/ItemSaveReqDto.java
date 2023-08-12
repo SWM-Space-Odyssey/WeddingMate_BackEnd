@@ -12,8 +12,8 @@ public class ItemSaveReqDto {
 	private String company;
 	private String date;
 	private Long portfolioId;
-	private List<String> itemTagList;
-	private String categoryContent;
+	private String itemTagList;
+	private String category;
 	private Integer order;
 	private List<String> imageList;
 }
