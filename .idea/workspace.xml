@@ -4,53 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6731f480-c7cd-43bb-9ac8-952384607021" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/category/CategoryEnum.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/portfolio/dto/PortfolioTagMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/controller/SignupController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/dto/CustomerSignupReqDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/dto/PlannerSignupReqDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/entity/Customer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/entity/Planner.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/entity/PlannerTag.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/mapper/CustomerMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/mapper/PlannerMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/mapper/PlannerTagMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/repository/CustomerRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/repository/PlannerRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/repository/PlannerTagRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/service/UsersService.java" afterDir="false" />
+    <list default="true" id="b224d168-c971-43a6-aec4-7ae312cae1cb" name="Changes" comment="feat : merge">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/dto/PlannerSignupReqDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/dto/PlannerSignupReqDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/global/constant/ResponseConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/global/constant/ResponseConstant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/global/exception/handler/ErrorCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/global/exception/handler/ErrorCode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/global/exception/handler/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/global/exception/handler/GlobalExceptionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/item/dto/ItemMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/item/dto/ItemMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/item/dto/ItemResDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/item/dto/ItemResDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/item/dto/ItemSaveReqDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/item/dto/ItemSaveReqDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/item/dto/ItemUpdateReqDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/item/dto/ItemUpdateReqDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/item/entity/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/item/entity/Item.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/item/service/ItemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/item/service/ItemService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/portfolio/controller/PortfolioController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/portfolio/controller/PortfolioController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/portfolio/dto/PortfolioDetailResDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/portfolio/dto/PortfolioDetailResDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/portfolio/dto/PortfolioListResDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/portfolio/dto/PortfolioListResDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/portfolio/dto/PortfolioMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/portfolio/dto/PortfolioMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/portfolio/dto/PortfolioSaveReqDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/portfolio/dto/PortfolioSaveReqDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/portfolio/dto/PortfolioUpdateReqDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/portfolio/dto/PortfolioUpdateReqDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/portfolio/entity/Portfolio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/portfolio/entity/Portfolio.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/portfolio/entity/PortfolioTag.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/portfolio/entity/PortfolioTag.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/portfolio/service/PortfolioService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/portfolio/service/PortfolioService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/tag/dto/TagMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/tag/dto/TagMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/tag/dto/TagResDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/tag/dto/TagResDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/tag/entity/Tag.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/tag/entity/Tag.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/entity/Users.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/entity/Users.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/repository/UsersRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/users/repository/UsersRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/global/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/global/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/global/constant/ResponseConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/global/constant/ResponseConstant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/global/exception/handler/ErrorCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/global/exception/handler/ErrorCode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/global/exception/handler/ErrorResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/global/exception/handler/ErrorResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/global/exception/handler/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/global/exception/handler/GlobalExceptionHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,89 +17,38 @@
       <ProjectState />
     </projectState>
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="package-info" />
-        <option value="Interface" />
-        <option value="Enum" />
-        <option value="Class" />
-      </list>
-    </option>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="weddingmate" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="package-info" />
         <option value="Enum" />
         <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
   </component>
-  <component name="FormatOnSaveOptions">
-    <option name="myRunOnSave" value="true" />
-  </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="JpbToolWindowState">
-    <option name="isToolWindowVisible" value="false" />
-  </component>
-  <component name="JpbToolWindowState">
-    <option name="isToolWindowVisible" value="false" />
-  </component>
-  <component name="MarkdownSettingsMigration">
-    <option name="stateVersion" value="1" />
-  </component>
-  <component name="OptimizeOnSaveOptions">
-    <option name="myRunOnSave" value="true" />
-  </component>
-  <component name="ProblemsViewState">
-    <option name="selectedIndex" value="1" />
-  </component>
-  <component name="ProjectId" id="2Rq1wm8Opa3MGW9hsPQgo7Pu9Xa" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="1" id="Add" />
   </component>
-  <component name="ProjectViewState">
-    <option name="showLibraryContents" value="true" />
-    <option name="showMembers" value="true" />
-  </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "WebServerToolWindowFactoryState": "false",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "preferences.sourceCode",
-    "spring.configuration.checksum": "49fd28e25dc049ffa2a12e82456c0593",
-    "vue.rearranger.settings.migration": "true"
-  }
-}]]></component>
-  <component name="RunManager" selected="Spring Boot.WeddingmateApplication">
-    <configuration name="UsersServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="weddingmate.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="swmaestro.spaceodyssey.weddingmate.domain.users.service.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="swmaestro.spaceodyssey.weddingmate.domain.users.service" />
-      <option name="MAIN_CLASS_NAME" value="swmaestro.spaceodyssey.weddingmate.domain.users.service.UsersServiceTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
@@ -152,22 +56,23 @@
     &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
     &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
     &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feature/SO-119-image-S3&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/yurimyy/IdeaProjects/WeddingMate_BackEnd/src/test/java/swmaestro/spaceodyssey/weddingmate/domain/portfolio&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;spring.configuration.checksum&quot;: &quot;49fd28e25dc049ffa2a12e82456c0593&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
 }</component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
-  <component name="RunManager" selected="Gradle.PortfolioServiceTest.portfolioCreateTest">
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/test/java/swmaestro/spaceodyssey/weddingmate/domain/portfolio" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Gradle.PortfolioControllerTest.updatePortfolioById">
     <configuration name="PortfolioControllerTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -192,7 +97,7 @@
       <ForceTestExec>true</ForceTestExec>
       <method v="2" />
     </configuration>
-    <configuration name="PortfolioControllerTest.createPortfolioFailByNoFile" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="PortfolioControllerTest.createPortfolio" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -205,7 +110,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;swmaestro.spaceodyssey.weddingmate.domain.portfolio.controller.PortfolioControllerTest.createPortfolioFailByNoFile&quot;" />
+            <option value="&quot;swmaestro.spaceodyssey.weddingmate.domain.portfolio.controller.PortfolioControllerTest.createPortfolio&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -216,7 +121,7 @@
       <ForceTestExec>true</ForceTestExec>
       <method v="2" />
     </configuration>
-    <configuration name="PortfolioServiceTest.portfolioCreateTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="PortfolioControllerTest.getPortfolioById" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -229,7 +134,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;swmaestro.spaceodyssey.weddingmate.domain.portfolio.service.PortfolioServiceTest.portfolioCreateTest&quot;" />
+            <option value="&quot;swmaestro.spaceodyssey.weddingmate.domain.portfolio.controller.PortfolioControllerTest.getPortfolioById&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -240,7 +145,55 @@
       <ForceTestExec>true</ForceTestExec>
       <method v="2" />
     </configuration>
-    <configuration name="WeddingmateApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <configuration name="PortfolioControllerTest.getPortfolioByUser" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;swmaestro.spaceodyssey.weddingmate.domain.portfolio.controller.PortfolioControllerTest.getPortfolioByUser&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <ForceTestExec>true</ForceTestExec>
+      <method v="2" />
+    </configuration>
+    <configuration name="PortfolioControllerTest.updatePortfolioById" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;swmaestro.spaceodyssey.weddingmate.domain.portfolio.controller.PortfolioControllerTest.updatePortfolioById&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <ForceTestExec>true</ForceTestExec>
+      <method v="2" />
+    </configuration>
+    <configuration name="WeddingmateApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="weddingmate.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="swmaestro.spaceodyssey.weddingmate.WeddingmateApplication" />
       <method v="2">
@@ -249,91 +202,88 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.UsersServiceTest" />
-      </list>
-    </recent_temporary>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Gradle.PortfolioServiceTest.portfolioCreateTest" />
+        <item itemvalue="Gradle.PortfolioControllerTest.updatePortfolioById" />
+        <item itemvalue="Gradle.PortfolioControllerTest.getPortfolioById" />
+        <item itemvalue="Gradle.PortfolioControllerTest.getPortfolioByUser" />
+        <item itemvalue="Gradle.PortfolioControllerTest.createPortfolio" />
         <item itemvalue="Gradle.PortfolioControllerTest" />
-        <item itemvalue="Gradle.PortfolioControllerTest.createPortfolioFailByNoFile" />
       </list>
     </recent_temporary>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
-    <task active="true" id="Default" summary="Default task">
-      <changelist id="6731f480-c7cd-43bb-9ac8-952384607021" name="Changes" comment="" />
-      <created>1687963048693</created>
-      <option name="number" value="Default" />
-      <option name="presentableId" value="Default" />
-      <updated>1687963048693</updated>
-      <workItem from="1687963052576" duration="511000" />
-      <workItem from="1687964071174" duration="4260000" />
-      <workItem from="1687971741491" duration="3755000" />
-      <workItem from="1689660277402" duration="654000" />
-      <workItem from="1690361146351" duration="18388000" />
-      <workItem from="1690381273037" duration="4356000" />
-      <workItem from="1690450912655" duration="15650000" />
-    </task>
-    <task id="LOCAL-00001" summary="feat : portfolio 생성, 조회 기능 추가">
+    <task id="LOCAL-00001" summary="merge conflicts">
       <option name="closed" value="true" />
-      <created>1690113550067</created>
+      <created>1690954348157</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1690113550067</updated>
+      <updated>1690954348157</updated>
     </task>
-    <task id="LOCAL-00002" summary="fix : remove Repository tag and cascade">
+    <task id="LOCAL-00002" summary="refactor : for문 forEach로 변경">
       <option name="closed" value="true" />
-      <created>1690165359331</created>
+      <created>1690970024006</created>
       <option name="number" value="00002" />
       <option name="presentableId" value="LOCAL-00002" />
       <option name="project" value="LOCAL" />
-      <updated>1690165359331</updated>
+      <updated>1690970024006</updated>
     </task>
-    <task id="LOCAL-00003" summary="refactor : item directory 분리">
+    <task id="LOCAL-00003" summary="feat : add ImageListResDto">
       <option name="closed" value="true" />
-      <created>1690171142372</created>
+      <created>1690971285670</created>
       <option name="number" value="00003" />
       <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
-      <updated>1690171142372</updated>
+      <updated>1690971285670</updated>
     </task>
-    <task id="LOCAL-00004" summary="feat : Item detail api 추가">
+    <task id="LOCAL-00004" summary="refactor : tag를 string으로 리팩토링">
       <option name="closed" value="true" />
-      <created>1690171193719</created>
+      <created>1691863124402</created>
       <option name="number" value="00004" />
       <option name="presentableId" value="LOCAL-00004" />
       <option name="project" value="LOCAL" />
-      <updated>1690171193719</updated>
+      <updated>1691863124402</updated>
     </task>
-    <task id="LOCAL-00005" summary="fix : merge changes">
+    <task id="LOCAL-00005" summary="feat : merge">
       <option name="closed" value="true" />
-      <created>1690172802872</created>
+      <created>1691865165037</created>
       <option name="number" value="00005" />
       <option name="presentableId" value="LOCAL-00005" />
       <option name="project" value="LOCAL" />
-      <updated>1690172802872</updated>
+      <updated>1691865165037</updated>
     </task>
+    <task id="LOCAL-00006" summary="feat : merge">
+      <option name="closed" value="true" />
+      <created>1691865178118</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1691865178118</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="merge conflicts" />
+    <MESSAGE value="refactor : for문 forEach로 변경" />
+    <MESSAGE value="feat : add ImageListResDto" />
+    <MESSAGE value="refactor : tag를 string으로 리팩토링" />
+    <MESSAGE value="feat : merge" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat : merge" />
   </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
-  <component name="XSLT-Support.FileAssociations.UIState">
-    <expand />
-    <select />
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/swmaestro/spaceodyssey/weddingmate/domain/portfolio/service/PortfolioServiceTest.java</url>
+          <line>97</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/swmaestro/spaceodyssey/weddingmate/domain/portfolio/entity/Portfolio.java</url>
+          <line>33</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
