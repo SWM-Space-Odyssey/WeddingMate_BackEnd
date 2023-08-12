@@ -94,7 +94,7 @@ public class ItemService {
 	}
 
 	public void checkUserIsWriter(Item item, Users users) {
-		if (!item.getPortfolio().getUsers().equals(users)) {
+		if (!item.getPortfolio().getUsers().getUserId().equals(users.getUserId())) {
 			throw new UserUnAuthorizedException();
 		}
 	}

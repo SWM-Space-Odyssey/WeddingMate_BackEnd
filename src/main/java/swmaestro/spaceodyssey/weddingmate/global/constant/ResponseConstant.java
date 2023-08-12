@@ -32,8 +32,16 @@ public class ResponseConstant {
 	public static final String OAUTH_UNAUTHORIZED_URL = "해당 url은 인증되지 않았습니다.";
 
 	/* PORTFOLIO */
-	public static final String PORTFOLIO_NOTFOUND = "포트폴리오를 찾을 수 없습니다";
+	public static final String PORTFOLIO_NOTFOUND = "해당 포트폴리오를 찾을 수 없습니다";
+	public static final String PORTFOLIO_CREATE_SUCCESS = "해당 포트폴리오를 생성했습니다.";
+	public static final String PORTFOLIO_UPDATE_SUCCESS = "해당 포트폴리오를 수정했습니다.";
+	public static final String PORTFOLIO_DELETE_SUCCESS = "해당 포트폴리오를 삭제했습니다.";
+
+	/* ITEM */
 	public static final String ITEM_NOTFOUND = "해당 아이템을 찾을 수 없습니다";
+	public static final String ITEM_CREATE_SUCCESS = "해당 아이템을 생성했습니다.";
+	public static final String ITEM_UPDATE_SUCCESS = "해당 아이템을 수정했습니다.";
+	public static final String ITEM_DELETE_SUCCESS = "해당 아이템을 삭제했습니다.";
 
 	/* CATEGORY */
 	public static final String CATEGORY_NOTFOUND = "카테고리를 찾을 수 없습니다";
@@ -44,4 +52,11 @@ public class ResponseConstant {
 
 	/* File */
 	public static final String FILE_NOTFOUND = "파일을 찾을 수 없습니다";
+	public static final String EMPTY_FILE_NAME = "파일명이 비어있습니다.";
+	public static final String FILE_NOT_IMAGE = "이미지 파일이 아닙니다. 이미지 파일만 올릴 수 있습니다.";
+	public static final String UNSUPPORTED_FILE_EXTENSION = "지원하지 않는 파일 확장자입니다.";
+	public static final String FILE_UPLOAD_FAILURE = "파일 업로드 과정에서 오류가 발생했습니다.";
+	public static final String FILE_IMAGE_READ_FAILURE = " 이미지 파일을 읽는 과정에서 오류가 발생했습니다.";
+	public static final String FILE_KAKAO_PROFILE_DOWNLOAD_FAILURE = "카카오 프로필 이미지를 다운받는데 실패했습니다.";
+	public static final String FILE_MALFORMED_URL = "잘못된 파일 URL입니다.";
 }

@@ -1,15 +1,15 @@
 package swmaestro.spaceodyssey.weddingmate.domain.category.controller;
 
-import java.util.List;
-
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import swmaestro.spaceodyssey.weddingmate.domain.category.dto.CategoryResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.category.service.CategoryService;
+import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponse;
+import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponseStatus;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,7 +19,11 @@ public class CategoryController {
 	private final CategoryService categoryService;
 
 	@GetMapping("/all")
-	public ResponseEntity<List<CategoryResDto>> getAllCategory() {
-		return  ResponseEntity.ok().body(categoryService.findAllCategory());
+	@ResponseStatus(HttpStatus.OK)
+	public ApiResponse<Object> getAllCategory() {
+		return ApiResponse.builder()
+			.status(ApiResponseStatus.SUCCESS)
+			.data(categoryService.findAllCategory())
+			.build();
 	}
 }

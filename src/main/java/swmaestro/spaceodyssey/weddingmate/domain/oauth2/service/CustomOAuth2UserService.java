@@ -2,6 +2,7 @@ package swmaestro.spaceodyssey.weddingmate.domain.oauth2.service;
 
 import java.util.Optional;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
@@ -12,6 +13,8 @@ import org.springframework.util.StringUtils;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import swmaestro.spaceodyssey.weddingmate.domain.file.entity.File;
+import swmaestro.spaceodyssey.weddingmate.domain.file.service.FileUploadService;
 import swmaestro.spaceodyssey.weddingmate.domain.oauth2.OAuth2UserInfo;
 import swmaestro.spaceodyssey.weddingmate.domain.oauth2.OAuth2UserInfoFactory;
 import swmaestro.spaceodyssey.weddingmate.domain.oauth2.UserPrincipal;
@@ -27,6 +30,7 @@ import swmaestro.spaceodyssey.weddingmate.global.exception.oauth2.OAuth2Duplicat
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
 	private final UsersRepository usersRepository;
+	private final FileUploadService fileUploadService;
 
 	/* OAuth2UserRequest에 이는 Access Token으로 유저 정보를 가져온다 */
 	@Override
@@ -52,34 +56,35 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 		}
 
 		Optional<Users> usersOptional = usersRepository.findByAuthProviderId(oAuth2UserInfo.getOAuth2Id());
-		Users user;
-
-		// 이미 해당 이메일을 가진 유저가 존재하는 경우
-		if (usersOptional.isPresent()) {
-			user = usersOptional.get();
-
+		Users user = usersOptional.map(existingUser -> {
 			// 가져온 유저의 provider명과 넘어온 provider명이 다른 경우(ex. kakao vs naver)
-			if (!user.getAuthProvider().equals(authProvider)) {
+			if (!existingUser.getAuthProvider().equals(authProvider)) {
 				// 이미 다른 provider로 가입되어 있기 때문에 가입 불가
-				throw new OAuth2DuplicateEmailException(user.getAuthProvider());
+				throw new OAuth2DuplicateEmailException(existingUser.getAuthProvider());
 			}
-			user = updateUser(user, oAuth2UserInfo);
-		} else {
-			user = registerUser(authProvider, oAuth2UserInfo);
-		}
+			return updateUser(existingUser, oAuth2UserInfo);
+		}).orElseGet(() -> registerUser(authProvider, oAuth2UserInfo));
+
 		return UserPrincipal.create(user, oAuth2UserInfo.getAttributes());
 	}
 
 	private Users registerUser(AuthProvider authProvider, OAuth2UserInfo oAuth2UserInfo) {
-		Users users = Users.builder()
-			.nickname(oAuth2UserInfo.getName())
-			.email(oAuth2UserInfo.getEmail())
-			.imageUrl(oAuth2UserInfo.getImageUrl())
-			.authProvider(authProvider)
-			.authProviderId(oAuth2UserInfo.getOAuth2Id())
-			.build();
+		try {
+			File profileImage = fileUploadService.createUserProfile(oAuth2UserInfo.getOAuth2Id(), oAuth2UserInfo.getImageUrl());
 
-		return usersRepository.save(users);
+			Users users = Users.builder()
+				.nickname(oAuth2UserInfo.getName())
+				.email(oAuth2UserInfo.getEmail())
+				.profileImage(profileImage)
+				.authProvider(authProvider)
+				.authProviderId(oAuth2UserInfo.getOAuth2Id())
+				.build();
+
+			return usersRepository.save(users);
+		} catch (DataIntegrityViolationException e){
+			// 이미 등록된 이메일 주소인 경우 DataIntegrityViolationException 발생
+			throw new OAuth2DuplicateEmailException(authProvider);
+		}
 	}
 
 	private Users updateUser(Users users, OAuth2UserInfo oAuth2UserInfo) {

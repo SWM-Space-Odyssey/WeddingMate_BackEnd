@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.category.CategoryEnum;
 import swmaestro.spaceodyssey.weddingmate.domain.category.dto.CategoryMapper;
 import swmaestro.spaceodyssey.weddingmate.domain.category.entity.Category;
-import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.PortfolioTagMapper;
+import swmaestro.spaceodyssey.weddingmate.domain.portfolio.mapper.PortfolioTagMapper;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.PortfolioTag;
 import swmaestro.spaceodyssey.weddingmate.domain.tag.dto.TagMapper;
 import swmaestro.spaceodyssey.weddingmate.domain.tag.entity.Tag;

@@ -20,6 +20,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import swmaestro.spaceodyssey.weddingmate.domain.file.entity.File;
 import swmaestro.spaceodyssey.weddingmate.domain.oauth2.OAuth2UserInfo;
 import swmaestro.spaceodyssey.weddingmate.domain.oauth2.enums.AuthProvider;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.Portfolio;
@@ -45,7 +46,9 @@ public class Users extends BaseTimeEntity {
 	@Pattern(regexp = "^[0-9]{3}-[0-9]{4}-[0-9]{4}$", message = "올바르지 않은 핸드폰 번호 형식입니다.")
 	private String phone;
 
-	private String imageUrl;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "profileImage_id")
+	private File profileImage;
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
@@ -78,16 +81,21 @@ public class Users extends BaseTimeEntity {
 	private List<Portfolio> portfolioList;
 
 	@Builder
-	public Users(String email, String nickname, String imageUrl, AuthProvider authProvider, String authProviderId) {
+	public Users(String email, String nickname, File profileImage, AuthProvider authProvider, String authProviderId) {
 		this.email = email;
 		this.nickname = nickname;
-		this.imageUrl = imageUrl;
+		this.profileImage = profileImage;
 		this.authProvider = authProvider;
 		this.authProviderId = authProviderId;
 		this.state = UserEnum.NORMAL;
 		this.role = "USER";
 		this.blockCnt = 0;
 		this.reportCnt = 0;
+	}
+
+	@Builder
+	public Users(String email, String nickname) {
+
 	}
 
 	public Users updateOAuth2Info(OAuth2UserInfo oAuth2UserInfo) {
@@ -119,5 +127,9 @@ public class Users extends BaseTimeEntity {
 
 	public void createPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public void updateProfileImage(File profileImage) {
+		this.profileImage = profileImage;
 	}
 }
