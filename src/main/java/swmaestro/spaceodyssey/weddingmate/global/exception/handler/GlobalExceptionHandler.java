@@ -34,13 +34,8 @@ public class GlobalExceptionHandler {
 
 	/*================== Basic Exception ==================*/
 	@ExceptionHandler(RuntimeException.class)
-	protected final ResponseEntity<ErrorResponse> handleRunTimeException(RuntimeException e) {
-		final ErrorResponse response = ErrorResponse.builder()
-			.status(HttpStatus.BAD_REQUEST)
-			.code(ErrorCode.RUNTIME_EXCEPTION)
-			.message(e.getMessage())
-			.build();
-		return ResponseEntity.status(response.getStatus()).body(response);
+	protected final ApiResponse<Object> handleRunTimeException(RuntimeException e) {
+		return ErrorResponse.toErrorResponseEntity(ErrorCode.RUNTIME_EXCEPTION, e.getMessage());
 	}
 
 	/*================== Oauth2 Exception ==================*/
