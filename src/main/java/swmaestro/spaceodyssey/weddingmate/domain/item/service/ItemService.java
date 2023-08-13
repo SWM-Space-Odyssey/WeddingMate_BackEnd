@@ -24,10 +24,12 @@ import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserUnAuthorize
 @RequiredArgsConstructor
 @Transactional
 public class ItemService {
+
 	private final ItemRepository itemRepository;
 	private final PortfolioRepository portfolioRepository;
-	private final ItemMapper itemMapper;
 	private final FileRepository fileRepository;
+
+	private final ItemMapper itemMapper;
 
 	public void createItem(ItemSaveReqDto itemSaveReqDto) {
 		Portfolio portfolio = findPortfolioById(itemSaveReqDto.getPortfolioId());
@@ -37,7 +39,6 @@ public class ItemService {
 		itemRepository.save(item);
 
 		itemSaveReqDto.getImageList().stream().map(this::findFileByUrl).forEach(file -> file.setItem(item));
-
 	}
 
 	public ItemResDto findById(Long id) {
@@ -78,6 +79,7 @@ public class ItemService {
 
 		item.deleteItem();
 	}
+
 	/*================== Repository 접근 ==================*/
 	public Item findItemById(Long id) {
 		return itemRepository.findById(id)
@@ -93,7 +95,6 @@ public class ItemService {
 		return fileRepository.findByUrl(url)
 			.orElseThrow(FileNotFoundException::new);
 	}
-
 
 	/*================== 예외 처리 ==================*/
 
