@@ -24,7 +24,8 @@ import swmaestro.spaceodyssey.weddingmate.domain.file.entity.File;
 import swmaestro.spaceodyssey.weddingmate.domain.oauth2.OAuth2UserInfo;
 import swmaestro.spaceodyssey.weddingmate.domain.oauth2.enums.AuthProvider;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.Portfolio;
-import swmaestro.spaceodyssey.weddingmate.domain.users.enums.UserEnum;
+import swmaestro.spaceodyssey.weddingmate.domain.users.enums.UserAccountStatusEnum;
+import swmaestro.spaceodyssey.weddingmate.domain.users.enums.UserRegisterStatusEnum;
 import swmaestro.spaceodyssey.weddingmate.global.entity.BaseTimeEntity;
 
 @SuppressWarnings("checkstyle:RegexpMultiline")
@@ -52,7 +53,11 @@ public class Users extends BaseTimeEntity {
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
-	private UserEnum state;
+	private UserRegisterStatusEnum registerStatus;
+
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
+	private UserAccountStatusEnum accountStatus;
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
@@ -87,7 +92,8 @@ public class Users extends BaseTimeEntity {
 		this.profileImage = profileImage;
 		this.authProvider = authProvider;
 		this.authProviderId = authProviderId;
-		this.state = UserEnum.NORMAL;
+		this.registerStatus = UserRegisterStatusEnum.UNREGISTERED;
+		this.accountStatus = UserAccountStatusEnum.NORMAL;
 		this.role = "USER";
 		this.blockCnt = 0;
 		this.reportCnt = 0;
@@ -98,6 +104,10 @@ public class Users extends BaseTimeEntity {
 		this.authProviderId = oAuth2UserInfo.getOAuth2Id();
 
 		return this;
+	}
+
+	public void updateRegisterStatus(UserRegisterStatusEnum registerStatus) {
+		this.registerStatus = registerStatus;
 	}
 
 	public void setPlanner(Planner planner) {

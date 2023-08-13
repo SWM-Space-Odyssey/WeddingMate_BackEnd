@@ -4,6 +4,7 @@ import static swmaestro.spaceodyssey.weddingmate.global.constant.ResponseConstan
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +16,10 @@ import swmaestro.spaceodyssey.weddingmate.domain.users.dto.CustomerSignupReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.users.dto.PlannerSignupReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.AuthUsers;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
+import swmaestro.spaceodyssey.weddingmate.domain.users.enums.UserRegisterStatusEnum;
 import swmaestro.spaceodyssey.weddingmate.domain.users.service.UsersService;
+import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponse;
+import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponseStatus;
 
 @RestController
 @RequestMapping("/api/v1/signup")
@@ -26,15 +30,31 @@ public class SignupController {
 
 	@PostMapping("/planner")
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public ResponseEntity<String> plannerSignup(@AuthUsers Users users, @RequestBody PlannerSignupReqDto reqDto) {
+	public ApiResponse<Object> plannerSignup(@AuthUsers Users users, @RequestBody PlannerSignupReqDto reqDto) {
 		usersService.signupPlanner(users, reqDto);
-		return ResponseEntity.ok().body(reqDto.getNickname() + PLANNER_SIGNUP_SUCCESS);
+		return ApiResponse.builder()
+			.status(ApiResponseStatus.SUCCESS)
+			.data(reqDto.getNickname() + PLANNER_SIGNUP_SUCCESS)
+			.build();
 	}
 
 	@PostMapping("/customer")
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public ResponseEntity<String> customerSignup(@AuthUsers Users users, @RequestBody CustomerSignupReqDto reqDto) {
+	public ApiResponse<Object> customerSignup(@AuthUsers Users users, @RequestBody CustomerSignupReqDto reqDto) {
 		usersService.signupCustomer(users, reqDto);
-		return ResponseEntity.ok().body(reqDto.getNickname() + CUSTOMER_SIGNUP_SUCCESS);
+		return ApiResponse.builder()
+			.status(ApiResponseStatus.SUCCESS)
+			.data(reqDto.getNickname() + CUSTOMER_SIGNUP_SUCCESS)
+			.build();
+	}
+
+	@GetMapping()
+	@ResponseStatus(value = HttpStatus.OK)
+	public ApiResponse<Object> checkUserRegisterStatus(@AuthUsers Users users) {
+		UserRegisterStatusEnum userRegisterStatusEnum = usersService.getUserRegisterStatus(users);
+		return ApiResponse.builder()
+			.status(ApiResponseStatus.SUCCESS)
+			.data(userRegisterStatusEnum)
+			.build();
 	}
 }
