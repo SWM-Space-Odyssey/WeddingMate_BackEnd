@@ -33,7 +33,7 @@ public class FileController {
 	@PostMapping("/items")
 	@ResponseStatus(HttpStatus.CREATED)
 	public ApiResponse<Object> postItem(@RequestPart ItemFileReqDto itemFileReqDto,
-											@NotNull @RequestPart("file") MultipartFile multipartFile) {
+		@NotNull @RequestPart("file") MultipartFile multipartFile) {
 
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
@@ -44,7 +44,7 @@ public class FileController {
 	@PostMapping("/profile")
 	@ResponseStatus(HttpStatus.OK)
 	public ApiResponse<Object> updateProfile(@AuthUsers Users users,
-												@NotNull @RequestPart("file") MultipartFile multipartFile) {
+		@NotNull @RequestPart("file") MultipartFile multipartFile) {
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
 			.data(fileUploadService.updateProfileFile(users, multipartFile))
@@ -58,7 +58,7 @@ public class FileController {
 			.status(ApiResponseStatus.SUCCESS)
 			.data(fileUploadService.deleteProfileFile(users))
 			.build();
-  }
+	}
 
 	@GetMapping()
 	@ResponseStatus(HttpStatus.OK)

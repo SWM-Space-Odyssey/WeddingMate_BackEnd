@@ -50,7 +50,7 @@ public class ItemController {
 	@PutMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public ApiResponse<Object> updateItem(@AuthUsers Users users, @PathVariable("id") Long id, @RequestBody ItemUpdateReqDto itemUpdateReqDto) {
-		itemService.update(users, id, itemUpdateReqDto);
+		itemService.updateItem(users, id, itemUpdateReqDto);
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
 			.data(ITEM_UPDATE_SUCCESS)
@@ -60,7 +60,7 @@ public class ItemController {
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public ApiResponse<Object> deleteItem(@AuthUsers Users users, @PathVariable("id") Long id) {
-		itemService.delete(users, id);
+		itemService.deleteItem(users, id);
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
 			.data(ITEM_DELETE_SUCCESS)

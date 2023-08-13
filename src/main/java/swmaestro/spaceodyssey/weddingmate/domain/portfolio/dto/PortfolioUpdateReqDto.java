@@ -2,14 +2,15 @@ package swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto;
 
 import java.util.List;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemOrderDto;
 
 @Getter
-@NoArgsConstructor
+@AllArgsConstructor
 public class PortfolioUpdateReqDto {
 	private String title;
-	private List<String> tags;
-	private List<Long> itemList;
-	private List<Integer> orderList;
+	private String region;
+	private String tags;
+	private List<ItemOrderDto> itemOrderList;
 }

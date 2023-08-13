@@ -11,7 +11,7 @@ public class ItemUpdateReqDto {
 	private String itemRecord;
 	private String company;
 	private String date;
-	private List<String> itemTagList;
-	private String categoryContent;
+	private String itemTagList;
+	private String category;
 	private List<String> imageList;
 }

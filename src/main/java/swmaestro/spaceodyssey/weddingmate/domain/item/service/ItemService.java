@@ -1,27 +1,21 @@
 package swmaestro.spaceodyssey.weddingmate.domain.item.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import swmaestro.spaceodyssey.weddingmate.domain.category.dto.CategoryMapper;
-import swmaestro.spaceodyssey.weddingmate.domain.category.entity.Category;
-import swmaestro.spaceodyssey.weddingmate.domain.file.dto.FileMapper;
-import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemMapper;
+import swmaestro.spaceodyssey.weddingmate.domain.file.entity.File;
+import swmaestro.spaceodyssey.weddingmate.domain.file.repository.FileRepository;
+import swmaestro.spaceodyssey.weddingmate.domain.item.mapper.ItemMapper;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemSaveReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemUpdateReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.item.entity.Item;
-import swmaestro.spaceodyssey.weddingmate.domain.item.entity.ItemTag;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.Portfolio;
 import swmaestro.spaceodyssey.weddingmate.domain.item.repository.ItemRepository;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.repository.PortfolioRepository;
-import swmaestro.spaceodyssey.weddingmate.domain.tag.dto.TagMapper;
-import swmaestro.spaceodyssey.weddingmate.domain.tag.entity.Tag;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
+import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.portfolio.ItemNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.portfolio.PortfolioNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserUnAuthorizedException;
@@ -32,97 +26,87 @@ import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserUnAuthorize
 public class ItemService {
 	private final ItemRepository itemRepository;
 	private final PortfolioRepository portfolioRepository;
-	private final TagMapper tagMapper;
 	private final ItemMapper itemMapper;
-	private final CategoryMapper categoryMapper;
-	private final FileMapper fileMapper;
+	private final FileRepository fileRepository;
 
 	public void createItem(ItemSaveReqDto itemSaveReqDto) {
-		List<ItemTag> tagList = new ArrayList<>();
+		Portfolio portfolio = findPortfolioById(itemSaveReqDto.getPortfolioId());
 
-		Portfolio portfolio = portfolioRepository.findById(itemSaveReqDto.getPortfolioId())
-			.orElseThrow(PortfolioNotFoundException::new);
-
-		Category category = categoryMapper.findCategoryByContentOrElseCreate(itemSaveReqDto.getCategoryContent());
-
-		Item item = Item.builder()
-			.company(itemSaveReqDto.getCompany())
-			.itemRecord(itemSaveReqDto.getItemRecord())
-			.itemOrder(itemSaveReqDto.getOrder())
-			.itemDate(itemSaveReqDto.getDate())
-			.portfolio(portfolio)
-			.category(category)
-			.build();
-
-		itemSaveReqDto.getItemTagList().forEach(itemTag -> {
-			Tag tag = tagMapper.contentToEntity(itemTag, category);
-			tagList.add(new ItemTag(item, tag));
-		});
-		itemSaveReqDto.getImageList().stream().map(fileMapper::urlToEntity).forEach(file -> file.setItem(item));
-
-		item.setItemTag(tagList);
+		Item item = itemMapper.dtoToEntity(portfolio, itemSaveReqDto);
 
 		itemRepository.save(item);
+
+		itemSaveReqDto.getImageList().stream().map(this::findFileByUrl).forEach(file -> file.setItem(item));
+
 	}
 
 	public ItemResDto findById(Long id) {
-		Item item = this.findItemById(id);
+		Item item = findItemById(id);
 
 		checkItemDeleted(item);
 
 		return itemMapper.entityToDto(item);
 	}
 
-	public void update(Users users, Long itemId, ItemUpdateReqDto itemUpdateReqDto) {
-		Item item = this.findItemById(itemId);
+	public void updateItem(Users users, Long itemId, ItemUpdateReqDto itemUpdateReqDto) {
+		Item item = findItemById(itemId);
 
 		checkItemDeleted(item);
 
-		if (!item.getPortfolio().getUsers().getUserId().equals(users.getUserId())) {
-			throw new UserUnAuthorizedException();
-		}
+		checkUserIsWriter(item, users);
 
-		List<ItemTag> tagList = new ArrayList<>();
-
-		Category category = categoryMapper.findCategoryByContentOrElseCreate(itemUpdateReqDto.getCategoryContent());
-
-		itemUpdateReqDto.getItemTagList().forEach(itemTag -> {
-			Tag tag = this.tagMapper.contentToEntity(itemTag, category);
-			tagList.add(new ItemTag(item, tag));
+		itemUpdateReqDto.getImageList().stream().map(this::findFileByUrl).forEach(file -> {
+			file.setItem(item);
+			fileRepository.saveAndFlush(file);
 		});
-
-		itemUpdateReqDto.getImageList().stream().map(fileMapper::urlToEntity).forEach(file -> file.setItem(item));
 
 		item.updateItem(
 			itemUpdateReqDto.getItemRecord(),
-			tagList,
+			itemUpdateReqDto.getItemTagList(),
 			itemUpdateReqDto.getCompany(),
 			itemUpdateReqDto.getDate(),
-			category
+			itemUpdateReqDto.getCategory()
 		);
 	}
 
-	public void delete(Users users, Long itemId) {
-		Item item = this.findItemById(itemId);
+	public void deleteItem(Users users, Long itemId) {
+		Item item = findItemById(itemId);
 
 		checkItemDeleted(item);
 
-		if (!item.getPortfolio().getUsers().getUserId().equals(users.getUserId())) {
-			throw new UserUnAuthorizedException();
-		}
+		checkUserIsWriter(item, users);
 
 		item.deleteItem();
 	}
-
+	/*================== Repository 접근 ==================*/
 	public Item findItemById(Long id) {
 		return itemRepository.findById(id)
 			.orElseThrow(ItemNotFoundException::new);
 	}
+
+	public Portfolio findPortfolioById(Long id) {
+		return portfolioRepository.findById(id)
+			.orElseThrow(PortfolioNotFoundException::new);
+	}
+
+	public File findFileByUrl(String url) {
+		return fileRepository.findByUrl(url)
+			.orElseThrow(FileNotFoundException::new);
+	}
+
+
+	/*================== 예외 처리 ==================*/
 
 	public Item checkItemDeleted(Item item) {
 		if (Boolean.TRUE.equals(item.getIsDeleted())) {
 			throw new ItemNotFoundException();
 		}
 		return item;
+	}
+
+	public void checkUserIsWriter(Item item, Users users) {
+		if (!item.getPortfolio().getUsers().getUserId().equals(users.getUserId())) {
+			throw new UserUnAuthorizedException();
+		}
 	}
 }

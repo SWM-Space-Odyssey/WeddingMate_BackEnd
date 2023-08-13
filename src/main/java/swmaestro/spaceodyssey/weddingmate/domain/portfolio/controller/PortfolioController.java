@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -36,8 +35,8 @@ public class PortfolioController {
 	@PostMapping("/save")
 	@ResponseStatus(HttpStatus.CREATED)
 	public ApiResponse<Object> createPortfolio(@AuthUsers Users users,
-											@NotNull @RequestPart("file") MultipartFile multipartFile,
-											@RequestPart PortfolioSaveReqDto portfolioSaveReqDto) throws IOException {
+		@NotNull @RequestPart("file") MultipartFile multipartFile,
+		@RequestPart PortfolioSaveReqDto portfolioSaveReqDto) throws IOException {
 		portfolioService.createPortfolio(users, multipartFile, portfolioSaveReqDto);
 
 		return ApiResponse.builder()
@@ -51,7 +50,7 @@ public class PortfolioController {
 	public ApiResponse<Object> getPortfolioByUser(@AuthUsers Users users) {
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
-			.data(portfolioService.findByUser(users.getUserId()))
+			.data(portfolioService.getPortfolioByUser(users.getUserId()))
 			.build();
 	}
 
@@ -60,15 +59,15 @@ public class PortfolioController {
 	public ApiResponse<Object> getPortfolioById(@PathVariable("id") Long id) {
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
-			.data(portfolioService.findById(id))
+			.data(portfolioService.getPortfolioDetail(id))
 			.build();
 	}
 
-	@PutMapping("/{id}")
+	@PostMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public ApiResponse<Object> updatePortfolio(@AuthUsers Users users, @PathVariable("id") Long id,
-												@RequestPart(value = "file") MultipartFile multipartFile,
-												@RequestPart PortfolioUpdateReqDto portfolioUpdateReqDto) throws IOException {
+		@RequestPart(value = "file") MultipartFile multipartFile,
+		@RequestPart PortfolioUpdateReqDto portfolioUpdateReqDto) throws IOException {
 		portfolioService.updatePortfolio(users, id, portfolioUpdateReqDto, multipartFile);
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)

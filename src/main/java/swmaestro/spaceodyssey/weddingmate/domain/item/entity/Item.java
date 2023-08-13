@@ -16,7 +16,7 @@ import jakarta.persistence.OneToMany;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import swmaestro.spaceodyssey.weddingmate.domain.category.entity.Category;
+import swmaestro.spaceodyssey.weddingmate.domain.file.entity.File;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.Portfolio;
 import swmaestro.spaceodyssey.weddingmate.global.entity.BaseTimeEntity;
 
@@ -29,8 +29,7 @@ public class Item extends BaseTimeEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long itemId;
 
-	@OneToMany(mappedBy = "item", cascade = CascadeType.PERSIST)
-	private List<ItemTag> itemTagList = new ArrayList<>();
+	private String itemTagList;
 
 	@Column(nullable = false)
 	private String itemRecord;
@@ -46,15 +45,16 @@ public class Item extends BaseTimeEntity {
 
 	private Integer itemOrder;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "category_id")
-	private Category category;
+	private String category;
 
 	@Column(nullable = false)
 	private Boolean isDeleted;
 
+	@OneToMany(mappedBy = "item", cascade = CascadeType.PERSIST)
+	private List<File> fileList = new ArrayList<>();
 
-	public void updateItem(String itemRecord, List<ItemTag> itemTagList, String company, String itemDate, Category category) {
+
+	public void updateItem(String itemRecord, String itemTagList, String company, String itemDate, String category) {
 		this.itemRecord = itemRecord;
 		this.itemTagList = itemTagList;
 		this.company = company;
@@ -70,7 +70,7 @@ public class Item extends BaseTimeEntity {
 		this.isDeleted = true;
 	}
 	@Builder
-	public Item(String itemRecord, List<ItemTag> itemTagList, String company, String itemDate, Integer itemOrder, Portfolio portfolio, Category category) {
+	public Item(String itemRecord, String itemTagList, String company, String itemDate, Integer itemOrder, Portfolio portfolio, String category) {
 		this.itemRecord = itemRecord;
 		this.itemTagList = itemTagList;
 		this.company = company;
@@ -79,9 +79,5 @@ public class Item extends BaseTimeEntity {
 		this.portfolio = portfolio;
 		this.category = category;
 		this.isDeleted = false;
-	}
-
-	public void setItemTag(List<ItemTag> itemTagList) {
-		this.itemTagList = itemTagList;
 	}
 }
