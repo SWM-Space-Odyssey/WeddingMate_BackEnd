@@ -1,6 +1,5 @@
 package swmaestro.spaceodyssey.weddingmate.domain.portfolio.service;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -8,8 +7,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import swmaestro.spaceodyssey.weddingmate.domain.file.entity.File;
-import swmaestro.spaceodyssey.weddingmate.domain.file.service.FileUploadService;
 import swmaestro.spaceodyssey.weddingmate.domain.item.mapper.ItemMapper;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemOrderDto;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemResDto;
@@ -29,6 +28,7 @@ import swmaestro.spaceodyssey.weddingmate.global.exception.portfolio.PortfolioNo
 import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserUnAuthorizedException;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -37,9 +37,11 @@ public class PortfolioService {
 	private final PortfolioRepository portfolioRepository;
 	private final UsersRepository usersRepository;
 	private final ItemRepository itemRepository;
+
 	private final ItemMapper itemMapper;
 	private final PortfolioMapper portfolioMapper;
-	private final FileUploadService fileUploadService;
+
+	private final PortfolioFileUploadService portfolioFileUploadService;
 
 	public Long createPortfolio(Users users, MultipartFile multipartFile, PortfolioSaveReqDto portfolioSaveReqDto) {
 
@@ -48,12 +50,11 @@ public class PortfolioService {
 		portfolioRepository.save(portfolio);
 
 		updatePortfolioImage(multipartFile, portfolio);
-
 		return portfolio.getPortfolioId();
 	}
 
 	public void updatePortfolioImage(MultipartFile multipartFile, Portfolio portfolio) {
-		File file = fileUploadService.uploadPortfolioFile(multipartFile, portfolio);
+		File file = portfolioFileUploadService.uploadPortfolioFile(multipartFile, portfolio);
 		portfolio.setFile(file);
 	}
 
