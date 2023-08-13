@@ -4,7 +4,8 @@ import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import swmaestro.spaceodyssey.weddingmate.domain.file.dto.FileMapper;
+import swmaestro.spaceodyssey.weddingmate.domain.file.entity.File;
+import swmaestro.spaceodyssey.weddingmate.domain.file.repository.FileRepository;
 import swmaestro.spaceodyssey.weddingmate.domain.item.mapper.ItemMapper;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemSaveReqDto;
@@ -14,6 +15,7 @@ import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.Portfolio;
 import swmaestro.spaceodyssey.weddingmate.domain.item.repository.ItemRepository;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.repository.PortfolioRepository;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
+import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.portfolio.ItemNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.portfolio.PortfolioNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserUnAuthorizedException;
@@ -25,16 +27,17 @@ public class ItemService {
 	private final ItemRepository itemRepository;
 	private final PortfolioRepository portfolioRepository;
 	private final ItemMapper itemMapper;
-	private final FileMapper fileMapper;
+	private final FileRepository fileRepository;
 
 	public void createItem(ItemSaveReqDto itemSaveReqDto) {
 		Portfolio portfolio = findPortfolioById(itemSaveReqDto.getPortfolioId());
 
 		Item item = itemMapper.dtoToEntity(portfolio, itemSaveReqDto);
 
-		itemSaveReqDto.getImageList().stream().map(fileMapper::urlToEntity).forEach(file -> file.setItem(item));
-
 		itemRepository.save(item);
+
+		itemSaveReqDto.getImageList().stream().map(this::findFileByUrl).forEach(file -> file.setItem(item));
+
 	}
 
 	public ItemResDto findById(Long id) {
@@ -52,7 +55,10 @@ public class ItemService {
 
 		checkUserIsWriter(item, users);
 
-		itemUpdateReqDto.getImageList().stream().map(fileMapper::urlToEntity).forEach(file -> file.setItem(item));
+		itemUpdateReqDto.getImageList().stream().map(this::findFileByUrl).forEach(file -> {
+			file.setItem(item);
+			fileRepository.saveAndFlush(file);
+		});
 
 		item.updateItem(
 			itemUpdateReqDto.getItemRecord(),
@@ -81,6 +87,11 @@ public class ItemService {
 	public Portfolio findPortfolioById(Long id) {
 		return portfolioRepository.findById(id)
 			.orElseThrow(PortfolioNotFoundException::new);
+	}
+
+	public File findFileByUrl(String url) {
+		return fileRepository.findByUrl(url)
+			.orElseThrow(FileNotFoundException::new);
 	}
 
 
