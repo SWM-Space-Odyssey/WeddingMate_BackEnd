@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.PortfolioSaveReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.PortfolioUpdateReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.service.PortfolioService;
@@ -23,6 +24,7 @@ import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponse;
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponseStatus;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/portfolio")
@@ -36,7 +38,6 @@ public class PortfolioController {
 		@NotNull @RequestPart("file") MultipartFile multipartFile,
 		@RequestPart PortfolioSaveReqDto portfolioSaveReqDto) {
 		portfolioService.createPortfolio(users, multipartFile, portfolioSaveReqDto);
-
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
 			.data(PORTFOLIO_CREATE_SUCCESS)

@@ -9,7 +9,9 @@ import java.io.FileInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -84,9 +86,14 @@ public class PortfolioControllerTest extends DummyEntity {
 		MockMultipartFile multipartFile = new MockMultipartFile("file", "test.png", "image/png", fileInputStream);
 
 		//given2
-		PortfolioSaveReqDto portfolioSaveReqDto = new PortfolioSaveReqDto("test","tag1,tag2", "서울");
+		PortfolioSaveReqDto portfolioSaveReqDto = PortfolioSaveReqDto.builder()
+			.title("test")
+			.tags("tag1, tag2")
+			.region("서울")
+			.build();
 		String req = objectMapper.writeValueAsString(portfolioSaveReqDto);
-		MockMultipartFile request = new MockMultipartFile("portfolioSaveReqDto", "req", "application/json", req.getBytes(StandardCharsets.UTF_8));
+		MockMultipartFile request = new MockMultipartFile("portfolioSaveReqDto", "req", "application/json",
+			req.getBytes(StandardCharsets.UTF_8));
 
 		//when
 		ResultActions resultActions = mockMvc.perform(
@@ -104,9 +111,14 @@ public class PortfolioControllerTest extends DummyEntity {
 	@WithUserDetails(value = "test@gmail.com", setupBefore = TestExecutionEvent.TEST_EXECUTION)
 	void createPortfolioFailNoFile() throws Exception {
 		//given
-		PortfolioSaveReqDto portfolioSaveReqDto = new PortfolioSaveReqDto("test","tag1,tag2", "서울");
+		PortfolioSaveReqDto portfolioSaveReqDto = PortfolioSaveReqDto.builder()
+			.title("test")
+			.tags("tag1, tag2")
+			.region("서울")
+			.build();
 		String req = objectMapper.writeValueAsString(portfolioSaveReqDto);
-		MockMultipartFile request = new MockMultipartFile("portfolioSaveReqDto", "req", "application/json", req.getBytes(StandardCharsets.UTF_8));
+		MockMultipartFile request = new MockMultipartFile("portfolioSaveReqDto", "req", "application/json",
+			req.getBytes(StandardCharsets.UTF_8));
 
 		//when
 		ResultActions resultActions = mockMvc.perform(
@@ -189,9 +201,15 @@ public class PortfolioControllerTest extends DummyEntity {
 		itemOrderList.add(itemOrderDto1);
 
 		//given3
-		PortfolioUpdateReqDto portfolioUpdateReqDto = new PortfolioUpdateReqDto("아름다운 결혼식", "서울", "고급스러운", itemOrderList);
+		PortfolioUpdateReqDto portfolioUpdateReqDto = PortfolioUpdateReqDto.builder()
+			.title("아름다운 결혼식")
+			.region("서울")
+			.tags("고급스러운")
+			.itemOrderList(itemOrderList)
+			.build();
 		String req = objectMapper.writeValueAsString(portfolioUpdateReqDto);
-		MockMultipartFile request = new MockMultipartFile("portfolioUpdateReqDto", "req", "application/json", req.getBytes(StandardCharsets.UTF_8));
+		MockMultipartFile request = new MockMultipartFile("portfolioUpdateReqDto", "req", "application/json",
+			req.getBytes(StandardCharsets.UTF_8));
 
 		//when
 		ResultActions resultActions = mockMvc.perform(

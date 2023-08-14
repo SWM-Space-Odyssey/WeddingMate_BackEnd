@@ -110,6 +110,10 @@ public class Users extends BaseTimeEntity {
 		this.registerStatus = registerStatus;
 	}
 
+	public void updateNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
 	public void setPlanner(Planner planner) {
 		this.planner = planner;
 
@@ -124,10 +128,6 @@ public class Users extends BaseTimeEntity {
 		if (customer.getUsers() != this) {
 			customer.setUsers(this);
 		}
-	}
-
-	public void updateNickname(String nickname) {
-		this.nickname = nickname;
 	}
 
 	public void createPhone(String phone) {
