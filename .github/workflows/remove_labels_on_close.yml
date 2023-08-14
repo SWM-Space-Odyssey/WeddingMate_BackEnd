@@ -13,6 +13,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      #LABELS_TO_KEEP을 제외한 다른 라벨들을 제거
       - name: Remove labels
         run: |
           GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
