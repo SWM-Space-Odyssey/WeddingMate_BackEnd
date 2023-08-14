@@ -1,12 +1,16 @@
-package swmaestro.spaceodyssey.weddingmate.domain.portfolio;
+package swmaestro.spaceodyssey.weddingmate.global.config.test;
 
 import swmaestro.spaceodyssey.weddingmate.domain.file.entity.File;
 import swmaestro.spaceodyssey.weddingmate.domain.item.entity.Item;
+import swmaestro.spaceodyssey.weddingmate.domain.like.entity.ItemLike;
+import swmaestro.spaceodyssey.weddingmate.domain.like.entity.UserLike;
+import swmaestro.spaceodyssey.weddingmate.domain.like.enums.LikeEnum;
 import swmaestro.spaceodyssey.weddingmate.domain.oauth2.enums.AuthProvider;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.Portfolio;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 
-public class PortfolioDummyEntity {
+
+public class DummyEntity {
 
 	public Users newMockUser(String nickname) {
 		File file = newMockFile();
@@ -50,6 +54,14 @@ public class PortfolioDummyEntity {
 			.category("category")
 			.itemTagList("tag1,tag2")
 			.itemRecord("test")
+			.build();
+	}
+
+	public UserLike mockUserLike(Long likedId, LikeEnum likeEnum, Users users) {
+		return UserLike.builder()
+			.likedId(likedId)
+			.likeEnum(likeEnum)
+			.users(users)
 			.build();
 	}
 }

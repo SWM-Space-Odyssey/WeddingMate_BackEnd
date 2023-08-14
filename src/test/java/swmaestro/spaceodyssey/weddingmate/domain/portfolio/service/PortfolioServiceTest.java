@@ -17,7 +17,7 @@ import swmaestro.spaceodyssey.weddingmate.domain.file.service.FileUploadService;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemOrderDto;
 import swmaestro.spaceodyssey.weddingmate.domain.item.entity.Item;
 import swmaestro.spaceodyssey.weddingmate.domain.item.repository.ItemRepository;
-import swmaestro.spaceodyssey.weddingmate.domain.portfolio.PortfolioDummyEntity;
+import swmaestro.spaceodyssey.weddingmate.global.config.test.DummyEntity;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.mapper.PortfolioMapper;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.PortfolioSaveReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.PortfolioUpdateReqDto;
@@ -37,7 +37,7 @@ import java.util.List;
 
 //@DisplayName()
 @ExtendWith(MockitoExtension.class)
-public class PortfolioServiceTest extends PortfolioDummyEntity {
+public class PortfolioServiceTest extends DummyEntity {
 
 	@InjectMocks
 	private PortfolioService portfolioService;
