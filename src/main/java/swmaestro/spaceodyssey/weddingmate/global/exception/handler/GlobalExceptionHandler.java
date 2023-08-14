@@ -1,7 +1,5 @@
 package swmaestro.spaceodyssey.weddingmate.global.exception.handler;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -20,6 +18,7 @@ import swmaestro.spaceodyssey.weddingmate.global.exception.oauth2.OAuthUnauthUrl
 import swmaestro.spaceodyssey.weddingmate.global.exception.portfolio.ItemNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.portfolio.PortfolioNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.profile.PlannerProfileNotFoundException;
+import swmaestro.spaceodyssey.weddingmate.global.exception.profile.ProfileModificationNotAllowedException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.token.RefreshTokenNotEqualException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.token.UnAuthorizedRefreshTokenException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.users.CustomerDuplicateRegistrationException;
@@ -92,9 +91,15 @@ public class GlobalExceptionHandler {
 
 	/*================== Profile Exception ==================*/
 	@ExceptionHandler(PlannerProfileNotFoundException.class)
-	protected final ApiResponse<Object> handlerPlannerProfileNotFoundException(
+	protected final ApiResponse<Object> handlePlannerProfileNotFoundException(
 		PlannerProfileNotFoundException e) {
 		return ErrorResponse.toErrorResponseEntity(ErrorCode.PLANNER_PROFILE_NOTFOUND, e.getMessage());
+	}
+
+	@ExceptionHandler(ProfileModificationNotAllowedException.class)
+	protected final ApiResponse<Object> handleProfileModificationNotAllowedException(
+		ProfileModificationNotAllowedException e) {
+		return ErrorResponse.toErrorResponseEntity(ErrorCode.PROFILE_MODIFICATION_NOT_ALLOWED, e.getMessage());
 	}
 
 	/*================== Token Exception ==================*/
@@ -159,7 +164,8 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler(FileKakaoProfileDownloadFailureException.class)
-	protected final ApiResponse<Object> handleKakaoProfileDownloadFailureException(FileKakaoProfileDownloadFailureException e) {
+	protected final ApiResponse<Object> handleKakaoProfileDownloadFailureException(
+		FileKakaoProfileDownloadFailureException e) {
 		return ErrorResponse.toErrorResponseEntity(ErrorCode.FILE_KAKAO_PROFILE_DOWNLOAD_FAILURE, e.getMessage());
 	}
 }

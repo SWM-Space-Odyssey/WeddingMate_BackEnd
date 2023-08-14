@@ -1,11 +1,12 @@
 package swmaestro.spaceodyssey.weddingmate.domain.profile.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import swmaestro.spaceodyssey.weddingmate.domain.file.entity.File;
-import swmaestro.spaceodyssey.weddingmate.domain.file.service.FileService;
+import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileUpdateReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileUpdateResDto;
@@ -14,9 +15,11 @@ import swmaestro.spaceodyssey.weddingmate.domain.profile.mapper.ProfileMapper;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.repository.PlannerProfileRepository;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Planner;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
-import swmaestro.spaceodyssey.weddingmate.domain.users.repository.PlannerRepository;
+import swmaestro.spaceodyssey.weddingmate.domain.users.mapper.PlannerMapper;
+import swmaestro.spaceodyssey.weddingmate.domain.users.service.PlannerService;
+import swmaestro.spaceodyssey.weddingmate.domain.users.service.UsersService;
 import swmaestro.spaceodyssey.weddingmate.global.exception.profile.PlannerProfileNotFoundException;
-import swmaestro.spaceodyssey.weddingmate.global.exception.users.PlannerNotFoundException;
+import swmaestro.spaceodyssey.weddingmate.global.exception.profile.ProfileModificationNotAllowedException;
 
 @Service
 @RequiredArgsConstructor
@@ -24,19 +27,42 @@ import swmaestro.spaceodyssey.weddingmate.global.exception.users.PlannerNotFound
 public class ProfileService {
 
 	private final PlannerProfileRepository plannerProfileRepository;
-	private final PlannerRepository plannerRepository;
+
+	private final PlannerMapper plannerMapper;
 	private final ProfileMapper profileMapper;
-	private final FileService fileService;
 
-	public PlannerProfileResDto getPlannerProfile(Users users) {
-		Planner planner = findPlannerByUsers(users);
-		File profileImage = fileService.findById(users.getProfileImage().getFileId());
+	private final UsersService usersService;
+	private final PlannerService plannerService;
 
-		return profileMapper.toPlannerProfileResDto(profileImage.getUrl(), planner.getPlannerProfile());
+	public List<PlannerProfileResDto> getPlannerProfileList() {
+		List<Users> plannerUserList = usersService.findAllPlannerUser();
+
+		return plannerUserList.parallelStream()
+			.map(user -> {
+				Planner planner = plannerService.findPlannerByUser(user);
+				PlannerProfile plannerProfile = findPlannerProfileByPlanner(planner);
+				return profileMapper.toPlannerProfileResDto(user, planner, plannerProfile);
+			})
+			.toList();
+	}
+
+	public PlannerProfileResDto getPlannerProfileByProfileId(PlannerProfileReqDto plannerProfileReqDto) {
+		PlannerProfile plannerProfile = findPlannerProfileById((plannerProfileReqDto.getPlannerProfileId()));
+		Planner planner = plannerService.findPlannerByPlannerProfileId(plannerProfile.getPlannerProfileId());
+		Users users = usersService.findUserByPlanner(planner);
+
+		return PlannerProfileResDto.builder()
+			.nickname(users.getNickname())
+			.profileImageUrl(users.getProfileImage().getUrl())
+			.plannerInfo(plannerMapper.toPlannerInfoDto(planner))
+			.plannerProfileInfo(profileMapper.toPlannerProfileInfoResDto(plannerProfile))
+			.build();
 	}
 
 	@Transactional
-	public PlannerProfileUpdateResDto updatePlannerProfile(PlannerProfileUpdateReqDto reqDto) {
+	public PlannerProfileUpdateResDto updatePlannerProfile(Users users, PlannerProfileUpdateReqDto reqDto) {
+		checkIsProfileOwner(users, reqDto.getPlannerProfileId());
+
 		PlannerProfile plannerProfile = findPlannerProfileById(reqDto.getPlannerProfileId());
 
 		if (reqDto.getBio() != null) {
@@ -49,15 +75,25 @@ public class ProfileService {
 		return profileMapper.toPlannerProfileUpdateResDto(plannerProfile);
 	}
 
-	@Transactional
-	public Planner findPlannerByUsers(Users users) {
-		return plannerRepository.findByUsers(users)
-			.orElseThrow(PlannerNotFoundException::new);
-	}
-
+	/*================== Repository 접근 ==================*/
 	@Transactional
 	public PlannerProfile findPlannerProfileById(Long plannerProfileId) {
 		return plannerProfileRepository.findById(plannerProfileId)
 			.orElseThrow(PlannerProfileNotFoundException::new);
+	}
+
+	@Transactional
+	public PlannerProfile findPlannerProfileByPlanner(Planner planner) {
+		return plannerProfileRepository.findPlannerProfileByPlanner(planner)
+			.orElseThrow(PlannerProfileNotFoundException::new);
+	}
+
+	/*================== 검증 =================*/
+	public void checkIsProfileOwner(Users users, Long plannerProfileId) {
+		Planner planner = plannerService.findPlannerByPlannerProfileId(plannerProfileId);
+
+		if (!planner.getUsers().equals(users)) {
+			throw new ProfileModificationNotAllowedException();
+		}
 	}
 }

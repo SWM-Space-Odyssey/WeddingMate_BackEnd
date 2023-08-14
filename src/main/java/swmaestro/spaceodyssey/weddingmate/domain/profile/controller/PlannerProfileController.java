@@ -1,5 +1,7 @@
 package swmaestro.spaceodyssey.weddingmate.domain.profile.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileUpdateReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileUpdateResDto;
@@ -19,26 +22,37 @@ import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponse;
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponseStatus;
 
 @RestController
-@RequestMapping("/api/v1/profile")
+@RequestMapping("/api/v1/planner")
 @RequiredArgsConstructor
-public class UserProfileController { // profileController가 spring 기본 config 클래스로 정의되어 있음
+public class PlannerProfileController { // profileController가 spring 기본 config 클래스로 정의되어 있음
 
 	private final ProfileService profileService;
 
-	@GetMapping("/planner")
+	@GetMapping()
 	@ResponseStatus(HttpStatus.OK)
-	public ApiResponse<Object> getPlannerProfile(@AuthUsers Users users) {
-		PlannerProfileResDto resDto = profileService.getPlannerProfile(users);
+	public ApiResponse<Object> getAllPlannerProfileList() {
+		List<PlannerProfileResDto> resDtoList = profileService.getPlannerProfileList();
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
-			.data(resDto)
+			.data(resDtoList)
 			.build();
 	}
 
-	@PutMapping("/planner")
+	@GetMapping("/profile")
 	@ResponseStatus(HttpStatus.OK)
-	public ApiResponse<Object> updatePlannerProfile(@RequestBody PlannerProfileUpdateReqDto reqDto) {
-		PlannerProfileUpdateResDto resDto = profileService.updatePlannerProfile(reqDto);
+	public ApiResponse<Object> getPlannerProfileByProfileId(@RequestBody PlannerProfileReqDto plannerProfileReqDto) {
+		PlannerProfileResDto plannerProfileResDto = profileService.getPlannerProfileByProfileId(plannerProfileReqDto);
+
+		return ApiResponse.builder()
+			.status(ApiResponseStatus.SUCCESS)
+			.data(plannerProfileResDto)
+			.build();
+	}
+
+	@PutMapping("/profile")
+	@ResponseStatus(HttpStatus.OK)
+	public ApiResponse<Object> updatePlannerProfile(@AuthUsers Users users, @RequestBody PlannerProfileUpdateReqDto reqDto) {
+		PlannerProfileUpdateResDto resDto = profileService.updatePlannerProfile(users, reqDto);
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
 			.data(resDto)
