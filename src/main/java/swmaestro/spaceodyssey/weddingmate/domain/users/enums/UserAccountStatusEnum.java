@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum UserEnum {
+public enum UserAccountStatusEnum {
 	NORMAL("정상"),
 	SUSPENDED("정지"),
 	WITHDRAW("탈퇴"),

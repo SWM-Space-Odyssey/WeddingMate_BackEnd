@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.users.dto.CustomerSignupReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Customer;
+import swmaestro.spaceodyssey.weddingmate.domain.users.enums.UserRegisterStatusEnum;
 import swmaestro.spaceodyssey.weddingmate.domain.users.mapper.CustomerMapper;
 import swmaestro.spaceodyssey.weddingmate.domain.users.mapper.PlannerMapper;
 import swmaestro.spaceodyssey.weddingmate.domain.users.dto.PlannerSignupReqDto;
@@ -32,11 +33,18 @@ public class UsersService {
 	private final CustomerMapper customerMapper;
 
 	@Transactional
+	public UserRegisterStatusEnum getUserRegisterStatus(Users users) {
+		Users pUsers = findUserByEmail(users.getEmail());
+		return pUsers.getRegisterStatus();
+	}
+
+	@Transactional
 	public void signupPlanner(Users users, PlannerSignupReqDto reqDto) {
 		Users pUsers = findUserByEmail(users.getEmail());
 		checkUserIsRegistered(users);
 
 		pUsers.updateNickname(reqDto.getNickname());
+		pUsers.updateRegisterStatus(UserRegisterStatusEnum.PLANNER);
 
 		Planner planner = createPlanner(pUsers, reqDto);
 		PlannerProfile plannerProfile = createPlannerProfile(planner); // JPA에 의해 자동으로 planner에 반영
@@ -50,15 +58,10 @@ public class UsersService {
 		checkUserIsRegistered(users);
 
 		pUsers.updateNickname(reqDto.getNickname());
+		pUsers.updateRegisterStatus(UserRegisterStatusEnum.CUSTOMER);
 
 		Customer customer = createCustomer(users, reqDto);
 		customerRepository.save(customer);
-	}
-
-	@Transactional(readOnly = true)
-	public Users findUserByEmail(String email) {
-		return usersRepository.findByEmail(email)
-			.orElseThrow(UserNotFoundException::new);
 	}
 
 	@Transactional
@@ -84,22 +87,21 @@ public class UsersService {
 		return customer;
 	}
 
+	/*================== Repository 접근 ==================*/
+	@Transactional(readOnly = true)
+	public Users findUserByEmail(String email) {
+		return usersRepository.findByEmail(email)
+			.orElseThrow(UserNotFoundException::new);
+	}
+
+	/*================== 예외 처리 ==================*/
 	@Transactional(readOnly = true)
 	public void checkUserIsRegistered(Users users) {
-		if (hasPlanner(users))
+		UserRegisterStatusEnum status = users.getRegisterStatus();
+		if (status == UserRegisterStatusEnum.PLANNER) {
 			throw new PlannerDuplicateRegistrationException();
-
-		if (hasCustomer(users))
+		} else if (status == UserRegisterStatusEnum.CUSTOMER) {
 			throw new CustomerDuplicateRegistrationException();
-	}
-
-	@Transactional(readOnly = true)
-	public boolean hasPlanner(Users users) {
-		return users.getPlanner() != null;
-	}
-
-	@Transactional
-	public boolean hasCustomer(Users users) {
-		return users.getCustomer() != null;
+		}
 	}
 }
