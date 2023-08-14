@@ -31,6 +31,7 @@ public class PortfolioMapper {
 		return PortfolioDetailResDto.builder()
 			.title(portfolio.getTitle())
 			.id(portfolio.getPortfolioId())
+			.region(portfolio.getRegionTag())
 			.tagList(portfolio.getPortfolioTagList())
 			.itemResDtoList(itemResDtoList)
 			.repImgUrl(portfolio.getFile().getUrl())
