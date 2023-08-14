@@ -22,17 +22,25 @@ public class ItemResDto {
 	private Boolean isWriter;
 
 	@Builder
-	public ItemResDto(String itemRecord, String company, String date, Long portfolioId, String itemTagList,
-		String category, Integer order, Long itemId, List<String> imageList, Boolean isWriter) {
-		this.itemRecord = itemRecord;
-		this.company = company;
-		this.date = date;
+	public ItemResDto(Long portfolioId, Integer order, Long itemId, List<String> imageList, Boolean isWriter, ItemDetail itemDetail) {
+		this.itemRecord = itemDetail.itemRecord;
+		this.company = itemDetail.company;
+		this.date = itemDetail.date;
+		this.itemTagList = itemDetail.itemTagList;
+		this.category = itemDetail.category;
 		this.portfolioId = portfolioId;
-		this.itemTagList = itemTagList;
-		this.category = category;
 		this.order = order;
 		this.itemId = itemId;
 		this.imageList = imageList;
 		this.isWriter = isWriter;
+	}
+
+	@Builder
+	public static class ItemDetail {
+		private String itemRecord;
+		private String company;
+		private String date;
+		private String itemTagList;
+		private String category;
 	}
 }

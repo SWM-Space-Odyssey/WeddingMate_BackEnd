@@ -152,7 +152,7 @@ public class PortfolioControllerTest extends DummyEntity {
 	@WithUserDetails(value = "test@gmail.com", setupBefore = TestExecutionEvent.TEST_EXECUTION)
 	void getPortfolioById() throws Exception {
 		//given
-		Long portfolioId = 1L;
+		Long portfolioId = testPortfolio1.getPortfolioId();
 
 		//when
 		ResultActions resultActions = mockMvc.perform(

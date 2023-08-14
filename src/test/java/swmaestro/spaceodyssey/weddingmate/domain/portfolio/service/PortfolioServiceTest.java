@@ -13,7 +13,6 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import swmaestro.spaceodyssey.weddingmate.domain.file.entity.File;
-import swmaestro.spaceodyssey.weddingmate.domain.file.service.FileUploadService;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemOrderDto;
 import swmaestro.spaceodyssey.weddingmate.domain.item.entity.Item;
 import swmaestro.spaceodyssey.weddingmate.domain.item.repository.ItemRepository;
@@ -43,7 +42,7 @@ public class PortfolioServiceTest extends DummyEntity {
 	private PortfolioService portfolioService;
 
 	@Mock
-	private FileUploadService fileUploadService;
+	private PortfolioFileUploadService portfolioFileUploadService;
 
 	@Mock //진짜 객체 주입
 	private PortfolioMapper portfolioMapper;
@@ -75,7 +74,7 @@ public class PortfolioServiceTest extends DummyEntity {
 
 		//stub
 		when(portfolioMapper.dtoToEntity(any(), any())).thenReturn(mockPortfolio);
-		when(fileUploadService.uploadPortfolioFile(any(), any())).thenReturn(mockFile);
+		when(portfolioFileUploadService.uploadPortfolioFile(any(), any())).thenReturn(mockFile);
 		when(portfolioRepository.save(any())).thenReturn(mockPortfolio);
 
 		// When
@@ -83,7 +82,7 @@ public class PortfolioServiceTest extends DummyEntity {
 
 		// Verify method calls
 		verify(portfolioMapper, times(1)).dtoToEntity(any(), any());
-		verify(fileUploadService, times(1)).uploadPortfolioFile(any(), any());
+		verify(portfolioFileUploadService, times(1)).uploadPortfolioFile(any(), any());
 		verify(portfolioRepository, times(1)).save(any());
 
 		// Then
@@ -103,14 +102,14 @@ public class PortfolioServiceTest extends DummyEntity {
 
 		//stub
 		when(portfolioRepository.findById(any())).thenReturn(java.util.Optional.of(mockPortfolio));
-		when(fileUploadService.uploadPortfolioFile(any(), any())).thenReturn(mockFile);
+		when(portfolioFileUploadService.uploadPortfolioFile(any(), any())).thenReturn(mockFile);
 
 		//When
 		Long updatedPortfolioId = portfolioService.updatePortfolio(mockUser, portfolioId, mockUpdateReqDto, mockMultipartFile);
 
 		//Verify
 		verify(portfolioRepository, times(1)).findById(portfolioId);
-		verify(fileUploadService, times(1)).uploadPortfolioFile(any(), any());
+		verify(portfolioFileUploadService, times(1)).uploadPortfolioFile(any(), any());
 
 		//Then
 		Assertions.assertThat(updatedPortfolioId).isEqualTo(mockPortfolio.getPortfolioId());

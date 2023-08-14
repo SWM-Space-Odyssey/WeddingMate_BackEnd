@@ -22,13 +22,17 @@ public class ItemMapper {
 
 		List<String> imageList = fileRepository.findByItem(item).stream().map(File::getUrl).toList();
 
-		return ItemResDto.builder()
-			.itemRecord(item.getItemRecord())
-			.company(item.getCompany())
-			.date(item.getItemDate())
-			.portfolioId(item.getPortfolio().getPortfolioId())
+		ItemResDto.ItemDetail itemDetail = ItemResDto.ItemDetail.builder()
 			.itemTagList(item.getItemTagList())
+			.itemRecord(item.getItemRecord())
+			.date(item.getItemRecord())
 			.category(item.getCategory())
+			.company(item.getCompany())
+			.build();
+
+		return ItemResDto.builder()
+			.portfolioId(item.getPortfolio().getPortfolioId())
+			.itemDetail(itemDetail)
 			.order(item.getItemOrder())
 			.itemId(item.getItemId())
 			.imageList(imageList)
