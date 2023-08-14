@@ -1,8 +1,5 @@
 package swmaestro.spaceodyssey.weddingmate.domain.users.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -10,7 +7,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -45,14 +41,14 @@ public class Planner extends BaseTimeEntity {
 	@JoinColumn(name = "profile_id")
 	private PlannerProfile plannerProfile;
 
-	@OneToMany(mappedBy = "planner", cascade = CascadeType.PERSIST)
-	private List<PlannerTag> plannerTagList = new ArrayList<>();
+	private String plannerTagList;
 
 	@Builder
-	public Planner(String company, String position, String region) {
+	public Planner(String company, String position, String region, String plannerTagList) {
 		this.company = company;
 		this.position = position;
 		this.region = region;
+		this.plannerTagList = plannerTagList;
 	}
 
 	public void setUsers(Users users) {
@@ -63,9 +59,5 @@ public class Planner extends BaseTimeEntity {
 	public void setPlannerProfile(PlannerProfile plannerProfile) {
 		this.plannerProfile = plannerProfile;
 		plannerProfile.setPlanner(this);
-	}
-
-	public void createPlannerTagList(List<PlannerTag> plannerTagList) {
-		this.plannerTagList = plannerTagList;
 	}
 }
