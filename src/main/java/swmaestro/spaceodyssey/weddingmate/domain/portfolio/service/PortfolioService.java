@@ -65,7 +65,7 @@ public class PortfolioService {
 		checkPortfolioDeleted(portfolio);
 
 		//작성자가 아닌 user 예외처리
-		checkUserIsWriter(portfolio, users);
+		verifyUserIsWriter(portfolio, users);
 
 		portfolio.updatePortfolio(portfolioUpdateReqDto.getTitle(), portfolioUpdateReqDto.getRegion(), portfolioUpdateReqDto.getTags());
 		updatePortfolioImage(multipartFile, portfolio);
@@ -95,24 +95,26 @@ public class PortfolioService {
 		checkPortfolioDeleted(portfolio);
 
 		//작성자가 아닌 user 예외처리
-		checkUserIsWriter(portfolio, users);
+		verifyUserIsWriter(portfolio, users);
 
 		portfolio.deletePortfolio();
 
 		portfolio.getPortfolioItemList().forEach(Item::deleteItem);
 	}
 
-	public PortfolioDetailResDto getPortfolioDetail(Long id) {
+	public PortfolioDetailResDto getPortfolioDetail(Users users, Long id) {
 		Portfolio portfolio = findPortfolioById(id);
 
 		checkPortfolioDeleted(portfolio);
 
+		Boolean isWriter = checkUserIsWriter(portfolio, users);
+
 		List<ItemResDto> itemResDtoList = portfolio.getPortfolioItemList().stream()
 			.filter(item -> (Boolean.FALSE.equals(item.getIsDeleted())))
-			.map(itemMapper::entityToDto)
+			.map(item -> itemMapper.entityToDto(item, isWriter))
 			.toList();
 
-		return portfolioMapper.entityToDto(portfolio, itemResDtoList);
+		return portfolioMapper.entityToDto(portfolio, itemResDtoList, isWriter);
 	}
 
 	public List<PortfolioListResDto> getPortfolioByUser(Long userId) {
@@ -147,10 +149,14 @@ public class PortfolioService {
 		return portfolio;
 	}
 
-	public void checkUserIsWriter(Portfolio portfolio, Users users) {
+	public void verifyUserIsWriter(Portfolio portfolio, Users users) {
 		if (!portfolio.getUsers().getUserId().equals(users.getUserId())) {
 			throw new UserUnAuthorizedException();
 		}
+	}
+
+	public Boolean checkUserIsWriter(Portfolio portfolio, Users users) {
+		return portfolio.getUsers().getUserId().equals(users.getUserId());
 	}
 
 	public void checkItemBelongToPortfolio(Item item, Long portfolioId) {

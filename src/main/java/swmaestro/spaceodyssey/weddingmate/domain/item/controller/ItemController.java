@@ -40,10 +40,10 @@ public class ItemController {
 
 	@GetMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
-	public ApiResponse<Object> getItemById(@PathVariable("id") Long id) {
+	public ApiResponse<Object> getItemById(@AuthUsers Users users, @PathVariable("id") Long id) {
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
-			.data(itemService.findById(id))
+			.data(itemService.findById(users, id))
 			.build();
 	}
 

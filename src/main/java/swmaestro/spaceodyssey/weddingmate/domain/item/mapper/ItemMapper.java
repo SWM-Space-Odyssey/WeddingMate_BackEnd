@@ -18,21 +18,26 @@ import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.Portfolio;
 public class ItemMapper {
 	private final FileRepository fileRepository;
 
-	public ItemResDto entityToDto(Item item) {
+	public ItemResDto entityToDto(Item item, Boolean isWriter) {
 
 		List<String> imageList = fileRepository.findByItem(item).stream().map(File::getUrl).toList();
 
-		return new ItemResDto(
-			item.getItemRecord(),
-			item.getCompany(),
-			item.getItemDate(),
-			item.getPortfolio().getPortfolioId(),
-			item.getItemTagList(),
-			item.getCategory(),
-			item.getItemOrder(),
-			item.getItemId(),
-			imageList
-		);
+		ItemResDto.ItemDetail itemDetail = ItemResDto.ItemDetail.builder()
+			.itemTagList(item.getItemTagList())
+			.itemRecord(item.getItemRecord())
+			.date(item.getItemRecord())
+			.category(item.getCategory())
+			.company(item.getCompany())
+			.build();
+
+		return ItemResDto.builder()
+			.portfolioId(item.getPortfolio().getPortfolioId())
+			.itemDetail(itemDetail)
+			.order(item.getItemOrder())
+			.itemId(item.getItemId())
+			.imageList(imageList)
+			.isWriter(isWriter)
+			.build();
 	}
 
 	public Item dtoToEntity(Portfolio portfolio, ItemSaveReqDto itemSaveReqDto) {

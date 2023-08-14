@@ -13,11 +13,10 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import swmaestro.spaceodyssey.weddingmate.domain.file.entity.File;
-import swmaestro.spaceodyssey.weddingmate.domain.file.service.FileUploadService;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemOrderDto;
 import swmaestro.spaceodyssey.weddingmate.domain.item.entity.Item;
 import swmaestro.spaceodyssey.weddingmate.domain.item.repository.ItemRepository;
-import swmaestro.spaceodyssey.weddingmate.domain.portfolio.PortfolioDummyEntity;
+import swmaestro.spaceodyssey.weddingmate.global.config.test.DummyEntity;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.mapper.PortfolioMapper;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.PortfolioSaveReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.PortfolioUpdateReqDto;
@@ -37,13 +36,13 @@ import java.util.List;
 
 //@DisplayName()
 @ExtendWith(MockitoExtension.class)
-public class PortfolioServiceTest extends PortfolioDummyEntity {
+public class PortfolioServiceTest extends DummyEntity {
 
 	@InjectMocks
 	private PortfolioService portfolioService;
 
 	@Mock
-	private FileUploadService fileUploadService;
+	private PortfolioFileUploadService portfolioFileUploadService;
 
 	@Mock //진짜 객체 주입
 	private PortfolioMapper portfolioMapper;
@@ -75,7 +74,7 @@ public class PortfolioServiceTest extends PortfolioDummyEntity {
 
 		//stub
 		when(portfolioMapper.dtoToEntity(any(), any())).thenReturn(mockPortfolio);
-		when(fileUploadService.uploadPortfolioFile(any(), any())).thenReturn(mockFile);
+		when(portfolioFileUploadService.uploadPortfolioFile(any(), any())).thenReturn(mockFile);
 		when(portfolioRepository.save(any())).thenReturn(mockPortfolio);
 
 		// When
@@ -83,7 +82,7 @@ public class PortfolioServiceTest extends PortfolioDummyEntity {
 
 		// Verify method calls
 		verify(portfolioMapper, times(1)).dtoToEntity(any(), any());
-		verify(fileUploadService, times(1)).uploadPortfolioFile(any(), any());
+		verify(portfolioFileUploadService, times(1)).uploadPortfolioFile(any(), any());
 		verify(portfolioRepository, times(1)).save(any());
 
 		// Then
@@ -103,14 +102,14 @@ public class PortfolioServiceTest extends PortfolioDummyEntity {
 
 		//stub
 		when(portfolioRepository.findById(any())).thenReturn(java.util.Optional.of(mockPortfolio));
-		when(fileUploadService.uploadPortfolioFile(any(), any())).thenReturn(mockFile);
+		when(portfolioFileUploadService.uploadPortfolioFile(any(), any())).thenReturn(mockFile);
 
 		//When
 		Long updatedPortfolioId = portfolioService.updatePortfolio(mockUser, portfolioId, mockUpdateReqDto, mockMultipartFile);
 
 		//Verify
 		verify(portfolioRepository, times(1)).findById(portfolioId);
-		verify(fileUploadService, times(1)).uploadPortfolioFile(any(), any());
+		verify(portfolioFileUploadService, times(1)).uploadPortfolioFile(any(), any());
 
 		//Then
 		Assertions.assertThat(updatedPortfolioId).isEqualTo(mockPortfolio.getPortfolioId());
