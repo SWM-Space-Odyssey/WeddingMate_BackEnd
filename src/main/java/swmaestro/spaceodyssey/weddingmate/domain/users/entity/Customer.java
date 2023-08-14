@@ -1,21 +1,16 @@
 package swmaestro.spaceodyssey.weddingmate.domain.users.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.PortfolioTag;
+import swmaestro.spaceodyssey.weddingmate.domain.users.dto.CustomerTagListDto;
 import swmaestro.spaceodyssey.weddingmate.global.entity.BaseTimeEntity;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -30,21 +25,39 @@ public class Customer extends BaseTimeEntity {
 	@OneToOne(mappedBy = "customer")
 	private Users users;
 
+	@NotNull(message = "예식일 확정 여부는 필수로 입력되어야 합니다.")
+	private Boolean weddingDateConfirmed;
+
 	private String weddingDate;
+
+	private String region;
 
 	@NotNull(message = "예산은 필수로 입력되어야 합니다.")
 	private String budget;
 
-	@OneToMany(mappedBy = "customer", cascade = CascadeType.PERSIST)
-	private List<PortfolioTag> portfolioTagList = new ArrayList<>();
+	private String portfolioTagList;
 
-	@OneToMany(mappedBy = "customer", cascade = CascadeType.PERSIST)
-	private List<PlannerTag> plannerTagList = new ArrayList<>();
+	private String plannerTagList;
+
+	private String dressTagList;
+
+	private String studioTypeTagList;
+
+	private String studioFocusTagList;
+
+	private String makeupTagList;
 
 	@Builder
-	public Customer(String weddingDate, String budget) {
-		this.weddingDate = weddingDate;
+	public Customer(Boolean weddingDateConfirmed, String region, String budget, CustomerTagListDto customerTagList) {
+		this.weddingDateConfirmed = weddingDateConfirmed;
+		this.region = region;
 		this.budget = budget;
+		this.portfolioTagList = customerTagList.getPortfolioTagList();
+		this.plannerTagList = customerTagList.getPlannerTagList();
+		this.dressTagList = customerTagList.getDressTagList();
+		this.studioTypeTagList = customerTagList.getStudioTypeTagList();
+		this.studioFocusTagList = customerTagList.getStudioFocusTagList();
+		this.makeupTagList = customerTagList.getMakeupTagList();
 	}
 
 	public void setUsers(Users users) {
@@ -52,11 +65,7 @@ public class Customer extends BaseTimeEntity {
 		users.setCustomer(this);
 	}
 
-	public void createPortfolioTagList(List<PortfolioTag> portfolioTagList) {
-		this.portfolioTagList = portfolioTagList;
-	}
-
-	public void createPlannerTagList(List<PlannerTag> plannerTagList) {
-		this.plannerTagList = plannerTagList;
+	public void setWeddingDate(String weddingDate) {
+		this.weddingDate = weddingDate;
 	}
 }
