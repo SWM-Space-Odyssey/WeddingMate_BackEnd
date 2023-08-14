@@ -2,8 +2,6 @@ package swmaestro.spaceodyssey.weddingmate.domain.portfolio.controller;
 
 import static swmaestro.spaceodyssey.weddingmate.global.constant.ResponseConstant.*;
 
-import java.io.IOException;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +34,7 @@ public class PortfolioController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public ApiResponse<Object> createPortfolio(@AuthUsers Users users,
 		@NotNull @RequestPart("file") MultipartFile multipartFile,
-		@RequestPart PortfolioSaveReqDto portfolioSaveReqDto) throws IOException {
+		@RequestPart PortfolioSaveReqDto portfolioSaveReqDto) {
 		portfolioService.createPortfolio(users, multipartFile, portfolioSaveReqDto);
 
 		return ApiResponse.builder()
@@ -56,10 +54,10 @@ public class PortfolioController {
 
 	@GetMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
-	public ApiResponse<Object> getPortfolioById(@PathVariable("id") Long id) {
+	public ApiResponse<Object> getPortfolioById(@AuthUsers Users users, @PathVariable("id") Long id) {
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
-			.data(portfolioService.getPortfolioDetail(id))
+			.data(portfolioService.getPortfolioDetail(users, id))
 			.build();
 	}
 
@@ -67,7 +65,7 @@ public class PortfolioController {
 	@ResponseStatus(HttpStatus.OK)
 	public ApiResponse<Object> updatePortfolio(@AuthUsers Users users, @PathVariable("id") Long id,
 		@RequestPart(value = "file") MultipartFile multipartFile,
-		@RequestPart PortfolioUpdateReqDto portfolioUpdateReqDto) throws IOException {
+		@RequestPart PortfolioUpdateReqDto portfolioUpdateReqDto) {
 		portfolioService.updatePortfolio(users, id, portfolioUpdateReqDto, multipartFile);
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
