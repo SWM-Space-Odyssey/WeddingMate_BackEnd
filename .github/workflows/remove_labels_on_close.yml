@@ -1,0 +1,27 @@
+name: Remove Labels from PR to Develop
+
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  remove-labels:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Remove labels
+        run: |
+          GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+          LABELS_TO_KEEP=("bugs" "documentation" "🐇Simple" "🚨긴급" "🛠refactor")
+
+          PR_NUMBER=$(jq -r ".pull_request.number" "$GITHUB_EVENT_PATH")
+
+          for LABEL in "${LABELS_TO_KEEP[@]}"; do
+            ENCODED_LABEL=$(python -c "import urllib.parse; print(urllib.parse.quote_plus('$LABEL'))")
+            curl -X DELETE -H "Authorization: token $GITHUB_TOKEN" \
+              "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/labels/$ENCODED_LABEL"
+          done
