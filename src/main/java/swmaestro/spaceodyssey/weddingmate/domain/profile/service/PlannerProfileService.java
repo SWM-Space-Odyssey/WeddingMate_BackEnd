@@ -33,7 +33,7 @@ public class PlannerProfileService {
 		return plannerUserList.parallelStream()
 			.map(user -> {
 				Planner planner = plannerService.findPlannerByUser(user);
-				PlannerProfile plannerProfile = profileService.findPlannerProfileByPlanner(planner);
+				PlannerProfile plannerProfile = planner.getPlannerProfile();
 				return profileMapper.toPlannerProfileResDto(user, planner, plannerProfile);
 			})
 			.toList();
