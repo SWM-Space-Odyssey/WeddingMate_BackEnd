@@ -41,12 +41,14 @@ public class ItemService {
 		itemSaveReqDto.getImageList().stream().map(this::findFileByUrl).forEach(file -> file.setItem(item));
 	}
 
-	public ItemResDto findById(Long id) {
+	public ItemResDto findById(Users users, Long id) {
 		Item item = findItemById(id);
 
 		checkItemDeleted(item);
 
-		return itemMapper.entityToDto(item);
+		Boolean isWriter = checkUserIsWriter(item, users);
+
+		return itemMapper.entityToDto(item, isWriter);
 	}
 
 	public void updateItem(Users users, Long itemId, ItemUpdateReqDto itemUpdateReqDto) {
@@ -54,7 +56,7 @@ public class ItemService {
 
 		checkItemDeleted(item);
 
-		checkUserIsWriter(item, users);
+		verifyUserIsWriter(item, users);
 
 		itemUpdateReqDto.getImageList().stream().map(this::findFileByUrl).forEach(file -> {
 			file.setItem(item);
@@ -75,7 +77,7 @@ public class ItemService {
 
 		checkItemDeleted(item);
 
-		checkUserIsWriter(item, users);
+		verifyUserIsWriter(item, users);
 
 		item.deleteItem();
 	}
@@ -98,16 +100,19 @@ public class ItemService {
 
 	/*================== 예외 처리 ==================*/
 
-	public Item checkItemDeleted(Item item) {
+	public void checkItemDeleted(Item item) {
 		if (Boolean.TRUE.equals(item.getIsDeleted())) {
 			throw new ItemNotFoundException();
 		}
-		return item;
 	}
 
-	public void checkUserIsWriter(Item item, Users users) {
+	public void verifyUserIsWriter(Item item, Users users) {
 		if (!item.getPortfolio().getUsers().getUserId().equals(users.getUserId())) {
 			throw new UserUnAuthorizedException();
 		}
+	}
+
+	public Boolean checkUserIsWriter(Item item, Users users) {
+		return item.getPortfolio().getUsers().getUserId().equals(users.getUserId());
 	}
 }

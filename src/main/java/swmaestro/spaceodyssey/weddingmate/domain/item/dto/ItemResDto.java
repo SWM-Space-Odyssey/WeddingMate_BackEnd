@@ -2,11 +2,13 @@ package swmaestro.spaceodyssey.weddingmate.domain.item.dto;
 
 import java.util.List;
 
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ItemResDto {
 	private String itemRecord;
 	private String company;
@@ -17,4 +19,28 @@ public class ItemResDto {
 	private Integer order;
 	private Long itemId;
 	private List<String> imageList;
+	private Boolean isWriter;
+
+	@Builder
+	public ItemResDto(Long portfolioId, Integer order, Long itemId, List<String> imageList, Boolean isWriter, ItemDetail itemDetail) {
+		this.itemRecord = itemDetail.itemRecord;
+		this.company = itemDetail.company;
+		this.date = itemDetail.date;
+		this.itemTagList = itemDetail.itemTagList;
+		this.category = itemDetail.category;
+		this.portfolioId = portfolioId;
+		this.order = order;
+		this.itemId = itemId;
+		this.imageList = imageList;
+		this.isWriter = isWriter;
+	}
+
+	@Builder
+	public static class ItemDetail {
+		private String itemRecord;
+		private String company;
+		private String date;
+		private String itemTagList;
+		private String category;
+	}
 }

@@ -55,10 +55,10 @@ public class PortfolioController {
 
 	@GetMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
-	public ApiResponse<Object> getPortfolioById(@PathVariable("id") Long id) {
+	public ApiResponse<Object> getPortfolioById(@AuthUsers Users users, @PathVariable("id") Long id) {
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
-			.data(portfolioService.getPortfolioDetail(id))
+			.data(portfolioService.getPortfolioDetail(users, id))
 			.build();
 	}
 

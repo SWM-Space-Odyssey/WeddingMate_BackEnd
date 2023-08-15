@@ -28,11 +28,10 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import jakarta.persistence.EntityManager;
-import jakarta.transaction.Transactional;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemOrderDto;
 import swmaestro.spaceodyssey.weddingmate.domain.item.entity.Item;
 import swmaestro.spaceodyssey.weddingmate.domain.item.repository.ItemRepository;
-import swmaestro.spaceodyssey.weddingmate.domain.portfolio.PortfolioDummyEntity;
+import swmaestro.spaceodyssey.weddingmate.global.config.test.DummyEntity;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.PortfolioSaveReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.PortfolioUpdateReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.Portfolio;
@@ -45,7 +44,7 @@ import swmaestro.spaceodyssey.weddingmate.domain.users.repository.UsersRepositor
 @Sql("classpath:db/teardown.sql")
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-public class PortfolioControllerTest extends PortfolioDummyEntity {
+public class PortfolioControllerTest extends DummyEntity {
 
 	@Autowired
 	private PortfolioService portfolioService;
@@ -153,7 +152,7 @@ public class PortfolioControllerTest extends PortfolioDummyEntity {
 	@WithUserDetails(value = "test@gmail.com", setupBefore = TestExecutionEvent.TEST_EXECUTION)
 	void getPortfolioById() throws Exception {
 		//given
-		Long portfolioId = 1L;
+		Long portfolioId = testPortfolio1.getPortfolioId();
 
 		//when
 		ResultActions resultActions = mockMvc.perform(

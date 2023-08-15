@@ -26,14 +26,16 @@ public class PortfolioMapper {
 			.build();
 	}
 
-	public PortfolioDetailResDto entityToDto(Portfolio portfolio, List<ItemResDto> itemResDtoList) {
+	public PortfolioDetailResDto entityToDto(Portfolio portfolio, List<ItemResDto> itemResDtoList, Boolean isWriter) {
 
 		return PortfolioDetailResDto.builder()
 			.title(portfolio.getTitle())
 			.id(portfolio.getPortfolioId())
+			.region(portfolio.getRegionTag())
 			.tagList(portfolio.getPortfolioTagList())
 			.itemResDtoList(itemResDtoList)
 			.repImgUrl(portfolio.getFile().getUrl())
+			.isWriter(isWriter)
 			.build();
 	}
 
