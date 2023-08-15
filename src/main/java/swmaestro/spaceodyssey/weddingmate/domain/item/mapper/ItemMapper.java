@@ -25,7 +25,7 @@ public class ItemMapper {
 		ItemResDto.ItemDetail itemDetail = ItemResDto.ItemDetail.builder()
 			.itemTagList(item.getItemTagList())
 			.itemRecord(item.getItemRecord())
-			.date(item.getItemRecord())
+			.date(item.getItemDate())
 			.category(item.getCategory())
 			.company(item.getCompany())
 			.build();
