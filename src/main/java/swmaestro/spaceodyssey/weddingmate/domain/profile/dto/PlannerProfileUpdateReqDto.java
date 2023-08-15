@@ -9,4 +9,5 @@ import lombok.NoArgsConstructor;
 public class PlannerProfileUpdateReqDto {
 	private String bio;
 	private String sns;
+	private String tagList;
 }

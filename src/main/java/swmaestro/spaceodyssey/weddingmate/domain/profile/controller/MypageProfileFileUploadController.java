@@ -20,7 +20,7 @@ import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponseStatus;
 @RestController
 @RequestMapping("/api/v1/profile/file")
 @RequiredArgsConstructor
-public class UserProfileFileUploadController {
+public class MypageProfileFileUploadController {
 
 	private final ProfileFileUploadService profileFileUploadService;
 
