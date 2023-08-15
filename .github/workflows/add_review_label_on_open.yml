@@ -5,9 +5,6 @@ on:
     types:
       - opened
 
-env:
-  NODE_VERSION: 16.14.0
-
 jobs:
   add-label:
     runs-on: ubuntu-latest
@@ -15,17 +12,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        with:
-            node-version: ${{ env.NODE_VERSION }} # Explicitly specify Node.js version to use
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ env.NODE_VERSION }} # Explicitly specify Node.js version to use
 
       - name: Add label
         run: |
-          GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN=${{ secrets.PERSONAL_TOKEN }}
           NEW_LABEL="👀리뷰필요"
           ENCODED_LABEL=$(python -c "import urllib.parse; print(urllib.parse.quote_plus('$NEW_LABEL'))")
           PR_NUMBER=$(jq -r ".number" "$GITHUB_EVENT_PATH")
