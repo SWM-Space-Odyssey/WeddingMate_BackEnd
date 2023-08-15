@@ -21,7 +21,7 @@ import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponseStatus;
 @RestController
 @RequestMapping("/api/v1/profile")
 @RequiredArgsConstructor
-public class UserProfileController {
+public class MypageProfileController {
 
 	private final ProfileService profileService;
 
