@@ -25,7 +25,7 @@ public class UserProfileController {
 
 	private final ProfileService profileService;
 
-	@GetMapping()
+	@GetMapping("/planner")
 	@ResponseStatus(HttpStatus.OK)
 	public ApiResponse<Object> getPlannerProfile(@AuthUsers Users users) {
 		PlannerProfileResDto plannerProfileResDto = profileService.getPlannerProfile(users);
@@ -36,7 +36,7 @@ public class UserProfileController {
 			.build();
 	}
 
-	@PutMapping()
+	@PutMapping("/planner")
 	@ResponseStatus(HttpStatus.OK)
 	public ApiResponse<Object> updatePlannerProfile(@AuthUsers Users users, @RequestBody PlannerProfileUpdateReqDto reqDto) {
 		PlannerProfileUpdateResDto resDto = profileService.updatePlannerProfile(users, reqDto);
