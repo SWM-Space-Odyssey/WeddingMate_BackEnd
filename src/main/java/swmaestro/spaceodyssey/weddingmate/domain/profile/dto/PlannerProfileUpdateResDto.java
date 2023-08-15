@@ -10,10 +10,12 @@ import lombok.NoArgsConstructor;
 public class PlannerProfileUpdateResDto {
 	private String bio;
 	private String sns;
+	private String tagList;
 
 	@Builder
-	public PlannerProfileUpdateResDto(String bio, String sns){
+	public PlannerProfileUpdateResDto(String bio, String sns, String tagList){
 		this.bio = bio;
 		this.sns = sns;
+		this.tagList = tagList;
 	}
 }
