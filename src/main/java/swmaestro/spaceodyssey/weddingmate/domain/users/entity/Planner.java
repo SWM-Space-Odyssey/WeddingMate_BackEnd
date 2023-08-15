@@ -37,7 +37,7 @@ public class Planner extends BaseTimeEntity {
 	@NotNull(message = "지역은 필수로 입력되어야 합니다.")
 	private String region;
 
-	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	@JoinColumn(name = "profile_id")
 	private PlannerProfile plannerProfile;
 

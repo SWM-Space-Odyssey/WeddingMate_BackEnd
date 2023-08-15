@@ -3,7 +3,6 @@ package swmaestro.spaceodyssey.weddingmate.domain.users.controller;
 import static swmaestro.spaceodyssey.weddingmate.global.constant.ResponseConstant.*;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +16,8 @@ import swmaestro.spaceodyssey.weddingmate.domain.users.dto.PlannerSignupReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.AuthUsers;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 import swmaestro.spaceodyssey.weddingmate.domain.users.enums.UserRegisterStatusEnum;
+import swmaestro.spaceodyssey.weddingmate.domain.users.service.CustomerService;
+import swmaestro.spaceodyssey.weddingmate.domain.users.service.PlannerService;
 import swmaestro.spaceodyssey.weddingmate.domain.users.service.UsersService;
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponse;
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponseStatus;
@@ -27,11 +28,13 @@ import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponseStatus;
 public class SignupController {
 
 	private final UsersService usersService;
+	private final PlannerService plannerService;
+	private final CustomerService customerService;
 
 	@PostMapping("/planner")
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public ApiResponse<Object> plannerSignup(@AuthUsers Users users, @RequestBody PlannerSignupReqDto reqDto) {
-		usersService.signupPlanner(users, reqDto);
+		plannerService.signupPlanner(users, reqDto);
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
 			.data(reqDto.getNickname() + PLANNER_SIGNUP_SUCCESS)
@@ -41,7 +44,7 @@ public class SignupController {
 	@PostMapping("/customer")
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public ApiResponse<Object> customerSignup(@AuthUsers Users users, @RequestBody CustomerSignupReqDto reqDto) {
-		usersService.signupCustomer(users, reqDto);
+		customerService.signupCustomer(users, reqDto);
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
 			.data(reqDto.getNickname() + CUSTOMER_SIGNUP_SUCCESS)

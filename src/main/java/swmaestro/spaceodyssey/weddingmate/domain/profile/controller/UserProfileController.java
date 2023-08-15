@@ -21,24 +21,25 @@ import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponseStatus;
 @RestController
 @RequestMapping("/api/v1/profile")
 @RequiredArgsConstructor
-public class UserProfileController { // profileController가 spring 기본 config 클래스로 정의되어 있음
+public class UserProfileController {
 
 	private final ProfileService profileService;
 
 	@GetMapping("/planner")
 	@ResponseStatus(HttpStatus.OK)
 	public ApiResponse<Object> getPlannerProfile(@AuthUsers Users users) {
-		PlannerProfileResDto resDto = profileService.getPlannerProfile(users);
+		PlannerProfileResDto plannerProfileResDto = profileService.getPlannerProfile(users);
+
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
-			.data(resDto)
+			.data(plannerProfileResDto)
 			.build();
 	}
 
 	@PutMapping("/planner")
 	@ResponseStatus(HttpStatus.OK)
-	public ApiResponse<Object> updatePlannerProfile(@RequestBody PlannerProfileUpdateReqDto reqDto) {
-		PlannerProfileUpdateResDto resDto = profileService.updatePlannerProfile(reqDto);
+	public ApiResponse<Object> updatePlannerProfile(@AuthUsers Users users, @RequestBody PlannerProfileUpdateReqDto reqDto) {
+		PlannerProfileUpdateResDto resDto = profileService.updatePlannerProfile(users, reqDto);
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
 			.data(resDto)
