@@ -1,12 +1,13 @@
-name: Add Label to PRs
+name: Remove Labels
 
 on:
   pull_request:
     types:
-      - opened
+      - closed
+      - merged
 
 jobs:
-  add_label:
+  remove_labels:
     runs-on: ubuntu-latest
 
     permissions:
@@ -14,11 +15,15 @@ jobs:
       pull-requests: write
 
     steps:
-      - name: checkout
-        uses: actions/checkout@v2
-
-      - name: add label
-        uses: actions-ecosystem/action-add-labels@v1.1.0
+      - uses: actions/checkout@v2
+      - uses: actions-ecosystem/action-remove-labels@v1.3.0
         with:
           github_token: ${{ secrets.PERSONAL_TOKEN }}
-          labels: 👀리뷰필요
+          fail_on_error: false
+          labels: |
+            😊머지가능
+            ❓답변필요
+            👀리뷰필요
+            💪수정요청
+            💻수정반영중
+            🖌리뷰중
