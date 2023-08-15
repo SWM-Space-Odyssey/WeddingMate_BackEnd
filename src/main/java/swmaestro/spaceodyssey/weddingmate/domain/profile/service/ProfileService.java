@@ -1,12 +1,9 @@
 package swmaestro.spaceodyssey.weddingmate.domain.profile.service;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileUpdateReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileUpdateResDto;
@@ -17,7 +14,6 @@ import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Planner;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 import swmaestro.spaceodyssey.weddingmate.domain.users.mapper.PlannerMapper;
 import swmaestro.spaceodyssey.weddingmate.domain.users.service.PlannerService;
-import swmaestro.spaceodyssey.weddingmate.domain.users.service.UsersService;
 import swmaestro.spaceodyssey.weddingmate.global.exception.profile.PlannerProfileNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.profile.ProfileModificationNotAllowedException;
 
@@ -31,25 +27,11 @@ public class ProfileService {
 	private final PlannerMapper plannerMapper;
 	private final ProfileMapper profileMapper;
 
-	private final UsersService usersService;
 	private final PlannerService plannerService;
 
-	public List<PlannerProfileResDto> getPlannerProfileList() {
-		List<Users> plannerUserList = usersService.findAllPlannerUser();
-
-		return plannerUserList.parallelStream()
-			.map(user -> {
-				Planner planner = plannerService.findPlannerByUser(user);
-				PlannerProfile plannerProfile = findPlannerProfileByPlanner(planner);
-				return profileMapper.toPlannerProfileResDto(user, planner, plannerProfile);
-			})
-			.toList();
-	}
-
-	public PlannerProfileResDto getPlannerProfileByProfileId(PlannerProfileReqDto plannerProfileReqDto) {
-		PlannerProfile plannerProfile = findPlannerProfileById((plannerProfileReqDto.getPlannerProfileId()));
-		Planner planner = plannerService.findPlannerByPlannerProfileId(plannerProfile.getPlannerProfileId());
-		Users users = usersService.findUserByPlanner(planner);
+	public PlannerProfileResDto getPlannerProfile(Users users) {
+		Planner planner = plannerService.findPlannerByUser(users);
+		PlannerProfile plannerProfile = planner.getPlannerProfile(); // EAGER로 인해 즉시 로딩 가능
 
 		return PlannerProfileResDto.builder()
 			.nickname(users.getNickname())
@@ -61,9 +43,8 @@ public class ProfileService {
 
 	@Transactional
 	public PlannerProfileUpdateResDto updatePlannerProfile(Users users, PlannerProfileUpdateReqDto reqDto) {
-		checkIsProfileOwner(users, reqDto.getPlannerProfileId());
-
-		PlannerProfile plannerProfile = findPlannerProfileById(reqDto.getPlannerProfileId());
+		Planner planner = plannerService.findPlannerByUser(users);
+		PlannerProfile plannerProfile = planner.getPlannerProfile(); // EAGER로 인해 즉시 로딩 가능
 
 		if (reqDto.getBio() != null) {
 			plannerProfile.updateBio(reqDto.getBio());
