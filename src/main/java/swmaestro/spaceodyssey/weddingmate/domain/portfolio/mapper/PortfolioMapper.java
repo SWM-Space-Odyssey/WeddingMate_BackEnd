@@ -36,6 +36,7 @@ public class PortfolioMapper {
 			.itemResDtoList(itemResDtoList)
 			.repImgUrl(portfolio.getFile().getUrl())
 			.isWriter(isWriter)
+			.plannerId(portfolio.getUsers().getPlanner().getPlannerProfile().getPlannerProfileId())
 			.build();
 	}
 
