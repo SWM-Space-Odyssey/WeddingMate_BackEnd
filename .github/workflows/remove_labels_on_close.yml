@@ -1,38 +1,24 @@
-name: Remove Labels from PR to Develop
+name: Add Label to PRs
 
 on:
   pull_request:
     types:
-      - closed
-
-env:
-  NODE_VERSION: 16.14.0
+      - opened
 
 jobs:
-  remove-labels:
+  add_label:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+      pull-requests: write
+
     steps:
-      - name: Checkout code
+      - name: checkout
         uses: actions/checkout@v2
+
+      - name: add label
+        uses: actions-ecosystem/action-add-labels@v1.1.0
         with:
-          node-version: ${{ env.NODE_VERSION }} # Explicitly specify Node.js version to use
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ env.NODE_VERSION }} # Explicitly specify Node.js version to use
-
-      # LABELS_TO_KEEP을 제외한 다른 라벨들을 제거
-      - name: Remove labels
-        run: |
-          GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
-          LABELS_TO_KEEP=("bugs" "documentation" "🐇Simple" "🚨긴급" "🛠refactor")
-
-          PR_NUMBER=$(jq -r ".pull_request.number" "$GITHUB_EVENT_PATH")
-
-          for LABEL in "${LABELS_TO_KEEP[@]}"; do
-            ENCODED_LABEL=$(python -c "import urllib.parse; print(urllib.parse.quote_plus('$LABEL'))")
-            curl -X DELETE -H "Authorization: token $GITHUB_TOKEN" \
-              "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/labels/$ENCODED_LABEL"
-          done
+          github_token: ${{ secrets.PERSONAL_TOKEN }}
+          labels: 👀리뷰필요
