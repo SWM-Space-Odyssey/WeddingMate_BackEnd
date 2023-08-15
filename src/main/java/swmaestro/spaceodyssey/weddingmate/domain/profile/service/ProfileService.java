@@ -52,8 +52,9 @@ public class ProfileService {
 		if (reqDto.getSns() != null) {
 			plannerProfile.updateSns(reqDto.getSns());
 		}
+		planner.updatePlannerTagList(reqDto.getTagList());
 
-		return profileMapper.toPlannerProfileUpdateResDto(plannerProfile);
+		return profileMapper.toPlannerProfileUpdateResDto(plannerProfile, planner.getPlannerTagList());
 	}
 
 	/*================== Repository 접근 ==================*/
