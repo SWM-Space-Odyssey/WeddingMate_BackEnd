@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.PortfolioListResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.service.PlannerProfileService;
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponse;
@@ -40,6 +41,17 @@ public class PlannerProfileController { // profileController가 spring 기본 co
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
 			.data(plannerProfileResDto)
+			.build();
+	}
+
+	@GetMapping("/{plannerProfileId}/portfolio")
+	@ResponseStatus(HttpStatus.OK)
+	public ApiResponse<Object> getPlannerPortfolioByProfileId(@PathVariable Long plannerProfileId) {
+		List<PortfolioListResDto> portfolioListResDto = plannerProfileService.getPlannerPortfolioByProfileId(plannerProfileId);
+
+		return ApiResponse.builder()
+			.status(ApiResponseStatus.SUCCESS)
+			.data(portfolioListResDto)
 			.build();
 	}
 }
