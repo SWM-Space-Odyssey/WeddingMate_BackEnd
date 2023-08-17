@@ -60,4 +60,8 @@ public class Planner extends BaseTimeEntity {
 		this.plannerProfile = plannerProfile;
 		plannerProfile.setPlanner(this);
 	}
+
+	public void updatePlannerTagList(String plannerTagList){
+		this.plannerTagList = plannerTagList;
+	}
 }

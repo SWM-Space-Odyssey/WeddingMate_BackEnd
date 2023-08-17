@@ -36,10 +36,11 @@ public class ProfileMapper {
 			.build();
 	}
 
-	public PlannerProfileUpdateResDto toPlannerProfileUpdateResDto(PlannerProfile plannerProfile) {
+	public PlannerProfileUpdateResDto toPlannerProfileUpdateResDto(PlannerProfile plannerProfile, String tagList) {
 		return PlannerProfileUpdateResDto.builder()
 			.sns(plannerProfile.getSns())
 			.bio(plannerProfile.getBio())
+			.tagList(tagList)
 			.build();
 	}
 }
