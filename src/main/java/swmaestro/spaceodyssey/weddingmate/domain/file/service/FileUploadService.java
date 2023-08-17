@@ -37,6 +37,7 @@ public class FileUploadService {
 		return extractFileNameAndExtension(Objects.requireNonNull(multipartFile.getOriginalFilename()));
 	}
 
+	@Transactional
 	public File uploadFileToS3AndSaveInRepository(final MultipartFile multipartFile, FileInfoDto fileInfoDto,
 		String fileImagePath) {
 		s3Uploader.uploadS3(multipartFile, fileImagePath);
@@ -51,6 +52,7 @@ public class FileUploadService {
 
 	/*================== Basic Upload Service ==================*/
 
+	@Transactional
 	public File createAndSaveFileInRepository(FileInfoDto fileInfoDto, String s3FileName) {
 		File file = File.builder()
 			.filename(fileInfoDto.getFileName())
