@@ -13,6 +13,7 @@ import swmaestro.spaceodyssey.weddingmate.domain.profile.repository.PlannerProfi
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Planner;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 import swmaestro.spaceodyssey.weddingmate.domain.users.mapper.PlannerMapper;
+import swmaestro.spaceodyssey.weddingmate.domain.users.repository.UsersRepository;
 import swmaestro.spaceodyssey.weddingmate.domain.users.service.PlannerService;
 import swmaestro.spaceodyssey.weddingmate.global.exception.profile.PlannerProfileNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.profile.ProfileModificationNotAllowedException;
@@ -28,16 +29,18 @@ public class ProfileService {
 	private final ProfileMapper profileMapper;
 
 	private final PlannerService plannerService;
+	private final UsersRepository usersRepository;
 
 	public PlannerProfileResDto getPlannerProfile(Users users) {
 		Planner planner = plannerService.findPlannerByUser(users);
 		PlannerProfile plannerProfile = planner.getPlannerProfile(); // EAGER로 인해 즉시 로딩 가능
 
 		return PlannerProfileResDto.builder()
+			.plannerProfileId(plannerProfile.getPlannerProfileId())
 			.nickname(users.getNickname())
 			.profileImageUrl(users.getProfileImage().getUrl())
 			.plannerInfo(plannerMapper.toPlannerInfoDto(planner))
-			.plannerProfileInfo(profileMapper.toPlannerProfileInfoResDto(plannerProfile))
+			.plannerProfileInfo(profileMapper.toPlannerProfileInfoDto(plannerProfile))
 			.build();
 	}
 
@@ -46,15 +49,14 @@ public class ProfileService {
 		Planner planner = plannerService.findPlannerByUser(users);
 		PlannerProfile plannerProfile = planner.getPlannerProfile(); // EAGER로 인해 즉시 로딩 가능
 
-		if (reqDto.getBio() != null) {
-			plannerProfile.updateBio(reqDto.getBio());
-		}
-		if (reqDto.getSns() != null) {
-			plannerProfile.updateSns(reqDto.getSns());
-		}
-		planner.updatePlannerTagList(reqDto.getTagList());
+		// 변경사항 수정
+		users.updateNickname(reqDto.getNickname());
+		usersRepository.save(users);
 
-		return profileMapper.toPlannerProfileUpdateResDto(plannerProfile, planner.getPlannerTagList());
+		planner.updatePlannerInfo(reqDto.getPlannerInfo());
+		plannerProfile.updatePlannerProfileInfo(reqDto.getPlannerProfileInfo());
+
+		return profileMapper.toPlannerProfileUpdateResDto(users.getNickname(), planner, plannerProfile);
 	}
 
 	/*================== Repository 접근 ==================*/
