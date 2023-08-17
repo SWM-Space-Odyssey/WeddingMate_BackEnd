@@ -11,13 +11,13 @@ public class PlannerInfoDto {
 	private String company;
 	private String position;
 	private String region;
-	private String plannerTagList;
+	private String tagList;
 
 	@Builder
-	public PlannerInfoDto(String company, String position, String region, String plannerTagList) {
+	public PlannerInfoDto(String company, String position, String region, String tagList) {
 		this.company = company;
 		this.position = position;
 		this.region = region;
-		this.plannerTagList = plannerTagList;
+		this.tagList = tagList;
 	}
 }
