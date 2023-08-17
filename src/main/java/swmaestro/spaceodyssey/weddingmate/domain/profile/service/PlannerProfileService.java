@@ -48,10 +48,11 @@ public class PlannerProfileService {
 		Users users = usersService.findUserByPlanner(planner);
 
 		return PlannerProfileResDto.builder()
+			.plannerProfileId(plannerProfile.getPlannerProfileId())
 			.nickname(users.getNickname())
 			.profileImageUrl(users.getProfileImage().getUrl())
 			.plannerInfo(plannerMapper.toPlannerInfoDto(planner))
-			.plannerProfileInfo(profileMapper.toPlannerProfileInfoResDto(plannerProfile))
+			.plannerProfileInfo(profileMapper.toPlannerProfileInfoDto(plannerProfile))
 			.build();
 	}
 

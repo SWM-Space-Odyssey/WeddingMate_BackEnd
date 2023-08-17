@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PlannerProfileUpdateReqDto {
-	private String bio;
-	private String sns;
-	private String tagList;
+	private String nickname;
+	private PlannerInfoDto plannerInfo;
+	private PlannerProfileInfoDto plannerProfileInfo;
 }

@@ -7,14 +7,12 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PlannerProfileInfoResDto {
-	private Long plannerProfileId;
+public class PlannerProfileInfoDto {
 	private String bio;
 	private String sns;
 
 	@Builder
-	PlannerProfileInfoResDto(Long plannerProfileId, String bio, String sns) {
-		this.plannerProfileId = plannerProfileId;
+	PlannerProfileInfoDto(String bio, String sns) {
 		this.bio = bio;
 		this.sns = sns;
 	}
