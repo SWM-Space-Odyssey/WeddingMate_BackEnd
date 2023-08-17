@@ -27,7 +27,7 @@ public class PlannerMapper {
 			.company(planner.getCompany())
 			.position(planner.getPosition())
 			.region(planner.getRegion())
-			.plannerTagList(planner.getPlannerTagList())
+			.tagList(planner.getPlannerTagList())
 			.build();
 	}
 }
