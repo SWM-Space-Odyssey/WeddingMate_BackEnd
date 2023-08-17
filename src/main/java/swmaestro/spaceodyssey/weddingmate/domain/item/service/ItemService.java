@@ -58,10 +58,9 @@ public class ItemService {
 
 		verifyUserIsWriter(item, users);
 
-		itemUpdateReqDto.getImageList().stream().map(this::findFileByUrl).forEach(file -> {
-			file.setItem(item);
-			fileRepository.saveAndFlush(file);
-		});
+		item.getFileList().forEach(file -> file.setItem(null));
+
+		itemUpdateReqDto.getImageList().stream().map(this::findFileByUrl).forEach(file -> file.setItem(item));
 
 		item.updateItem(
 			itemUpdateReqDto.getItemRecord(),
