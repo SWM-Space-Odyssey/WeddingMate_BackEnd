@@ -11,6 +11,7 @@ import swmaestro.spaceodyssey.weddingmate.domain.file.enums.FilePathType;
 import swmaestro.spaceodyssey.weddingmate.domain.file.service.FileService;
 import swmaestro.spaceodyssey.weddingmate.domain.file.service.FileUploadService;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
+import swmaestro.spaceodyssey.weddingmate.domain.users.repository.UsersRepository;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +20,7 @@ public class ProfileFileUploadService {
 
 	private final FileUploadService fileUploadService;
 	private final FileService fileService;
+	private final UsersRepository usersRepository;
 
 	public File createUserProfile(String providerId, String imageUrl) {
 
@@ -29,11 +31,15 @@ public class ProfileFileUploadService {
 		return fileUploadService.uploadImageDataToS3AndSaveInRepository(imageData, fileInfoDto, fileImagePath);
 	}
 
+	@Transactional
 	public String updateProfileFile(Users users, MultipartFile multipartFile) {
 		FileInfoDto fileInfoDto = fileUploadService.validateImageAndExtractFileInfo(multipartFile);
 		String fileImagePath = buildProfileFilePath(fileInfoDto.getFileExtension(), users.getAuthProviderId());
 
 		File file = fileUploadService.uploadFileToS3AndSaveInRepository(multipartFile, fileInfoDto, fileImagePath);
+		users.updateProfileImage(file);
+		usersRepository.save(users);
+
 		return file.getUrl();
 	}
 
