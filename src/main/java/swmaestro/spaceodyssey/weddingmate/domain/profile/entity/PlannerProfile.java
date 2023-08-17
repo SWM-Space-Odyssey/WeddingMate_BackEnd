@@ -1,5 +1,7 @@
 package swmaestro.spaceodyssey.weddingmate.domain.profile.entity;
 
+import java.util.function.Consumer;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,6 +11,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileInfoDto;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Planner;
 import swmaestro.spaceodyssey.weddingmate.global.entity.BaseTimeEntity;
 
@@ -34,6 +37,12 @@ public class PlannerProfile extends BaseTimeEntity {
 		this.sns = sns;
 	}
 
+	public void updatePlannerProfileInfo(PlannerProfileInfoDto dto) {
+		updateFieldIfNotNull(dto.getBio(), this::updateBio);
+		updateFieldIfNotNull(dto.getSns(), this::updateSns);
+	}
+
+	/*================== 초기값 설정 ===================*/
 	public void setPlanner(Planner planner) {
 		this.planner = planner;
 
@@ -42,11 +51,18 @@ public class PlannerProfile extends BaseTimeEntity {
 		}
 	}
 
+	/*================== 기존 필드값 수정 ==================*/
 	public void updateBio(String bio){
 		this.bio = bio;
 	}
 
 	public void updateSns(String sns){
 		this.sns = sns;
+	}
+
+	private void updateFieldIfNotNull(String newValue, Consumer<String> fieldUpdater) {
+		if (newValue != null) {
+			fieldUpdater.accept(newValue);
+		}
 	}
 }
