@@ -1,5 +1,7 @@
 package swmaestro.spaceodyssey.weddingmate.domain.users.entity;
 
+import java.util.function.Consumer;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -13,6 +15,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerInfoDto;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.entity.PlannerProfile;
 import swmaestro.spaceodyssey.weddingmate.global.entity.BaseTimeEntity;
 
@@ -51,6 +54,14 @@ public class Planner extends BaseTimeEntity {
 		this.plannerTagList = plannerTagList;
 	}
 
+	public void updatePlannerInfo(PlannerInfoDto dto) {
+		updateFieldIfNotNull(dto.getCompany(), this::updateCompany);
+		updateFieldIfNotNull(dto.getPosition(), this::updatePosition);
+		updateFieldIfNotNull(dto.getRegion(), this::updateRegion);
+		updateFieldIfNotNull(dto.getTagList(), this::updatePlannerTagList);
+	}
+
+	/*================== 초기값 설정 ===================*/
 	public void setUsers(Users users) {
 		this.users = users;
 		users.setPlanner(this);
@@ -61,7 +72,26 @@ public class Planner extends BaseTimeEntity {
 		plannerProfile.setPlanner(this);
 	}
 
+	/*================== 기존 필드값 수정 ==================*/
+	public void updateCompany(String company) {
+		this.company = company;
+	}
+
+	public void updatePosition(String position){
+		this.position = position;
+	}
+
+	public void updateRegion(String region){
+		this.region = region;
+	}
+
 	public void updatePlannerTagList(String plannerTagList){
 		this.plannerTagList = plannerTagList;
+	}
+
+	private void updateFieldIfNotNull(String newValue, Consumer<String> fieldUpdater) {
+		if (newValue != null) {
+			fieldUpdater.accept(newValue);
+		}
 	}
 }
