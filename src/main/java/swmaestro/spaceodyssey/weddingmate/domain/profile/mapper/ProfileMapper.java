@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileInfoResDto;
+import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileInfoDto;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileUpdateResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.entity.PlannerProfile;
@@ -18,10 +18,8 @@ public class ProfileMapper {
 
 	private final PlannerMapper plannerMapper;
 
-	public PlannerProfileInfoResDto toPlannerProfileInfoResDto(PlannerProfile plannerProfile) {
-
-		return PlannerProfileInfoResDto.builder()
-			.plannerProfileId(plannerProfile.getPlannerProfileId())
+	public PlannerProfileInfoDto toPlannerProfileInfoDto(PlannerProfile plannerProfile) {
+		return PlannerProfileInfoDto.builder()
 			.bio(plannerProfile.getBio())
 			.sns(plannerProfile.getSns())
 			.build();
@@ -29,18 +27,20 @@ public class ProfileMapper {
 
 	public PlannerProfileResDto toPlannerProfileResDto(Users user, Planner planner, PlannerProfile plannerProfile) {
 		return PlannerProfileResDto.builder()
+			.plannerProfileId(plannerProfile.getPlannerProfileId())
 			.nickname(user.getNickname())
 			.profileImageUrl(user.getProfileImage().getUrl())
 			.plannerInfo(plannerMapper.toPlannerInfoDto(planner))
-			.plannerProfileInfo(toPlannerProfileInfoResDto(plannerProfile))
+			.plannerProfileInfo(toPlannerProfileInfoDto(plannerProfile))
 			.build();
 	}
 
-	public PlannerProfileUpdateResDto toPlannerProfileUpdateResDto(PlannerProfile plannerProfile, String tagList) {
+	public PlannerProfileUpdateResDto toPlannerProfileUpdateResDto(String nickname, Planner planner,
+		PlannerProfile plannerProfile) {
 		return PlannerProfileUpdateResDto.builder()
-			.sns(plannerProfile.getSns())
-			.bio(plannerProfile.getBio())
-			.tagList(tagList)
+			.nickname(nickname)
+			.plannerInfo(plannerMapper.toPlannerInfoDto(planner))
+			.plannerProfileInfo(toPlannerProfileInfoDto(plannerProfile))
 			.build();
 	}
 }

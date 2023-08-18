@@ -8,13 +8,16 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PlannerProfileResDto {
+	private Long plannerProfileId;
 	private String nickname;
 	private String profileImageUrl;
 	private PlannerInfoDto plannerInfo;
-	private PlannerProfileInfoResDto plannerProfileInfo;
+	private PlannerProfileInfoDto plannerProfileInfo;
 
 	@Builder
-	public PlannerProfileResDto(String nickname, String profileImageUrl, PlannerInfoDto plannerInfo, PlannerProfileInfoResDto plannerProfileInfo) {
+	public PlannerProfileResDto(Long plannerProfileId, String nickname, String profileImageUrl,
+		PlannerInfoDto plannerInfo, PlannerProfileInfoDto plannerProfileInfo) {
+		this.plannerProfileId = plannerProfileId;
 		this.nickname = nickname;
 		this.profileImageUrl = profileImageUrl;
 		this.plannerInfo = plannerInfo;
