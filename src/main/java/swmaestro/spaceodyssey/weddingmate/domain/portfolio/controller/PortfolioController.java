@@ -65,7 +65,7 @@ public class PortfolioController {
 	@PostMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public ApiResponse<Object> updatePortfolio(@AuthUsers Users users, @PathVariable("id") Long id,
-		@RequestPart(value = "file") MultipartFile multipartFile,
+		@RequestPart(required = false, value = "file") MultipartFile multipartFile,
 		@RequestPart PortfolioUpdateReqDto portfolioUpdateReqDto) {
 		portfolioService.updatePortfolio(users, id, portfolioUpdateReqDto, multipartFile);
 		return ApiResponse.builder()

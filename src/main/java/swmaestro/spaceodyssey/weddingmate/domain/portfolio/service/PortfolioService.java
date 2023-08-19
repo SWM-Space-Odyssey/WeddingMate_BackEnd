@@ -1,5 +1,6 @@
 package swmaestro.spaceodyssey.weddingmate.domain.portfolio.service;
 
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -68,7 +69,10 @@ public class PortfolioService {
 		verifyUserIsWriter(portfolio, users);
 
 		portfolio.updatePortfolio(portfolioUpdateReqDto.getTitle(), portfolioUpdateReqDto.getRegion(), portfolioUpdateReqDto.getTags());
-		updatePortfolioImage(multipartFile, portfolio);
+
+		if (multipartFile != null) {
+			updatePortfolioImage(multipartFile, portfolio);
+		}
 
 		if (portfolioUpdateReqDto.getItemOrderList() != null) {
 			updateItemOrder(portfolioUpdateReqDto.getItemOrderList(), portfolioId);
@@ -112,6 +116,7 @@ public class PortfolioService {
 		List<ItemResDto> itemResDtoList = portfolio.getPortfolioItemList().stream()
 			.filter(item -> (Boolean.FALSE.equals(item.getIsDeleted())))
 			.map(item -> itemMapper.entityToDto(item, isWriter))
+			.sorted(Comparator.comparingInt(ItemResDto::getOrder))
 			.toList();
 
 		return portfolioMapper.entityToDto(portfolio, itemResDtoList, isWriter);
