@@ -12,6 +12,7 @@ import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileNotFoundExce
 import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileUnSupportedExtensionTypeException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileNotImageException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileUploadFailureException;
+import swmaestro.spaceodyssey.weddingmate.global.exception.like.LikeTypeNotSupportedException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.oauth2.OAuth2AuthProviderIdNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.oauth2.OAuth2DuplicateEmailException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.oauth2.OAuthUnauthUrlException;
@@ -167,5 +168,12 @@ public class GlobalExceptionHandler {
 	protected final ApiResponse<Object> handleKakaoProfileDownloadFailureException(
 		FileKakaoProfileDownloadFailureException e) {
 		return ErrorResponse.toErrorResponseEntity(ErrorCode.FILE_KAKAO_PROFILE_DOWNLOAD_FAILURE, e.getMessage());
+	}
+
+	/*================== Like Exception ==================*/
+	@ExceptionHandler(LikeTypeNotSupportedException.class)
+	protected final ApiResponse<Object> handleLikeTypeNotSupportedException(
+		LikeTypeNotSupportedException e) {
+		return ErrorResponse.toErrorResponseEntity(ErrorCode.LIKE_TYPE_NOT_SUPPORTED, e.getMessage());
 	}
 }
