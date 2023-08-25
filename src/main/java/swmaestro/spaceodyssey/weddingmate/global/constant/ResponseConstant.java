@@ -62,4 +62,9 @@ public class ResponseConstant {
 	public static final String FILE_IMAGE_READ_FAILURE = " 이미지 파일을 읽는 과정에서 오류가 발생했습니다.";
 	public static final String FILE_KAKAO_PROFILE_DOWNLOAD_FAILURE = "카카오 프로필 이미지를 다운받는데 실패했습니다.";
 	public static final String FILE_MALFORMED_URL = "잘못된 파일 URL입니다.";
+
+	/* Like */
+	public static final String LIKE_SUCCESS = "좋아요가 되었습니다";
+	public static final String UNLIKE_SUCCESS = "좋아요가 취소되었습니다";
+	public static final String LIKE_TYPE_NOT_SUPPORTED = "지원되지 않는 좋아요 타입입니다";
 }

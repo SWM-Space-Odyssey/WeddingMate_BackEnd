@@ -17,4 +17,6 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
 	Optional<Users> findByAuthProviderId(String authProviderId);
 
 	List<Users> findAllByRegisterStatus(UserRegisterStatusEnum registerStatusEnum);
+
+	Optional<Users> findByNickname(String nickname);
 }
