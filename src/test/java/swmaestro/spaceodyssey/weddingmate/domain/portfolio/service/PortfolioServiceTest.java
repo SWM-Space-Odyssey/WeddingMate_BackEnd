@@ -16,6 +16,7 @@ import swmaestro.spaceodyssey.weddingmate.domain.file.entity.File;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemOrderDto;
 import swmaestro.spaceodyssey.weddingmate.domain.item.entity.Item;
 import swmaestro.spaceodyssey.weddingmate.domain.item.repository.ItemRepository;
+import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Planner;
 import swmaestro.spaceodyssey.weddingmate.global.config.test.DummyEntity;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.mapper.PortfolioMapper;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.PortfolioSaveReqDto;
@@ -54,6 +55,9 @@ public class PortfolioServiceTest extends DummyEntity {
 	private ItemRepository itemRepository;
 
 	public Users mockUser;
+
+	public Planner mockPlanner;
+
 	public Portfolio mockPortfolio;
 	public File mockFile;
 
@@ -61,7 +65,8 @@ public class PortfolioServiceTest extends DummyEntity {
 	void setup() {
 		mockUser = newMockUser("testUser");
 		ReflectionTestUtils.setField(mockUser, "userId", 1L);
-		mockPortfolio = newMockPortfolio(mockUser);
+		mockPlanner = newMockPlanner(mockUser);
+		mockPortfolio = newMockPortfolio(mockPlanner);
 		ReflectionTestUtils.setField(mockPortfolio, "portfolioId", 1L);
 		mockFile = newMockFile();
 	}

@@ -59,9 +59,8 @@ public class PlannerProfileService {
 	public List<PortfolioListResDto> getPlannerPortfolioByProfileId(Long plannerProfileId) {
 		PlannerProfile plannerProfile = profileService.findPlannerProfileById(plannerProfileId);
 		Planner planner = plannerService.findPlannerByPlannerProfileId(plannerProfile.getPlannerProfileId());
-		Users users = usersService.findUserByPlanner(planner);
 
-		return users.getPortfolioList().stream()
+		return planner.getPortfolioList().stream()
 			//삭제된 portfolio 제외
 			.filter(portfolio -> (Boolean.FALSE.equals(portfolio.getIsDeleted())))
 			.map(portfolioMapper::entityToDto)

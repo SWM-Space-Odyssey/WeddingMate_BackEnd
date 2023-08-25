@@ -19,7 +19,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.file.entity.File;
 import swmaestro.spaceodyssey.weddingmate.domain.item.entity.Item;
-import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
+import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Planner;
 import swmaestro.spaceodyssey.weddingmate.global.entity.BaseTimeEntity;
 
 @NoArgsConstructor
@@ -42,8 +42,8 @@ public class Portfolio extends BaseTimeEntity {
 	private String portfolioTagList;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
-	private Users users;
+	@JoinColumn(name = "planner_id")
+	private Planner planner;
 
 	@Column(nullable = false)
 	private Boolean isDeleted;
@@ -63,9 +63,9 @@ public class Portfolio extends BaseTimeEntity {
 	}
 
 	@Builder
-	public Portfolio(String title, Users users, String portfolioTagList, String regionTag) {
+	public Portfolio(String title, Planner planner, String portfolioTagList, String regionTag) {
 		this.title = title;
-		this.users = users;
+		this.planner = planner;
 		this.portfolioTagList = portfolioTagList;
 		this.regionTag = regionTag;
 		this.isDeleted = false;

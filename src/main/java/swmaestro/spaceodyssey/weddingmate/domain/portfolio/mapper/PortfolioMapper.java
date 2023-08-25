@@ -11,7 +11,7 @@ import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.PortfolioDetailRe
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.PortfolioListResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.PortfolioSaveReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.Portfolio;
-import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
+import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Planner;
 
 @Component
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
@@ -36,15 +36,15 @@ public class PortfolioMapper {
 			.itemResDtoList(itemResDtoList)
 			.repImgUrl(portfolio.getFile().getUrl())
 			.isWriter(isWriter)
-			.plannerId(portfolio.getUsers().getPlanner().getPlannerProfile().getPlannerProfileId())
+			.plannerId(portfolio.getPlanner().getPlannerId())
 			.build();
 	}
 
-	public Portfolio dtoToEntity(Users users, PortfolioSaveReqDto portfolioSaveReqDto) {
+	public Portfolio dtoToEntity(Planner planner, PortfolioSaveReqDto portfolioSaveReqDto) {
 
 		return Portfolio.builder()
 			.title(portfolioSaveReqDto.getTitle())
-			.users(users)
+			.planner(planner)
 			.regionTag(portfolioSaveReqDto.getRegion())
 			.portfolioTagList(portfolioSaveReqDto.getTags())
 			.build();
