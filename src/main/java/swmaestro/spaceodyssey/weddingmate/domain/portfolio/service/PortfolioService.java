@@ -22,11 +22,12 @@ import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.PortfolioSaveReqD
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.PortfolioUpdateReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.Portfolio;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.repository.PortfolioRepository;
+import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Planner;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
-import swmaestro.spaceodyssey.weddingmate.domain.users.repository.UsersRepository;
+import swmaestro.spaceodyssey.weddingmate.domain.users.repository.PlannerRepository;
 import swmaestro.spaceodyssey.weddingmate.global.exception.portfolio.ItemNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.portfolio.PortfolioNotFoundException;
-import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserNotFoundException;
+import swmaestro.spaceodyssey.weddingmate.global.exception.users.PlannerNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserUnAuthorizedException;
 
 @Slf4j
@@ -36,8 +37,8 @@ import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserUnAuthorize
 public class PortfolioService {
 
 	private final PortfolioRepository portfolioRepository;
-	private final UsersRepository usersRepository;
 	private final ItemRepository itemRepository;
+	private final PlannerRepository plannerRepository;
 
 	private final ItemMapper itemMapper;
 	private final PortfolioMapper portfolioMapper;
@@ -46,7 +47,9 @@ public class PortfolioService {
 
 	public Long createPortfolio(Users users, MultipartFile multipartFile, PortfolioSaveReqDto portfolioSaveReqDto) {
 
-		Portfolio portfolio = portfolioMapper.dtoToEntity(users, portfolioSaveReqDto);
+		Planner planner = findPlannerByUsers(users);
+
+		Portfolio portfolio = portfolioMapper.dtoToEntity(planner, portfolioSaveReqDto);
 
 		portfolioRepository.save(portfolio);
 
@@ -65,8 +68,10 @@ public class PortfolioService {
 
 		checkPortfolioDeleted(portfolio);
 
+		Planner planner = findPlannerByUsers(users);
+
 		//작성자가 아닌 user 예외처리
-		verifyUserIsWriter(portfolio, users);
+		verifyUserIsWriter(portfolio, planner);
 
 		portfolio.updatePortfolio(portfolioUpdateReqDto.getTitle(), portfolioUpdateReqDto.getRegion(), portfolioUpdateReqDto.getTags());
 
@@ -94,12 +99,14 @@ public class PortfolioService {
 	}
 
 	public void deletePortfolio(Users users, Long portfolioId) {
-		Portfolio portfolio = this.findPortfolioById(portfolioId);
+		Portfolio portfolio = findPortfolioById(portfolioId);
 
 		checkPortfolioDeleted(portfolio);
 
+		Planner planner = findPlannerByUsers(users);
+
 		//작성자가 아닌 user 예외처리
-		verifyUserIsWriter(portfolio, users);
+		verifyUserIsWriter(portfolio, planner);
 
 		portfolio.deletePortfolio();
 
@@ -111,7 +118,9 @@ public class PortfolioService {
 
 		checkPortfolioDeleted(portfolio);
 
-		Boolean isWriter = checkUserIsWriter(portfolio, users);
+		Planner planner = findPlannerByUsers(users);
+
+		Boolean isWriter = checkUserIsWriter(portfolio, planner);
 
 		List<ItemResDto> itemResDtoList = portfolio.getPortfolioItemList().stream()
 			.filter(item -> (Boolean.FALSE.equals(item.getIsDeleted())))
@@ -122,10 +131,10 @@ public class PortfolioService {
 		return portfolioMapper.entityToDto(portfolio, itemResDtoList, isWriter);
 	}
 
-	public List<PortfolioListResDto> getPortfolioByUser(Long userId) {
-		Users users = findUserById(userId);
+	public List<PortfolioListResDto> getPortfolioByUser(Users users) {
+		Planner planner = findPlannerByUsers(users);
 
-		return users.getPortfolioList().stream()
+		return planner.getPortfolioList().stream()
 			//삭제된 portfolio 제외
 			.filter(portfolio -> (Boolean.FALSE.equals(portfolio.getIsDeleted())))
 			.map(portfolioMapper::entityToDto)
@@ -133,10 +142,6 @@ public class PortfolioService {
 	}
 
 	/*================== Repository 접근 ==================*/
-	public Users findUserById(Long id) {
-		return usersRepository.findById(id)
-			.orElseThrow(UserNotFoundException::new);
-	}
 	public Portfolio findPortfolioById(Long id) {
 		return portfolioRepository.findById(id)
 			.orElseThrow(PortfolioNotFoundException::new);
@@ -146,6 +151,11 @@ public class PortfolioService {
 		return itemRepository.findById(id)
 			.orElseThrow(ItemNotFoundException::new);
 	}
+
+	public Planner findPlannerByUsers(Users users) {
+		return plannerRepository.findByUsers(users)
+			.orElseThrow(PlannerNotFoundException::new);
+	}
 	/*================== 예외 처리 ==================*/
 	public Portfolio checkPortfolioDeleted(Portfolio portfolio) {
 		if (Boolean.TRUE.equals(portfolio.getIsDeleted())) {
@@ -154,14 +164,14 @@ public class PortfolioService {
 		return portfolio;
 	}
 
-	public void verifyUserIsWriter(Portfolio portfolio, Users users) {
-		if (!portfolio.getUsers().getUserId().equals(users.getUserId())) {
+	public void verifyUserIsWriter(Portfolio portfolio, Planner planner) {
+		if (!portfolio.getPlanner().getPlannerId().equals(planner.getPlannerId())) {
 			throw new UserUnAuthorizedException();
 		}
 	}
 
-	public Boolean checkUserIsWriter(Portfolio portfolio, Users users) {
-		return portfolio.getUsers().getUserId().equals(users.getUserId());
+	public Boolean checkUserIsWriter(Portfolio portfolio, Planner planner) {
+		return portfolio.getPlanner().getPlannerId().equals(planner.getPlannerId());
 	}
 
 	public void checkItemBelongToPortfolio(Item item, Long portfolioId) {
