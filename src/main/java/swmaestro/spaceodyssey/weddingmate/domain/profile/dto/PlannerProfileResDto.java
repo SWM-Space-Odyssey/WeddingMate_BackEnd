@@ -13,14 +13,16 @@ public class PlannerProfileResDto {
 	private String profileImageUrl;
 	private PlannerInfoDto plannerInfo;
 	private PlannerProfileInfoDto plannerProfileInfo;
+	private Boolean isLiked;
 
 	@Builder
 	public PlannerProfileResDto(Long plannerProfileId, String nickname, String profileImageUrl,
-		PlannerInfoDto plannerInfo, PlannerProfileInfoDto plannerProfileInfo) {
+		PlannerInfoDto plannerInfo, PlannerProfileInfoDto plannerProfileInfo, Boolean isLiked) {
 		this.plannerProfileId = plannerProfileId;
 		this.nickname = nickname;
 		this.profileImageUrl = profileImageUrl;
 		this.plannerInfo = plannerInfo;
 		this.plannerProfileInfo = plannerProfileInfo;
+		this.isLiked = isLiked;
 	}
 }

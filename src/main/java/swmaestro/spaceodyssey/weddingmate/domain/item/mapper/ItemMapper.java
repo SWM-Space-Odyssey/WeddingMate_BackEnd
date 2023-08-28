@@ -11,16 +11,21 @@ import swmaestro.spaceodyssey.weddingmate.domain.file.repository.FileRepository;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemSaveReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.item.entity.Item;
+import swmaestro.spaceodyssey.weddingmate.domain.like.enums.LikeEnum;
+import swmaestro.spaceodyssey.weddingmate.domain.like.repository.LikeRepository;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.Portfolio;
+import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 
 @Component
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class ItemMapper {
 	private final FileRepository fileRepository;
+	private final LikeRepository likeRepository;
 
-	public ItemResDto entityToDto(Item item, Boolean isWriter) {
+	public ItemResDto entityToDto(Users users, Item item, Boolean isWriter) {
 
 		List<String> imageList = fileRepository.findByItem(item).stream().map(File::getUrl).toList();
+		Boolean isItemLiked = isItemLikedByUser(users, item.getItemId());
 
 		ItemResDto.ItemDetail itemDetail = ItemResDto.ItemDetail.builder()
 			.itemTagList(item.getItemTagList())
@@ -37,6 +42,7 @@ public class ItemMapper {
 			.itemId(item.getItemId())
 			.imageList(imageList)
 			.isWriter(isWriter)
+			.isLiked(isItemLiked)
 			.build();
 	}
 
@@ -51,5 +57,9 @@ public class ItemMapper {
 			.category(itemSaveReqDto.getCategory())
 			.itemTagList(itemSaveReqDto.getItemTagList())
 			.build();
+	}
+
+	private boolean isItemLikedByUser(Users users, Long itemId) {
+		return !likeRepository.findByUsersAndLikeTypeAndLikedId(users, LikeEnum.ITEM, itemId).isEmpty();
 	}
 }

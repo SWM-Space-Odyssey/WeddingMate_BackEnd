@@ -53,6 +53,8 @@ public class Item extends BaseTimeEntity {
 	@OneToMany(mappedBy = "item", cascade = CascadeType.PERSIST)
 	private List<File> fileList = new ArrayList<>();
 
+	private Integer likeCount;
+
 
 	public void updateItem(String itemRecord, String itemTagList, String company, String itemDate, String category) {
 		this.itemRecord = itemRecord;
@@ -79,5 +81,9 @@ public class Item extends BaseTimeEntity {
 		this.portfolio = portfolio;
 		this.category = category;
 		this.isDeleted = false;
+	}
+
+	public void setLikeCount(Integer likeCount) {
+		this.likeCount = likeCount;
 	}
 }

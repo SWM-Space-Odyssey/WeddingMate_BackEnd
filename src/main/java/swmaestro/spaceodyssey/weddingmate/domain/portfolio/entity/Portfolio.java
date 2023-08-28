@@ -52,6 +52,8 @@ public class Portfolio extends BaseTimeEntity {
 	@JoinColumn(name = "file_id")
 	private File file;
 
+	private Integer likeCount;
+
 	public void updatePortfolio(String title, String regionTag, String portfolioTagList) {
 		this.title = title;
 		this.regionTag = regionTag;
@@ -73,5 +75,9 @@ public class Portfolio extends BaseTimeEntity {
 
 	public void setFile(File file) {
 		this.file = file;
+	}
+
+	public void setLikeCount(Integer likeCount) {
+		this.likeCount = likeCount;
 	}
 }

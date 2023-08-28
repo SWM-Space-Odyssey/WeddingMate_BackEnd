@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.PortfolioListResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.service.PlannerProfileService;
+import swmaestro.spaceodyssey.weddingmate.domain.users.entity.AuthUsers;
+import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponse;
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponseStatus;
 
@@ -35,8 +37,8 @@ public class PlannerProfileController { // profileController가 spring 기본 co
 
 	@GetMapping("/{plannerProfileId}")
 	@ResponseStatus(HttpStatus.OK)
-	public ApiResponse<Object> getPlannerProfileByProfileId(@PathVariable Long plannerProfileId) {
-		PlannerProfileResDto plannerProfileResDto = plannerProfileService.getPlannerProfileByProfileId(plannerProfileId);
+	public ApiResponse<Object> getPlannerProfileByProfileId(@AuthUsers Users users, @PathVariable Long plannerProfileId) {
+		PlannerProfileResDto plannerProfileResDto = plannerProfileService.getPlannerProfileByProfileId(users, plannerProfileId);
 
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
@@ -46,8 +48,8 @@ public class PlannerProfileController { // profileController가 spring 기본 co
 
 	@GetMapping("/{plannerProfileId}/portfolio")
 	@ResponseStatus(HttpStatus.OK)
-	public ApiResponse<Object> getPlannerPortfolioByProfileId(@PathVariable Long plannerProfileId) {
-		List<PortfolioListResDto> portfolioListResDto = plannerProfileService.getPlannerPortfolioByProfileId(plannerProfileId);
+	public ApiResponse<Object> getPlannerPortfolioByProfileId(@AuthUsers Users users, @PathVariable Long plannerProfileId) {
+		List<PortfolioListResDto> portfolioListResDto = plannerProfileService.getPlannerPortfolioByProfileId(users, plannerProfileId);
 
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)

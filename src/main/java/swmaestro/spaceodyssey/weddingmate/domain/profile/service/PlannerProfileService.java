@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import swmaestro.spaceodyssey.weddingmate.domain.like.enums.LikeEnum;
+import swmaestro.spaceodyssey.weddingmate.domain.like.repository.LikeRepository;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.PortfolioListResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.mapper.PortfolioMapper;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileResDto;
@@ -30,6 +32,9 @@ public class PlannerProfileService {
 	private final ProfileMapper profileMapper;
 	private final PortfolioMapper portfolioMapper;
 
+	private final LikeRepository likeRepository;
+
+
 	public List<PlannerProfileResDto> getPlannerProfileList() {
 		List<Users> plannerUserList = usersService.findAllPlannerUser();
 
@@ -42,28 +47,37 @@ public class PlannerProfileService {
 			.toList();
 	}
 
-	public PlannerProfileResDto getPlannerProfileByProfileId(Long plannerProfileId) {
+	public PlannerProfileResDto getPlannerProfileByProfileId(Users users, Long plannerProfileId) {
 		PlannerProfile plannerProfile = profileService.findPlannerProfileById(plannerProfileId);
 		Planner planner = plannerService.findPlannerByPlannerProfileId(plannerProfile.getPlannerProfileId());
-		Users users = usersService.findUserByPlanner(planner);
+		Users userByPlanner = usersService.findUserByPlanner(planner);
+
+		Boolean isPlannerLiked = isLiked(users, LikeEnum.PLANNER, planner.getPlannerId());
 
 		return PlannerProfileResDto.builder()
 			.plannerProfileId(plannerProfile.getPlannerProfileId())
-			.nickname(users.getNickname())
-			.profileImageUrl(users.getProfileImage().getUrl())
+			.nickname(userByPlanner.getNickname())
+			.profileImageUrl(userByPlanner.getProfileImage().getUrl())
 			.plannerInfo(plannerMapper.toPlannerInfoDto(planner))
 			.plannerProfileInfo(profileMapper.toPlannerProfileInfoDto(plannerProfile))
+			.isLiked(isPlannerLiked)
 			.build();
 	}
 
-	public List<PortfolioListResDto> getPlannerPortfolioByProfileId(Long plannerProfileId) {
+	public List<PortfolioListResDto> getPlannerPortfolioByProfileId(Users users, Long plannerProfileId) {
 		PlannerProfile plannerProfile = profileService.findPlannerProfileById(plannerProfileId);
 		Planner planner = plannerService.findPlannerByPlannerProfileId(plannerProfile.getPlannerProfileId());
 
 		return planner.getPortfolioList().stream()
 			//삭제된 portfolio 제외
 			.filter(portfolio -> (Boolean.FALSE.equals(portfolio.getIsDeleted())))
-			.map(portfolioMapper::entityToDto)
+			.map(portfolio -> portfolioMapper.entityToDto(users, portfolio))
 			.toList();
+	}
+
+
+	/*================== Repository 접근 ==================*/
+	public Boolean isLiked(Users users, LikeEnum likeType, Long likeId) {
+		return !likeRepository.findByUsersAndLikeTypeAndLikedId(users, likeType, likeId).isEmpty();
 	}
 }
