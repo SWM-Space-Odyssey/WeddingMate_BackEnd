@@ -52,6 +52,8 @@ public class Planner extends BaseTimeEntity {
 
 	private String plannerTagList;
 
+	private Integer likeCount;
+
 	@Builder
 	public Planner(String company, String position, String region, String plannerTagList) {
 		this.company = company;
@@ -99,5 +101,9 @@ public class Planner extends BaseTimeEntity {
 		if (newValue != null) {
 			fieldUpdater.accept(newValue);
 		}
+	}
+
+	public void setLikeCount(Integer likeCount) {
+		this.likeCount = likeCount;
 	}
 }

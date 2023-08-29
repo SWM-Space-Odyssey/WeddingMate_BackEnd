@@ -15,6 +15,7 @@ import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemOrderDto;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.item.entity.Item;
 import swmaestro.spaceodyssey.weddingmate.domain.item.repository.ItemRepository;
+import swmaestro.spaceodyssey.weddingmate.domain.like.repository.LikeRepository;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.PortfolioDetailResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.PortfolioListResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.mapper.PortfolioMapper;
@@ -39,6 +40,8 @@ public class PortfolioService {
 	private final PortfolioRepository portfolioRepository;
 	private final ItemRepository itemRepository;
 	private final PlannerRepository plannerRepository;
+	private final LikeRepository likeRepository;
+
 
 	private final ItemMapper itemMapper;
 	private final PortfolioMapper portfolioMapper;
@@ -124,11 +127,11 @@ public class PortfolioService {
 
 		List<ItemResDto> itemResDtoList = portfolio.getPortfolioItemList().stream()
 			.filter(item -> (Boolean.FALSE.equals(item.getIsDeleted())))
-			.map(item -> itemMapper.entityToDto(item, isWriter))
+			.map(item -> itemMapper.entityToDto(users, item, isWriter))
 			.sorted(Comparator.comparingInt(ItemResDto::getOrder))
 			.toList();
 
-		return portfolioMapper.entityToDto(portfolio, itemResDtoList, isWriter);
+		return portfolioMapper.entityToDto(portfolio, itemResDtoList, isWriter, users);
 	}
 
 	public List<PortfolioListResDto> getPortfolioByUser(Users users) {
@@ -137,7 +140,7 @@ public class PortfolioService {
 		return planner.getPortfolioList().stream()
 			//삭제된 portfolio 제외
 			.filter(portfolio -> (Boolean.FALSE.equals(portfolio.getIsDeleted())))
-			.map(portfolioMapper::entityToDto)
+			.map(portfolio -> portfolioMapper.entityToDto(users, portfolio))
 			.toList();
 	}
 

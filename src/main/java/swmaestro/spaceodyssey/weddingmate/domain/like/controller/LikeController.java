@@ -3,7 +3,6 @@ package swmaestro.spaceodyssey.weddingmate.domain.like.controller;
 import static swmaestro.spaceodyssey.weddingmate.global.constant.ResponseConstant.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,6 +33,22 @@ public class LikeController {
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
 			.data((likeService.getUserLikedPortfolio(users)))
+			.build();
+	}
+
+	@GetMapping("/item")
+	public ApiResponse<Object> getUserLikedItem(@AuthUsers Users users) {
+		return ApiResponse.builder()
+			.status(ApiResponseStatus.SUCCESS)
+			.data((likeService.getUserLikedItem(users)))
+			.build();
+	}
+
+	@GetMapping("/planner")
+	public ApiResponse<Object> getUserLikedPlanner(@AuthUsers Users users) {
+		return ApiResponse.builder()
+			.status(ApiResponseStatus.SUCCESS)
+			.data((likeService.getUserLikedPlanner(users)))
 			.build();
 	}
 

@@ -54,7 +54,7 @@ public class ItemService {
 
 		Boolean isWriter = checkUserIsWriter(item, planner);
 
-		return itemMapper.entityToDto(item, isWriter);
+		return itemMapper.entityToDto(users, item, isWriter);
 	}
 
 	public void updateItem(Users users, Long itemId, ItemUpdateReqDto itemUpdateReqDto) {

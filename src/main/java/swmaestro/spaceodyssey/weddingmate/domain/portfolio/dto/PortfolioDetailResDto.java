@@ -19,9 +19,11 @@ public class PortfolioDetailResDto {
 	private String repImgUrl;
 	private Boolean isWriter;
 	private Long plannerId;
+	private Boolean isLiked;
 
 	@Builder
-	public PortfolioDetailResDto(Long id, String title, String tagList, List<ItemResDto> itemResDtoList, String repImgUrl, Boolean isWriter, String region, Long plannerId) {
+	public PortfolioDetailResDto (Long id, String title, String tagList, List<ItemResDto> itemResDtoList, String repImgUrl,
+									Boolean isWriter, String region, Long plannerId, Boolean isLiked) {
 		this.id = id;
 		this.title = title;
 		this.tagList = tagList;
@@ -30,5 +32,6 @@ public class PortfolioDetailResDto {
 		this.isWriter = isWriter;
 		this.region = region;
 		this.plannerId = plannerId;
+		this.isLiked = isLiked;
 	}
 }
