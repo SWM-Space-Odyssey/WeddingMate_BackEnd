@@ -60,6 +60,7 @@ public class Planner extends BaseTimeEntity {
 		this.position = position;
 		this.region = region;
 		this.plannerTagList = plannerTagList;
+		this.likeCount = 0;
 	}
 
 	public void updatePlannerInfo(PlannerInfoDto dto) {

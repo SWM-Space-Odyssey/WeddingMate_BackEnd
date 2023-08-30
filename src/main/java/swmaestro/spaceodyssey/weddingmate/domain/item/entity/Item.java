@@ -81,6 +81,7 @@ public class Item extends BaseTimeEntity {
 		this.portfolio = portfolio;
 		this.category = category;
 		this.isDeleted = false;
+		this.likeCount = 0;
 	}
 
 	public void setLikeCount(Integer likeCount) {
