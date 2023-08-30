@@ -71,6 +71,7 @@ public class Portfolio extends BaseTimeEntity {
 		this.portfolioTagList = portfolioTagList;
 		this.regionTag = regionTag;
 		this.isDeleted = false;
+		this.likeCount = 0;
 	}
 
 	public void setFile(File file) {
