@@ -10,6 +10,7 @@ import swmaestro.spaceodyssey.weddingmate.domain.file.entity.File;
 import swmaestro.spaceodyssey.weddingmate.domain.file.repository.FileRepository;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemSaveReqDto;
+import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemSearchResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.item.entity.Item;
 import swmaestro.spaceodyssey.weddingmate.domain.like.enums.LikeEnum;
 import swmaestro.spaceodyssey.weddingmate.domain.like.repository.LikeRepository;
@@ -59,6 +60,13 @@ public class ItemMapper {
 			.build();
 	}
 
+	public ItemSearchResDto dtoToEntity(Item item) {
+
+		return ItemSearchResDto.builder()
+			.url(item.getFileList().get(0).getUrl())
+			.itemId(item.getItemId())
+			.build();
+	}
 	private boolean isItemLikedByUser(Users users, Long itemId) {
 		return !likeRepository.findByUsersAndLikeTypeAndLikedId(users, LikeEnum.ITEM, itemId).isEmpty();
 	}

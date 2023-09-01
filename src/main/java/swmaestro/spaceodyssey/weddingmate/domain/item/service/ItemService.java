@@ -1,11 +1,14 @@
 package swmaestro.spaceodyssey.weddingmate.domain.item.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.file.entity.File;
 import swmaestro.spaceodyssey.weddingmate.domain.file.repository.FileRepository;
+import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemSearchResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.item.mapper.ItemMapper;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemSaveReqDto;
@@ -89,6 +92,10 @@ public class ItemService {
 		verifyUserIsWriter(item, planner);
 
 		item.deleteItem();
+	}
+
+	public List<ItemSearchResDto> searchItemsByFullText(String keyword) {
+		return itemRepository.searchItemsByFullText(keyword).stream().map(itemMapper::dtoToEntity).toList();
 	}
 
 	/*================== Repository 접근 ==================*/
