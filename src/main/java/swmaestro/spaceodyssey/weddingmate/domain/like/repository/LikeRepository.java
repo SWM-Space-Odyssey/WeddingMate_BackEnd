@@ -13,4 +13,6 @@ public interface LikeRepository extends JpaRepository<UserLike, Long> {
 	List<UserLike> findByUsersAndLikeTypeAndLikedId(Users users, LikeEnum likeType, Long likeId);
 	List<UserLike> findByUsersAndLikeTypeIn(Users users, Collection<LikeEnum> likeTypes);
 	void deleteByUsersAndLikeTypeAndLikedId(Users users, LikeEnum likeType, Long likeId);
+
+	List<UserLike> findByUsersAndLikeType(Users users, LikeEnum likeEnum);
 }

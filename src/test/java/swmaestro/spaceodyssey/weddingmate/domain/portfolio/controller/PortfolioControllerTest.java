@@ -31,6 +31,8 @@ import jakarta.persistence.EntityManager;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemOrderDto;
 import swmaestro.spaceodyssey.weddingmate.domain.item.entity.Item;
 import swmaestro.spaceodyssey.weddingmate.domain.item.repository.ItemRepository;
+import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Planner;
+import swmaestro.spaceodyssey.weddingmate.domain.users.repository.PlannerRepository;
 import swmaestro.spaceodyssey.weddingmate.global.config.test.DummyEntity;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.PortfolioSaveReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.PortfolioUpdateReqDto;
@@ -60,6 +62,9 @@ public class PortfolioControllerTest extends DummyEntity {
 
 	@Autowired
 	private PortfolioRepository portfolioRepository;
+
+	@Autowired
+	private PlannerRepository plannerRepository;
 
 	@Autowired
 	private ItemRepository itemRepository;
@@ -243,7 +248,7 @@ public class PortfolioControllerTest extends DummyEntity {
 
 	void dataSetting() {
 		Users test = usersRepository.save(newMockUser("test"));
-
-		testPortfolio1 = portfolioRepository.save(newMockPortfolio(test));
+		Planner planner = plannerRepository.save(newMockPlanner(test));
+		testPortfolio1 = portfolioRepository.save(newMockPortfolio(planner));
 	}
 }

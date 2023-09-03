@@ -20,9 +20,10 @@ public class ItemResDto {
 	private Long itemId;
 	private List<String> imageList;
 	private Boolean isWriter;
+	private Boolean isLiked;
 
 	@Builder
-	public ItemResDto(Long portfolioId, Integer order, Long itemId, List<String> imageList, Boolean isWriter, ItemDetail itemDetail) {
+	public ItemResDto(Long portfolioId, Integer order, Long itemId, List<String> imageList, Boolean isWriter, ItemDetail itemDetail, Boolean isLiked) {
 		this.itemRecord = itemDetail.itemRecord;
 		this.company = itemDetail.company;
 		this.date = itemDetail.date;
@@ -33,6 +34,7 @@ public class ItemResDto {
 		this.itemId = itemId;
 		this.imageList = imageList;
 		this.isWriter = isWriter;
+		this.isLiked = isLiked;
 	}
 
 	@Builder
