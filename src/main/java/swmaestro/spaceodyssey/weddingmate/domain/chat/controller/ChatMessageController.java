@@ -36,7 +36,7 @@ public class ChatMessageController {
 		chatMessageService.saveMessage(reqDto);
 	}
 
-	@GetMapping("/chat/message/{roomId}")
+	@GetMapping("/api/v1/chat/message/{roomId}")
 	public ApiResponse<Object> getMessageList(@PathVariable String roomId) {
 		List<ChatMessageDto> messageList = chatMessageService.getChatMessageList(roomId);
 		return ApiResponse.builder()
