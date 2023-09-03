@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.chat.dto.ChatMessageDto;
+import swmaestro.spaceodyssey.weddingmate.domain.chat.dto.ChatMessageResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.chat.pubsub.RedisPublisher;
 import swmaestro.spaceodyssey.weddingmate.domain.chat.service.ChatMessageService;
 import swmaestro.spaceodyssey.weddingmate.domain.chat.service.ChatRoomService;
@@ -38,7 +39,7 @@ public class ChatMessageController {
 
 	@GetMapping("/api/v1/chat/message/{roomId}")
 	public ApiResponse<Object> getMessageList(@PathVariable String roomId) {
-		List<ChatMessageDto> messageList = chatMessageService.getChatMessageList(roomId);
+		List<ChatMessageResDto> messageList = chatMessageService.getChatMessageList(roomId);
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
 			.data(messageList)

@@ -11,7 +11,7 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-import swmaestro.spaceodyssey.weddingmate.domain.chat.dto.ChatMessageDto;
+import swmaestro.spaceodyssey.weddingmate.domain.chat.dto.ChatMessageResDto;
 
 @Configuration
 public class RedisConfig {
@@ -59,11 +59,11 @@ public class RedisConfig {
 	* Redis에 메시지 내역을 저장하기 위한 redisTemplate 설정
 	*/
 	@Bean
-	public RedisTemplate<String, ChatMessageDto> redisMessageTemplate(RedisConnectionFactory connectionFactory) {
-		RedisTemplate<String, ChatMessageDto> redisMessageTemplate = new RedisTemplate<>();
+	public RedisTemplate<String, ChatMessageResDto> redisMessageTemplate(RedisConnectionFactory connectionFactory) {
+		RedisTemplate<String, ChatMessageResDto> redisMessageTemplate = new RedisTemplate<>();
 		redisMessageTemplate.setConnectionFactory(connectionFactory);
 		redisMessageTemplate.setKeySerializer(new StringRedisSerializer());
-		redisMessageTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(ChatMessageDto.class));
+		redisMessageTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(ChatMessageResDto.class));
 
 		return redisMessageTemplate;
 	}

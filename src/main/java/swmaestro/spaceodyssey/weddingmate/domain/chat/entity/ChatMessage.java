@@ -12,6 +12,8 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import swmaestro.spaceodyssey.weddingmate.domain.chat.dto.ChatMessageReqDto;
+import swmaestro.spaceodyssey.weddingmate.domain.chat.dto.ChatMessageResDto;
 
 @Getter
 @Entity
@@ -39,6 +41,15 @@ public class ChatMessage {
 		this.roomId = roomId;
 		this.message = message;
 		this.lastMessageTime = LocalDateTime.now();
+	}
+
+	public ChatMessageResDto toChatMessageResDto(){
+		return ChatMessageResDto.builder()
+			.roomId(this.roomId)
+			.sender(this.sender)
+			.message(this.message)
+			.lastMessageTime(this.lastMessageTime)
+			.build();
 	}
 
 }
