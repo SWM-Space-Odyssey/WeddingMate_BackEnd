@@ -63,7 +63,7 @@ public class RedisConfig {
 		RedisTemplate<String, ChatMessageDto> redisMessageTemplate = new RedisTemplate<>();
 		redisMessageTemplate.setConnectionFactory(connectionFactory);
 		redisMessageTemplate.setKeySerializer(new StringRedisSerializer());
-		redisMessageTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(String.class));
+		redisMessageTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(ChatMessageDto.class));
 
 		return redisMessageTemplate;
 	}
