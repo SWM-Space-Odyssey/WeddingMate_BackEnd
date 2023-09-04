@@ -87,4 +87,5 @@ public class Item extends BaseTimeEntity {
 	public void setLikeCount(Integer likeCount) {
 		this.likeCount = likeCount;
 	}
+
 }
