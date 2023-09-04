@@ -12,18 +12,18 @@ import lombok.RequiredArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.chat.dto.ChatMessageDto;
 import swmaestro.spaceodyssey.weddingmate.domain.chat.dto.ChatMessageResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.chat.pubsub.RedisPublisher;
-import swmaestro.spaceodyssey.weddingmate.domain.chat.service.ChatMessageService;
-import swmaestro.spaceodyssey.weddingmate.domain.chat.service.ChatRoomService;
+import swmaestro.spaceodyssey.weddingmate.domain.chat.service.ChatMessagesService;
+import swmaestro.spaceodyssey.weddingmate.domain.chat.service.ChatRoomsService;
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponse;
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponseStatus;
 
 @RequiredArgsConstructor
 @RestController
-public class ChatMessageController {
+public class ChatMessagesController {
 
 	private final RedisPublisher redisPublisher;
-	private final ChatRoomService chatRoomService;
-	private final ChatMessageService chatMessageService;
+	private final ChatRoomsService chatRoomService;
+	private final ChatMessagesService chatMessageService;
 
 	// 대화 & 대화 저장
 	@MessageMapping("/chat/message") // /pub/chat/message로 요청해야 함

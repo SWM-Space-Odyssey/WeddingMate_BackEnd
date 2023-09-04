@@ -28,7 +28,7 @@ import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponseStatus;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/portfolio")
-public class PortfolioController {
+public class PortfoliosController {
 
 	private final PortfolioService portfolioService;
 

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.like.dto.LikeReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.like.enums.LikeEnum;
-import swmaestro.spaceodyssey.weddingmate.domain.like.service.LikeService;
+import swmaestro.spaceodyssey.weddingmate.domain.like.service.LikesService;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.AuthUsers;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponse;
@@ -22,17 +22,17 @@ import swmaestro.spaceodyssey.weddingmate.global.exception.like.LikeTypeNotSuppo
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/like")
-public class LikeController {
+public class LikesController {
 
 
 	@Autowired
-	private LikeService likeService;
+	private LikesService likesService;
 
 	@GetMapping("/portfolio")
 	public ApiResponse<Object> getUserLikedPortfolio(@AuthUsers Users users) {
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
-			.data((likeService.getUserLikedPortfolio(users)))
+			.data((likesService.getUserLikedPortfolio(users)))
 			.build();
 	}
 
@@ -40,7 +40,7 @@ public class LikeController {
 	public ApiResponse<Object> getUserLikedItem(@AuthUsers Users users) {
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
-			.data((likeService.getUserLikedItem(users)))
+			.data((likesService.getUserLikedItem(users)))
 			.build();
 	}
 
@@ -48,14 +48,14 @@ public class LikeController {
 	public ApiResponse<Object> getUserLikedPlanner(@AuthUsers Users users) {
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
-			.data((likeService.getUserLikedPlanner(users)))
+			.data((likesService.getUserLikedPlanner(users)))
 			.build();
 	}
 
 	@PostMapping("")
 	public ApiResponse<Object> like(@AuthUsers Users users, @RequestBody LikeReqDto likeReqDto) {
 		LikeEnum likeType = getLikeTypeFromDto(likeReqDto);
-		Boolean isLiked = likeService.like(likeReqDto.getId(), users, likeType);
+		Boolean isLiked = likesService.like(likeReqDto.getId(), users, likeType);
 
 		String resultMessage = Boolean.TRUE.equals(isLiked) ? LIKE_SUCCESS : UNLIKE_SUCCESS;
 

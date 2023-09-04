@@ -11,16 +11,16 @@ import org.springframework.web.multipart.MultipartFile;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemFileReqDto;
-import swmaestro.spaceodyssey.weddingmate.domain.item.service.ItemFileUploadService;
+import swmaestro.spaceodyssey.weddingmate.domain.item.service.ItemsFilesUploadService;
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponse;
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponseStatus;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/portfolio/item/file")
-public class ItemFileUploadController {
+public class ItemsFilesUploadController {
 
-	private final ItemFileUploadService itemFileUploadService;
+	private final ItemsFilesUploadService itemsFilesUploadService;
 
 	@PostMapping()
 	@ResponseStatus(HttpStatus.CREATED)
@@ -29,7 +29,7 @@ public class ItemFileUploadController {
 
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
-			.data(itemFileUploadService.uploadItemFile(itemFileReqDto, multipartFile))
+			.data(itemsFilesUploadService.uploadItemFile(itemFileReqDto, multipartFile))
 			.build();
 	}
 }

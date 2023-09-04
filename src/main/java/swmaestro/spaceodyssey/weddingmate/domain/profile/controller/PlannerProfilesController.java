@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.PortfolioListResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileResDto;
-import swmaestro.spaceodyssey.weddingmate.domain.profile.service.PlannerProfileService;
+import swmaestro.spaceodyssey.weddingmate.domain.profile.service.PlannerProfilesService;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.AuthUsers;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponse;
@@ -21,14 +21,14 @@ import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponseStatus;
 @RestController
 @RequestMapping("/api/v1/planner")
 @RequiredArgsConstructor
-public class PlannerProfileController { // profileController가 spring 기본 config 클래스로 정의되어 있음
+public class PlannerProfilesController { // profileController가 spring 기본 config 클래스로 정의되어 있음
 
-	private final PlannerProfileService plannerProfileService;
+	private final PlannerProfilesService plannerProfilesService;
 
 	@GetMapping()
 	@ResponseStatus(HttpStatus.OK)
-	public ApiResponse<Object> getAllPlannerProfileList() {
-		List<PlannerProfileResDto> resDtoList = plannerProfileService.getPlannerProfileList();
+	public ApiResponse<Object> getAllPlannerProfileList(@AuthUsers Users users) {
+		List<PlannerProfileResDto> resDtoList = plannerProfilesService.getPlannerProfileList(users);
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
 			.data(resDtoList)
@@ -38,7 +38,7 @@ public class PlannerProfileController { // profileController가 spring 기본 co
 	@GetMapping("/{plannerProfileId}")
 	@ResponseStatus(HttpStatus.OK)
 	public ApiResponse<Object> getPlannerProfileByProfileId(@AuthUsers Users users, @PathVariable Long plannerProfileId) {
-		PlannerProfileResDto plannerProfileResDto = plannerProfileService.getPlannerProfileByProfileId(users, plannerProfileId);
+		PlannerProfileResDto plannerProfileResDto = plannerProfilesService.getPlannerProfileByProfileId(users, plannerProfileId);
 
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
@@ -49,7 +49,7 @@ public class PlannerProfileController { // profileController가 spring 기본 co
 	@GetMapping("/{plannerProfileId}/portfolio")
 	@ResponseStatus(HttpStatus.OK)
 	public ApiResponse<Object> getPlannerPortfolioByProfileId(@AuthUsers Users users, @PathVariable Long plannerProfileId) {
-		List<PortfolioListResDto> portfolioListResDto = plannerProfileService.getPlannerPortfolioByProfileId(users, plannerProfileId);
+		List<PortfolioListResDto> portfolioListResDto = plannerProfilesService.getPlannerPortfolioByProfileId(users, plannerProfileId);
 
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)

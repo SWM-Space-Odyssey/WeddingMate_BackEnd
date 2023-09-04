@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemSaveReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemUpdateReqDto;
-import swmaestro.spaceodyssey.weddingmate.domain.item.service.ItemService;
+import swmaestro.spaceodyssey.weddingmate.domain.item.service.ItemsService;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.AuthUsers;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponse;
@@ -25,13 +25,13 @@ import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponseStatus;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/portfolio/item")
-public class ItemController {
+public class ItemsController {
 
-	private final ItemService itemService;
+	private final ItemsService itemsService;
 	@PostMapping("/save")
 	@ResponseStatus(HttpStatus.CREATED)
 	public ApiResponse<Object> createItem(@RequestBody ItemSaveReqDto itemSaveReqDto) {
-		itemService.createItem(itemSaveReqDto);
+		itemsService.createItem(itemSaveReqDto);
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
 			.data(ITEM_CREATE_SUCCESS)
@@ -43,14 +43,14 @@ public class ItemController {
 	public ApiResponse<Object> getItemById(@AuthUsers Users users, @PathVariable("id") Long id) {
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
-			.data(itemService.findById(users, id))
+			.data(itemsService.findById(users, id))
 			.build();
 	}
 
 	@PutMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public ApiResponse<Object> updateItem(@AuthUsers Users users, @PathVariable("id") Long id, @RequestBody ItemUpdateReqDto itemUpdateReqDto) {
-		itemService.updateItem(users, id, itemUpdateReqDto);
+		itemsService.updateItem(users, id, itemUpdateReqDto);
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
 			.data(ITEM_UPDATE_SUCCESS)
@@ -60,7 +60,7 @@ public class ItemController {
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public ApiResponse<Object> deleteItem(@AuthUsers Users users, @PathVariable("id") Long id) {
-		itemService.deleteItem(users, id);
+		itemsService.deleteItem(users, id);
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
 			.data(ITEM_DELETE_SUCCESS)

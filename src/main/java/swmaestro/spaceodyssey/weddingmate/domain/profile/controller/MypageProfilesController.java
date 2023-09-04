@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileUpdateReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileUpdateResDto;
-import swmaestro.spaceodyssey.weddingmate.domain.profile.service.ProfileService;
+import swmaestro.spaceodyssey.weddingmate.domain.profile.service.ProfilesService;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.AuthUsers;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponse;
@@ -21,14 +21,14 @@ import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponseStatus;
 @RestController
 @RequestMapping("/api/v1/profile")
 @RequiredArgsConstructor
-public class MypageProfileController {
+public class MypageProfilesController {
 
-	private final ProfileService profileService;
+	private final ProfilesService profilesService;
 
 	@GetMapping("/planner")
 	@ResponseStatus(HttpStatus.OK)
 	public ApiResponse<Object> getPlannerProfile(@AuthUsers Users users) {
-		PlannerProfileResDto plannerProfileResDto = profileService.getPlannerProfile(users);
+		PlannerProfileResDto plannerProfileResDto = profilesService.getPlannerProfile(users);
 
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
@@ -39,7 +39,7 @@ public class MypageProfileController {
 	@PutMapping("/planner")
 	@ResponseStatus(HttpStatus.OK)
 	public ApiResponse<Object> updatePlannerProfile(@AuthUsers Users users, @RequestBody PlannerProfileUpdateReqDto reqDto) {
-		PlannerProfileUpdateResDto resDto = profileService.updatePlannerProfile(users, reqDto);
+		PlannerProfileUpdateResDto resDto = profilesService.updatePlannerProfile(users, reqDto);
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
 			.data(resDto)

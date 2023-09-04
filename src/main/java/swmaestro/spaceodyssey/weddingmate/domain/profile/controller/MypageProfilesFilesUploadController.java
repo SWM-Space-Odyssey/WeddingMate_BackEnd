@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import swmaestro.spaceodyssey.weddingmate.domain.profile.service.ProfileFileUploadService;
+import swmaestro.spaceodyssey.weddingmate.domain.profile.service.ProfilesFilesUploadService;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.AuthUsers;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponse;
@@ -20,9 +20,9 @@ import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponseStatus;
 @RestController
 @RequestMapping("/api/v1/profile/file")
 @RequiredArgsConstructor
-public class MypageProfileFileUploadController {
+public class MypageProfilesFilesUploadController {
 
-	private final ProfileFileUploadService profileFileUploadService;
+	private final ProfilesFilesUploadService profilesFilesUploadService;
 
 	@PostMapping()
 	@ResponseStatus(HttpStatus.OK)
@@ -30,7 +30,7 @@ public class MypageProfileFileUploadController {
 		@NotNull @RequestPart("file") MultipartFile multipartFile) {
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
-			.data(profileFileUploadService.updateProfileFile(users, multipartFile))
+			.data(profilesFilesUploadService.updateProfileFile(users, multipartFile))
 			.build();
 	}
 
@@ -39,7 +39,7 @@ public class MypageProfileFileUploadController {
 	public ApiResponse<Object> deleteProfile(@AuthUsers Users users) {
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
-			.data(profileFileUploadService.deleteProfileFile(users))
+			.data(profilesFilesUploadService.deleteProfileFile(users))
 			.build();
 	}
 }

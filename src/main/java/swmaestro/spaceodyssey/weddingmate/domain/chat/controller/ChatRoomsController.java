@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.chat.dto.ChatMessageReqDto;
-import swmaestro.spaceodyssey.weddingmate.domain.chat.service.ChatRoomService;
+import swmaestro.spaceodyssey.weddingmate.domain.chat.service.ChatRoomsService;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.AuthUsers;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponse;
@@ -19,9 +19,9 @@ import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponseStatus;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/chat")
-public class ChatRoomController {
+public class ChatRoomsController {
 
-	private final ChatRoomService chatRoomService;
+	private final ChatRoomsService chatRoomService;
 
 	@PostMapping("/room")
 	public ApiResponse<Object> createRoom(@AuthUsers Users users, @RequestBody ChatMessageReqDto reqDto) {
