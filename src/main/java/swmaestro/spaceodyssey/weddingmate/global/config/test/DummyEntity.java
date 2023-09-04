@@ -27,7 +27,7 @@ public class DummyEntity {
 
 		Planner planner = Planner.builder()
 			.plannerTagList("친절한")
-			.region("서울")
+			.regionList("서울")
 			.company("웨딩웨딩")
 			.position("사원")
 			.build();
