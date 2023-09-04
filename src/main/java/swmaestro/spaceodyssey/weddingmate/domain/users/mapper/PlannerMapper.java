@@ -17,7 +17,7 @@ public class PlannerMapper {
 		return Planner.builder()
 			.company(reqDto.getCompany())
 			.position(reqDto.getPosition())
-			.region(reqDto.getRegion())
+			.regionList(reqDto.getRegion())
 			.plannerTagList(reqDto.getPlannerTagList())
 			.build();
 	}
@@ -26,7 +26,7 @@ public class PlannerMapper {
 		return PlannerInfoDto.builder()
 			.company(planner.getCompany())
 			.position(planner.getPosition())
-			.region(planner.getRegion())
+			.regionList(planner.getRegionList())
 			.tagList(planner.getPlannerTagList())
 			.build();
 	}

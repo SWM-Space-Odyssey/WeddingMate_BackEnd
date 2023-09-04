@@ -41,7 +41,7 @@ public class Planner extends BaseTimeEntity {
 	private String position;
 
 	@NotNull(message = "지역은 필수로 입력되어야 합니다.")
-	private String region;
+	private String regionList; // 최대 3개
 
 	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	@JoinColumn(name = "profile_id")
@@ -50,15 +50,15 @@ public class Planner extends BaseTimeEntity {
 	@OneToMany(mappedBy = "planner", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Portfolio> portfolioList;
 
-	private String plannerTagList;
+	private String plannerTagList; // 최대 3개
 
 	private Integer likeCount;
 
 	@Builder
-	public Planner(String company, String position, String region, String plannerTagList) {
+	public Planner(String company, String position, String regionList, String plannerTagList) {
 		this.company = company;
 		this.position = position;
-		this.region = region;
+		this.regionList = regionList;
 		this.plannerTagList = plannerTagList;
 		this.likeCount = 0;
 	}
@@ -66,7 +66,7 @@ public class Planner extends BaseTimeEntity {
 	public void updatePlannerInfo(PlannerInfoDto dto) {
 		updateFieldIfNotNull(dto.getCompany(), this::updateCompany);
 		updateFieldIfNotNull(dto.getPosition(), this::updatePosition);
-		updateFieldIfNotNull(dto.getRegion(), this::updateRegion);
+		updateFieldIfNotNull(dto.getRegionList(), this::updateRegionList);
 		updateFieldIfNotNull(dto.getTagList(), this::updatePlannerTagList);
 	}
 
@@ -90,8 +90,8 @@ public class Planner extends BaseTimeEntity {
 		this.position = position;
 	}
 
-	public void updateRegion(String region){
-		this.region = region;
+	public void updateRegionList(String regionList){
+		this.regionList = regionList;
 	}
 
 	public void updatePlannerTagList(String plannerTagList){

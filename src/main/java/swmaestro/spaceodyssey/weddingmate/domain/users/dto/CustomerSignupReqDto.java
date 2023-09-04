@@ -12,7 +12,7 @@ public class CustomerSignupReqDto {
 	// Customer 관련 속성
 	private Boolean weddingDateConfirmed;
 	private String weddingDate;
-	private String region;
+	private String regionList;
 	private String budget;
 
 	// CustomerTagList 관련 속성
