@@ -14,7 +14,6 @@ import swmaestro.spaceodyssey.weddingmate.domain.file.dto.FileMapper;
 import swmaestro.spaceodyssey.weddingmate.domain.file.dto.ImageListResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.file.entity.Files;
 import swmaestro.spaceodyssey.weddingmate.domain.file.repository.FilesRepository;
-import swmaestro.spaceodyssey.weddingmate.domain.portfolio.repository.PortfoliosRepository;
 import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileNotFoundException;
 
 @Service
@@ -23,13 +22,10 @@ import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileNotFoundExce
 public class FilesService {
 
 	private final FilesRepository fileRepository;
-	private final PortfoliosRepository portfoliosRepository;
 	private final FileMapper fileMapper;
 
 	public FeedResDto getImagesAfterCursor(Long cursor, int pageSize) {
 		List<Files> fileList = fileRepository.findFilesAfterCursor(cursor, pageSize);
-
-		Files lastFile = fileList.get(fileList.size() - 1);
 
 		List<ImageListResDto> imageListResDtoList = new ArrayList<>(fileList.stream().map(fileMapper::entityToDto).toList());
 
@@ -39,6 +35,8 @@ public class FilesService {
 		if (fileList.size() != pageSize) {
 			return fileMapper.createFeedResponse(imageListResDtoList, Long.valueOf(0), fileList.size());
 		}
+		Files lastFile = fileList.get(fileList.size() - 1);
+
 		return fileMapper.createFeedResponse(imageListResDtoList, lastFile.getFileId(), fileList.size());
 	}
 
@@ -51,8 +49,13 @@ public class FilesService {
 
 	public Long getRandomCursor(Long max) {
 		SecureRandom secureRandom = new SecureRandom();
-		return (secureRandom.nextLong() % max);
+		long randomValue = secureRandom.nextLong();
+		if (randomValue < 0) {
+			randomValue = -randomValue; // 음수면 양수로 바꾸어 줍니다.
+		}
+		return randomValue % max;
 	}
+
 	public Files findById(Long fileId) {
 		return fileRepository.findById(fileId)
 			.orElseThrow(FileNotFoundException::new);
