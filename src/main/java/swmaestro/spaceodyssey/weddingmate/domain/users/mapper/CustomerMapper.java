@@ -14,7 +14,7 @@ public class CustomerMapper {
 	public Customer toEntity(CustomerSignupReqDto reqDto) {
 		Customer customer =  Customer.builder()
 			.weddingDateConfirmed(reqDto.getWeddingDateConfirmed())
-			.region(reqDto.getRegion())
+			.regionList(reqDto.getRegionList())
 			.budget(reqDto.getBudget())
 			.customerTagList(reqDto.getCustomerTagList())
 			.build();

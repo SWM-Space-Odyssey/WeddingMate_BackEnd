@@ -30,7 +30,7 @@ public class Customer extends BaseTimeEntity {
 
 	private String weddingDate;
 
-	private String region;
+	private String regionList; // 최대 2개
 
 	@NotNull(message = "예산은 필수로 입력되어야 합니다.")
 	private String budget;
@@ -48,9 +48,9 @@ public class Customer extends BaseTimeEntity {
 	private String makeupTagList;
 
 	@Builder
-	public Customer(Boolean weddingDateConfirmed, String region, String budget, CustomerTagListDto customerTagList) {
+	public Customer(Boolean weddingDateConfirmed, String regionList, String budget, CustomerTagListDto customerTagList) {
 		this.weddingDateConfirmed = weddingDateConfirmed;
-		this.region = region;
+		this.regionList = regionList;
 		this.budget = budget;
 		this.portfolioTagList = customerTagList.getPortfolioTagList();
 		this.plannerTagList = customerTagList.getPlannerTagList();
