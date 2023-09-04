@@ -29,6 +29,18 @@ public class UsersService {
 
 	/*================== Repository 접근 ==================*/
 	@Transactional(readOnly = true)
+	public Users findUserById(Long id) {
+		return usersRepository.findById(id)
+			.orElseThrow(UserNotFoundException::new);
+	}
+
+	@Transactional(readOnly = true)
+	public Users findUserByNickname(String nickname) {
+		return usersRepository.findByNickname(nickname)
+			.orElseThrow(UserNotFoundException::new);
+	}
+
+	@Transactional(readOnly = true)
 	public Users findUserByEmail(String email) {
 		return usersRepository.findByEmail(email)
 			.orElseThrow(UserNotFoundException::new);
