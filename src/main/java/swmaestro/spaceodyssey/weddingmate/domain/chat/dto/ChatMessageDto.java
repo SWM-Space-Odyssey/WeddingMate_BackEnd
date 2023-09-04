@@ -5,7 +5,7 @@ import java.io.Serializable;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import swmaestro.spaceodyssey.weddingmate.domain.chat.entity.ChatMessage;
+import swmaestro.spaceodyssey.weddingmate.domain.chat.entity.ChatMessages;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -17,9 +17,9 @@ public class ChatMessageDto implements Serializable {
 	private String sender;
 	private String message;
 
-	public ChatMessageDto(ChatMessage chatMessage) {
-		this.sender = chatMessage.getSender();
-		this.roomId = chatMessage.getRoomId();
-		this.message = chatMessage.getMessage();
+	public ChatMessageDto(ChatMessages chatMessages) {
+		this.sender = chatMessages.getSender();
+		this.roomId = chatMessages.getRoomId();
+		this.message = chatMessages.getMessage();
 	}
 }

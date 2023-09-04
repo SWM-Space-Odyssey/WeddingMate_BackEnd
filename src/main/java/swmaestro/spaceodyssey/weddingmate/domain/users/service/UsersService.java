@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.users.enums.UserRegisterStatusEnum;
-import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Planner;
+import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Planners;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 import swmaestro.spaceodyssey.weddingmate.domain.users.repository.UsersRepository;
 import swmaestro.spaceodyssey.weddingmate.global.exception.users.CustomerDuplicateRegistrationException;
@@ -47,8 +47,8 @@ public class UsersService {
 	}
 
 	@Transactional(readOnly = true)
-	public Users findUserByPlanner(Planner planner) {
-		return usersRepository.findByPlanner(planner)
+	public Users findUserByPlanner(Planners planners) {
+		return usersRepository.findByPlanners(planners)
 			.orElseThrow(UserNotFoundException::new);
 	}
 

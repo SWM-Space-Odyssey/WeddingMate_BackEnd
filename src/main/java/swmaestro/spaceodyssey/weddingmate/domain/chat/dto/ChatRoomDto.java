@@ -13,7 +13,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import swmaestro.spaceodyssey.weddingmate.domain.chat.entity.ChatRoom;
+import swmaestro.spaceodyssey.weddingmate.domain.chat.entity.ChatRooms;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -49,8 +49,8 @@ public class ChatRoomDto implements Serializable {
 		this.receiver = receiver;
 	}
 
-	public ChatRoom toEntity() {
-		return ChatRoom.builder()
+	public ChatRooms toEntity() {
+		return ChatRooms.builder()
 			.roomName(this.roomName)
 			.roomId(this.roomId)
 			.sender(this.sender)

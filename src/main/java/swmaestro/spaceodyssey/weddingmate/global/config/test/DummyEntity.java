@@ -1,66 +1,66 @@
 package swmaestro.spaceodyssey.weddingmate.global.config.test;
 
-import swmaestro.spaceodyssey.weddingmate.domain.file.entity.File;
-import swmaestro.spaceodyssey.weddingmate.domain.item.entity.Item;
-import swmaestro.spaceodyssey.weddingmate.domain.like.entity.UserLike;
+import swmaestro.spaceodyssey.weddingmate.domain.file.entity.Files;
+import swmaestro.spaceodyssey.weddingmate.domain.item.entity.Items;
+import swmaestro.spaceodyssey.weddingmate.domain.like.entity.UserLikes;
 import swmaestro.spaceodyssey.weddingmate.domain.like.enums.LikeEnum;
 import swmaestro.spaceodyssey.weddingmate.domain.oauth2.enums.AuthProvider;
-import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.Portfolio;
-import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Planner;
+import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.Portfolios;
+import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Planners;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 
 
 public class DummyEntity {
 
 	public Users newMockUser(String nickname) {
-		File file = newMockFile();
+		Files files = newMockFile();
 		return Users.builder()
 			.authProvider(AuthProvider.KAKAO)
 			.authProviderId("test")
 			.email(nickname + "@gmail.com")
 			.nickname(nickname)
-			.profileImage(file)
+			.profileImage(files)
 			.build();
 	}
 
-	public Planner newMockPlanner(Users users) {
+	public Planners newMockPlanner(Users users) {
 
-		Planner planner = Planner.builder()
+		Planners planners = Planners.builder()
 			.plannerTagList("친절한")
 			.regionList("서울")
 			.company("웨딩웨딩")
 			.position("사원")
 			.build();
-		planner.setUsers(users);
+		planners.setUsers(users);
 
-		return planner;
+		return planners;
 	}
 
-	public Portfolio newMockPortfolio(Planner planner) {
-		Portfolio portfolio = Portfolio.builder()
+	public Portfolios newMockPortfolio(Planners planners) {
+		Portfolios portfolios = Portfolios.builder()
 			.title("Test Title")
-			.planner(planner)
+			.planners(planners)
 			.regionTag("서울")
 			.portfolioTagList("예쁜,고급스러운")
 			.build();
 
-		portfolio.setFile(newMockFile());
+		portfolios.setFiles(newMockFile());
 
-		return portfolio;
+		return portfolios;
 	}
 
 
-	public File newMockFile() {
-		return File.builder()
+	public Files newMockFile() {
+		return swmaestro.spaceodyssey.weddingmate.domain.file.entity.Files.builder()
 			.url("/test")
 			.filename("test")
 			.filetype(".txt")
 			.build();
 	}
 
-	public Item newMockItem(Portfolio portfolio) {
-		return Item.builder()
-			.portfolio(portfolio)
+	public Items newMockItem(Portfolios portfolios) {
+		return Items.builder()
+			.portfolios(portfolios)
 			.itemDate("localtime")
 			.company("company")
 			.itemOrder(1)
@@ -70,8 +70,8 @@ public class DummyEntity {
 			.build();
 	}
 
-	public UserLike mockUserLike(Long likedId, LikeEnum likeEnum, Users users) {
-		return UserLike.builder()
+	public UserLikes mockUserLike(Long likedId, LikeEnum likeEnum, Users users) {
+		return UserLikes.builder()
 			.likedId(likedId)
 			.likeEnum(likeEnum)
 			.users(users)

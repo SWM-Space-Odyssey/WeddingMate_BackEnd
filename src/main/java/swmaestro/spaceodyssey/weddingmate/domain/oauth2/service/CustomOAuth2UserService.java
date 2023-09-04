@@ -13,12 +13,12 @@ import org.springframework.util.StringUtils;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import swmaestro.spaceodyssey.weddingmate.domain.file.entity.File;
+import swmaestro.spaceodyssey.weddingmate.domain.file.entity.Files;
 import swmaestro.spaceodyssey.weddingmate.domain.oauth2.OAuth2UserInfo;
 import swmaestro.spaceodyssey.weddingmate.domain.oauth2.OAuth2UserInfoFactory;
 import swmaestro.spaceodyssey.weddingmate.domain.oauth2.UserPrincipal;
 import swmaestro.spaceodyssey.weddingmate.domain.oauth2.enums.AuthProvider;
-import swmaestro.spaceodyssey.weddingmate.domain.profile.service.ProfileFileUploadService;
+import swmaestro.spaceodyssey.weddingmate.domain.profile.service.ProfilesFilesUploadService;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 import swmaestro.spaceodyssey.weddingmate.domain.users.repository.UsersRepository;
 import swmaestro.spaceodyssey.weddingmate.global.exception.oauth2.OAuth2AuthProviderIdNotFoundException;
@@ -30,7 +30,7 @@ import swmaestro.spaceodyssey.weddingmate.global.exception.oauth2.OAuth2Duplicat
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
 	private final UsersRepository usersRepository;
-	private final ProfileFileUploadService profileFileUploadService;
+	private final ProfilesFilesUploadService profilesFilesUploadService;
 
 	/* OAuth2UserRequest에 이는 Access Token으로 유저 정보를 가져온다 */
 	@Override
@@ -71,7 +71,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 	@Transactional
 	public Users registerUser(AuthProvider authProvider, OAuth2UserInfo oAuth2UserInfo) {
 		try {
-			File profileImage = profileFileUploadService.createUserProfile(oAuth2UserInfo.getOAuth2Id(), oAuth2UserInfo.getImageUrl());
+			Files profileImage = profilesFilesUploadService.createUserProfile(oAuth2UserInfo.getOAuth2Id(), oAuth2UserInfo.getImageUrl());
 
 			Users users = Users.builder()
 				.nickname(oAuth2UserInfo.getName())
