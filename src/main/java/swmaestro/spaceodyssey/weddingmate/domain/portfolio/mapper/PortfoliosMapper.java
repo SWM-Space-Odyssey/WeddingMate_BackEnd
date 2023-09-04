@@ -45,7 +45,7 @@ public class PortfoliosMapper {
 			.itemResDtoList(itemResDtoList)
 			.repImgUrl(portfolios.getFiles().getUrl())
 			.isWriter(isWriter)
-			.plannerId(portfolios.getPlanners().getPlannerId())
+			.plannerId(portfolios.getPlanners().getPlannerProfiles().getPlannerProfileId())
 			.isLiked(isPortfolioLiked)
 			.build();
 	}
