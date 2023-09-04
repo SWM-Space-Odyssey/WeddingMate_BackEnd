@@ -7,10 +7,10 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import swmaestro.spaceodyssey.weddingmate.domain.file.dto.FileInfoDto;
-import swmaestro.spaceodyssey.weddingmate.domain.file.entity.File;
+import swmaestro.spaceodyssey.weddingmate.domain.file.entity.Files;
 import swmaestro.spaceodyssey.weddingmate.domain.file.enums.FilePathType;
-import swmaestro.spaceodyssey.weddingmate.domain.file.service.FileUploadService;
-import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.Portfolio;
+import swmaestro.spaceodyssey.weddingmate.domain.file.service.FilesUploadService;
+import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.Portfolios;
 
 @Slf4j
 @Service
@@ -18,11 +18,11 @@ import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.Portfolio;
 @Transactional
 public class PortfolioFileUploadService {
 
-	private final FileUploadService fileUploadService;
+	private final FilesUploadService fileUploadService;
 
-	public File uploadPortfolioFile(MultipartFile multipartFile, Portfolio portfolio) {
+	public Files uploadPortfolioFile(MultipartFile multipartFile, Portfolios portfolios) {
 		FileInfoDto fileInfoDto = fileUploadService.validateImageAndExtractFileInfo(multipartFile);
-		String portfolioImagePath = buildPortfolioFilePath(fileInfoDto.getFileExtension(), portfolio.getPortfolioId());
+		String portfolioImagePath = buildPortfolioFilePath(fileInfoDto.getFileExtension(), portfolios.getPortfolioId());
 		return fileUploadService.uploadFileToS3AndSaveInRepository(multipartFile, fileInfoDto, portfolioImagePath);
 	}
 

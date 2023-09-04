@@ -1,14 +1,15 @@
 package swmaestro.spaceodyssey.weddingmate.domain.item.dto;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ItemSearchResDto {
-	Long itemId;
-	String url;
+	private Long itemId;
+	private String url;
 
 	@Builder
 	public ItemSearchResDto(String url, Long itemId) {

@@ -16,8 +16,8 @@ import swmaestro.spaceodyssey.weddingmate.domain.users.dto.PlannerSignupReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.AuthUsers;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 import swmaestro.spaceodyssey.weddingmate.domain.users.enums.UserRegisterStatusEnum;
-import swmaestro.spaceodyssey.weddingmate.domain.users.service.CustomerService;
-import swmaestro.spaceodyssey.weddingmate.domain.users.service.PlannerService;
+import swmaestro.spaceodyssey.weddingmate.domain.users.service.CustomersService;
+import swmaestro.spaceodyssey.weddingmate.domain.users.service.PlannersService;
 import swmaestro.spaceodyssey.weddingmate.domain.users.service.UsersService;
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponse;
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponseStatus;
@@ -28,8 +28,8 @@ import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponseStatus;
 public class SignupController {
 
 	private final UsersService usersService;
-	private final PlannerService plannerService;
-	private final CustomerService customerService;
+	private final PlannersService plannerService;
+	private final CustomersService customersService;
 
 	@PostMapping("/planner")
 	@ResponseStatus(value = HttpStatus.CREATED)
@@ -44,7 +44,7 @@ public class SignupController {
 	@PostMapping("/customer")
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public ApiResponse<Object> customerSignup(@AuthUsers Users users, @RequestBody CustomerSignupReqDto reqDto) {
-		customerService.signupCustomer(users, reqDto);
+		customersService.signupCustomer(users, reqDto);
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
 			.data(reqDto.getNickname() + CUSTOMER_SIGNUP_SUCCESS)

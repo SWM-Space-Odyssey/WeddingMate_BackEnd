@@ -10,14 +10,14 @@ import lombok.NoArgsConstructor;
 public class PlannerInfoDto {
 	private String company;
 	private String position;
-	private String region;
+	private String regionList;
 	private String tagList;
 
 	@Builder
-	public PlannerInfoDto(String company, String position, String region, String tagList) {
+	public PlannerInfoDto(String company, String position, String regionList, String tagList) {
 		this.company = company;
 		this.position = position;
-		this.region = region;
+		this.regionList = regionList;
 		this.tagList = tagList;
 	}
 }

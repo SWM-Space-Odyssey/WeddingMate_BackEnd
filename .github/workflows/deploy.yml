@@ -12,17 +12,6 @@ jobs:
       - name: checkout #branch로 checkout
         uses: actions/checkout@main
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-northeast-2
-
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-        
       - name: create env file
         run: |
           touch .env
@@ -47,17 +36,6 @@ jobs:
           remote_host: ${{ secrets.HOST }}
           remote_user: ubuntu
           remote_key: ${{ secrets.KEY }}
-          
-      - name: Build, tag, and push image to Amazon ECR
-        id: build-image
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: weddingmate
-          IMAGE_TAG: ${{ github.sha }}
-        run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@master
@@ -66,7 +44,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.KEY }}
           script: |
-            sh /home/ubuntu/srv/weddingmate/config/scripts/deploy.sh ${{github.sha}}
+            sh /home/ubuntu/srv/weddingmate/config/scripts/deploy.sh
 
       - name: delete unused images and containers
         uses: appleboy/ssh-action@master

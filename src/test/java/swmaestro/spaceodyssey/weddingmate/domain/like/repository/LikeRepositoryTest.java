@@ -11,11 +11,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 
-import swmaestro.spaceodyssey.weddingmate.domain.item.repository.ItemRepository;
+import swmaestro.spaceodyssey.weddingmate.domain.item.repository.ItemsRepository;
 import swmaestro.spaceodyssey.weddingmate.domain.like.enums.LikeEnum;
-import swmaestro.spaceodyssey.weddingmate.domain.portfolio.repository.PortfolioRepository;
+import swmaestro.spaceodyssey.weddingmate.domain.portfolio.repository.PortfoliosRepository;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
-import swmaestro.spaceodyssey.weddingmate.domain.users.repository.PlannerRepository;
+import swmaestro.spaceodyssey.weddingmate.domain.users.repository.PlannersRepository;
 import swmaestro.spaceodyssey.weddingmate.domain.users.repository.UsersRepository;
 import swmaestro.spaceodyssey.weddingmate.global.config.test.DummyEntity;
 
@@ -28,16 +28,16 @@ public class LikeRepositoryTest extends DummyEntity {
 	UsersRepository usersRepository;
 
 	@Autowired
-	ItemRepository itemRepository;
+	ItemsRepository itemsRepository;
 
 	@Autowired
-	PortfolioRepository portfolioRepository;
+	PortfoliosRepository portfoliosRepository;
 
 	@Autowired
-	LikeRepository likeRepository;
+	LikesRepository likeRepository;
 
 	@Autowired
-	PlannerRepository plannerRepository;
+	PlannersRepository plannersRepository;
 
 
 	Integer count = 5000;

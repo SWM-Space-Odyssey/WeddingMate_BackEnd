@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ItemFileReqDto {
-	Long portfolioId;
-	String itemCategory;
+	private Long portfolioId;
+	private String itemCategory;
 }

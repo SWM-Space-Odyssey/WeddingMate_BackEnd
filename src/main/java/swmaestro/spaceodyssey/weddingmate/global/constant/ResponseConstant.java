@@ -35,19 +35,19 @@ public class ResponseConstant {
 	public static final String PROFILE_MODIFICATION_NOT_ALLOWED = "해당 프로필의 작성자가 아닙니다.";
 
 	/* PORTFOLIO */
-	public static final String PORTFOLIO_NOTFOUND = "해당 포트폴리오를 찾을 수 없습니다";
+	public static final String PORTFOLIO_NOTFOUND = "해당 포트폴리오를 찾을 수 없습니다.";
 	public static final String PORTFOLIO_CREATE_SUCCESS = "해당 포트폴리오를 생성했습니다.";
 	public static final String PORTFOLIO_UPDATE_SUCCESS = "해당 포트폴리오를 수정했습니다.";
 	public static final String PORTFOLIO_DELETE_SUCCESS = "해당 포트폴리오를 삭제했습니다.";
 
 	/* ITEM */
-	public static final String ITEM_NOTFOUND = "해당 아이템을 찾을 수 없습니다";
+	public static final String ITEM_NOTFOUND = "해당 아이템을 찾을 수 없습니다.";
 	public static final String ITEM_CREATE_SUCCESS = "해당 아이템을 생성했습니다.";
 	public static final String ITEM_UPDATE_SUCCESS = "해당 아이템을 수정했습니다.";
 	public static final String ITEM_DELETE_SUCCESS = "해당 아이템을 삭제했습니다.";
 
 	/* CATEGORY */
-	public static final String CATEGORY_NOTFOUND = "카테고리를 찾을 수 없습니다";
+	public static final String CATEGORY_NOTFOUND = "카테고리를 찾을 수 없습니다.";
 
 	/* Token */
 	public static final String REFRESH_TOKEN_UNAUTHORIZED = "Refresh Token 검증에 실패했습니다.";
@@ -64,7 +64,12 @@ public class ResponseConstant {
 	public static final String FILE_MALFORMED_URL = "잘못된 파일 URL입니다.";
 
 	/* Like */
-	public static final String LIKE_SUCCESS = "좋아요가 되었습니다";
-	public static final String UNLIKE_SUCCESS = "좋아요가 취소되었습니다";
-	public static final String LIKE_TYPE_NOT_SUPPORTED = "지원되지 않는 좋아요 타입입니다";
+	public static final String LIKE_SUCCESS = "좋아요가 되었습니다.";
+	public static final String UNLIKE_SUCCESS = "좋아요가 취소되었습니다.";
+	public static final String LIKE_TYPE_NOT_SUPPORTED = "지원되지 않는 좋아요 타입입니다.";
+
+	/* CHAT */
+	public static final String CHATROOM_NOTFOUND = "채팅방을 찾을 수 없습니다.";
+	public static final String CHATROOM_DELETE_SUCCESS = "해당 채팅방을 삭제했습니다.";
+	public static final String CHATROOM_NOT_AUTHORIZED = "해당 채팅방의 주인이 아닙니다.";
 }
