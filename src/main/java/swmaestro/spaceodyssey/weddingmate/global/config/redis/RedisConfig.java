@@ -7,7 +7,11 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.listener.RedisMessageListenerContainer;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+
+import swmaestro.spaceodyssey.weddingmate.domain.chat.dto.ChatMessageResDto;
 
 @Configuration
 public class RedisConfig {
@@ -27,15 +31,40 @@ public class RedisConfig {
 		return new LettuceConnectionFactory(redisStandaloneConfiguration);
 	}
 
+	/**
+	 * redis pub/sub 메시지를 처리하는 listener 설정
+	 */
 	@Bean
-	public RedisTemplate<String, Object> redisTemplate() {
-		RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
-		redisTemplate.setConnectionFactory(redisConnectionFactory());
-		// 일반적인 문자열 key value의 경우 시리얼라이저 설정
-		// redis-cli로 데이터를 확인할 때 알아볼 수 있는 형태로 표시해준다.
-		redisTemplate.setKeySerializer(new StringRedisSerializer());
-		redisTemplate.setValueSerializer(new StringRedisSerializer());
+	public RedisMessageListenerContainer redisMessageListener(RedisConnectionFactory connectionFactory) {
+		RedisMessageListenerContainer container = new RedisMessageListenerContainer();
+		container.setConnectionFactory(connectionFactory);
+		return container;
+	}
 
+	/**
+	 * 어플리케이션에서 사용할 redisTemplate 설정
+	 */
+	@Bean
+	public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
+		RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+		redisTemplate.setConnectionFactory(connectionFactory);
+		redisTemplate.setKeySerializer(new StringRedisSerializer());
+		// Java 객체를 JSON 형식으로 직렬화하고 역직렬화하는 데 사용
+		// Jackson2JsonRedisSerializer 생성자의 타겟 클래스를 ChatMessage.class로 변경하여 제대로된 직렬화와 역직렬화가 이루어지도록 한다
+		redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(String.class));
 		return redisTemplate;
+	}
+
+	/*
+	* Redis에 메시지 내역을 저장하기 위한 redisTemplate 설정
+	*/
+	@Bean
+	public RedisTemplate<String, ChatMessageResDto> redisMessageTemplate(RedisConnectionFactory connectionFactory) {
+		RedisTemplate<String, ChatMessageResDto> redisMessageTemplate = new RedisTemplate<>();
+		redisMessageTemplate.setConnectionFactory(connectionFactory);
+		redisMessageTemplate.setKeySerializer(new StringRedisSerializer());
+		redisMessageTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(ChatMessageResDto.class));
+
+		return redisMessageTemplate;
 	}
 }
