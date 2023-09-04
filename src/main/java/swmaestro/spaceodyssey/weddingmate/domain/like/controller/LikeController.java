@@ -52,7 +52,7 @@ public class LikeController {
 			.build();
 	}
 
-	@PostMapping("/")
+	@PostMapping("")
 	public ApiResponse<Object> like(@AuthUsers Users users, @RequestBody LikeReqDto likeReqDto) {
 		LikeEnum likeType = getLikeTypeFromDto(likeReqDto);
 		Boolean isLiked = likeService.like(likeReqDto.getId(), users, likeType);

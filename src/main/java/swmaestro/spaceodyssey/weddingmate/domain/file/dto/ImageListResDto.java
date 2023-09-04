@@ -8,13 +8,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ImageListResDto {
 	Long itemId;
-	Long portfolioId;
+	Long fileId;
 	String url;
 
 	@Builder
-	public ImageListResDto(String url, Long itemId, Long portfolioId) {
+	public ImageListResDto(String url, Long fileId, Long itemId) {
 		this.url = url;
+		this.fileId = fileId;
 		this.itemId = itemId;
-		this.portfolioId = portfolioId;
 	}
 }
