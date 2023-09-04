@@ -3,7 +3,7 @@ package swmaestro.spaceodyssey.weddingmate.domain.file.service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
+import java.security.SecureRandom;
 
 import org.springframework.stereotype.Service;
 
@@ -46,11 +46,11 @@ public class FileService {
 		return getImagesAfterCursor(randomCursor, pageSize);
 	}
 
-	public Long getRandomCursor(Long max) {
-		Random random = new Random();
-		return Math.abs(random.nextLong()) % max;
-	}
 
+	public Long getRandomCursor(Long max) {
+		SecureRandom secureRandom = new SecureRandom();
+		return (secureRandom.nextLong() % max);
+	}
 
 	public File findById(Long fileId) {
 		return fileRepository.findById(fileId)

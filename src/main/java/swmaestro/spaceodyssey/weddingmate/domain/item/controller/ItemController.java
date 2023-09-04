@@ -69,11 +69,14 @@ public class ItemController {
 	}
 
 	@GetMapping("/search")
-	public ApiResponse<Object> searchItemsByFullText(@RequestParam String keyword) {
+	public ApiResponse<Object> searchItemsByFullText(
+		@RequestParam(required = false) String category,
+		@RequestParam(required = false) String tag,
+		@RequestParam(required = false) String keyword) {
 
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
-			.data(itemService.searchItemsByFullText(keyword))
+			.data(itemService.searchItemsByFullText(category, tag, keyword))
 			.build();
 	}
 }
