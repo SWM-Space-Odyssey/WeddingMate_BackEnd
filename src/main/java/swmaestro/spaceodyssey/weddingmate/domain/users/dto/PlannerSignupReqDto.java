@@ -10,6 +10,6 @@ public class PlannerSignupReqDto {
 
 	private String company;
 	private String position;
-	private String region;
+	private String regionList;
 	private String plannerTagList;
 }

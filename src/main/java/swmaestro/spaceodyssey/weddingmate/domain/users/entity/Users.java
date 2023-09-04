@@ -17,7 +17,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import swmaestro.spaceodyssey.weddingmate.domain.file.entity.File;
+import swmaestro.spaceodyssey.weddingmate.domain.file.entity.Files;
 import swmaestro.spaceodyssey.weddingmate.domain.oauth2.OAuth2UserInfo;
 import swmaestro.spaceodyssey.weddingmate.domain.oauth2.enums.AuthProvider;
 import swmaestro.spaceodyssey.weddingmate.domain.users.enums.UserAccountStatusEnum;
@@ -45,7 +45,7 @@ public class Users extends BaseTimeEntity {
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "profileImage_id")
-	private File profileImage;
+	private Files profileImage;
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
@@ -72,15 +72,15 @@ public class Users extends BaseTimeEntity {
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "planner_id")
-	private Planner planner;
+	private Planners planners;
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "customer_id")
-	private Customer customer;
+	private Customers customers;
 
 
 	@Builder
-	public Users(String email, String nickname, File profileImage, AuthProvider authProvider, String authProviderId) {
+	public Users(String email, String nickname, Files profileImage, AuthProvider authProvider, String authProviderId) {
 		this.email = email;
 		this.nickname = nickname;
 		this.profileImage = profileImage;
@@ -108,19 +108,19 @@ public class Users extends BaseTimeEntity {
 		this.nickname = nickname;
 	}
 
-	public void setPlanner(Planner planner) {
-		this.planner = planner;
+	public void setPlanners(Planners planners) {
+		this.planners = planners;
 
-		if (planner.getUsers() != this) {
-			planner.setUsers(this);
+		if (planners.getUsers() != this) {
+			planners.setUsers(this);
 		}
 	}
 
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
+	public void setCustomers(Customers customers) {
+		this.customers = customers;
 
-		if (customer.getUsers() != this) {
-			customer.setUsers(this);
+		if (customers.getUsers() != this) {
+			customers.setUsers(this);
 		}
 	}
 
@@ -128,7 +128,7 @@ public class Users extends BaseTimeEntity {
 		this.phone = phone;
 	}
 
-	public void updateProfileImage(File profileImage) {
+	public void updateProfileImage(Files profileImage) {
 		this.profileImage = profileImage;
 	}
 }
