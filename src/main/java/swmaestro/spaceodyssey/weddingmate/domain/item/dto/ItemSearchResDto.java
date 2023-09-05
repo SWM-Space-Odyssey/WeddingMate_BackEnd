@@ -1,4 +1,4 @@
-package swmaestro.spaceodyssey.weddingmate.domain.file.dto;
+package swmaestro.spaceodyssey.weddingmate.domain.item.dto;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -7,15 +7,13 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ImageListResDto {
+public class ItemSearchResDto {
 	private Long itemId;
-	private Long fileId;
 	private String url;
 
 	@Builder
-	public ImageListResDto(String url, Long fileId, Long itemId) {
+	public ItemSearchResDto(String url, Long itemId) {
 		this.url = url;
-		this.fileId = fileId;
 		this.itemId = itemId;
 	}
 }

@@ -1,14 +1,15 @@
 package swmaestro.spaceodyssey.weddingmate.domain.file.dto;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FileInfoDto {
-	String fileName;
-	String fileExtension;
+	private String fileName;
+	private String fileExtension;
 
 	@Builder
 	public FileInfoDto(String fileName, String fileExtension) {

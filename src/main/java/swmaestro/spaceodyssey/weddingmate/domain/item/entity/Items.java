@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,12 +30,12 @@ public class Items extends BaseTimeEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long itemId;
 
+	@NotNull(message = "아이템 태그는 빈칸일 수 없습니다")
 	private String itemTagList;
 
 	@Column(nullable = false)
 	private String itemRecord;
 
-	@Column(nullable = false)
 	private String company;
 
 	private String itemDate;
@@ -45,6 +46,7 @@ public class Items extends BaseTimeEntity {
 
 	private Integer itemOrder;
 
+	@NotNull(message = "아이템 카테고리는 빈칸일 수 없습니다")
 	private String category;
 
 	@Column(nullable = false)

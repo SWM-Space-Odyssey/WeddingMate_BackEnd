@@ -2,7 +2,6 @@ package swmaestro.spaceodyssey.weddingmate.domain.profile.service;
 
 import java.util.List;
 
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;

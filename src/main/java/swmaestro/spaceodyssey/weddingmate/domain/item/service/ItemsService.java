@@ -1,11 +1,14 @@
 package swmaestro.spaceodyssey.weddingmate.domain.item.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.file.entity.Files;
 import swmaestro.spaceodyssey.weddingmate.domain.file.repository.FilesRepository;
+import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemSearchResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.item.entity.Items;
 import swmaestro.spaceodyssey.weddingmate.domain.item.mapper.ItemsMapper;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemResDto;
@@ -33,12 +36,12 @@ public class ItemsService {
 	private final FilesRepository fileRepository;
 	private final PlannersRepository plannersRepository;
 
-	private final ItemsMapper itemMapper;
+	private final ItemsMapper itemsMapper;
 
 	public void createItem(ItemSaveReqDto itemSaveReqDto) {
 		Portfolios portfolios = findPortfolioById(itemSaveReqDto.getPortfolioId());
 
-		Items items = itemMapper.dtoToEntity(portfolios, itemSaveReqDto);
+		Items items = itemsMapper.dtoToEntity(portfolios, itemSaveReqDto);
 
 		itemsRepository.save(items);
 
@@ -54,7 +57,7 @@ public class ItemsService {
 
 		Boolean isWriter = checkUserIsWriter(items, planners);
 
-		return itemMapper.entityToDto(users, items, isWriter);
+		return itemsMapper.entityToDto(users, items, isWriter);
 	}
 
 	public void updateItem(Users users, Long itemId, ItemUpdateReqDto itemUpdateReqDto) {
@@ -89,6 +92,10 @@ public class ItemsService {
 		verifyUserIsWriter(items, planners);
 
 		items.deleteItem();
+	}
+
+	public List<ItemSearchResDto> searchItemsByFullText(String keyword) {
+		return itemsRepository.searchItemsByFullText(keyword).stream().map(itemsMapper::dtoToEntity).toList();
 	}
 
 	/*================== Repository 접근 ==================*/

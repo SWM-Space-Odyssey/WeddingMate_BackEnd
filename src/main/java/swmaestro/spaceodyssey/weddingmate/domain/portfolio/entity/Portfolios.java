@@ -14,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,8 +38,10 @@ public class Portfolios extends BaseTimeEntity {
 	@OneToMany(mappedBy = "portfolios", cascade = CascadeType.ALL)
 	private final List<Items> portfolioItemsList = new ArrayList<>();
 
+	@NotNull(message = "지역 태그는 빈칸일 수 없습니다")
 	private String regionTag;
 
+	@NotNull(message = "포트폴리오 태그는 빈칸일 수 없습니다")
 	private String portfolioTagList;
 
 	@ManyToOne(fetch = FetchType.LAZY)

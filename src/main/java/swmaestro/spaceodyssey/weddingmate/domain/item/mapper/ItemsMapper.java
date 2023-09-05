@@ -10,6 +10,7 @@ import swmaestro.spaceodyssey.weddingmate.domain.file.entity.Files;
 import swmaestro.spaceodyssey.weddingmate.domain.file.repository.FilesRepository;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemSaveReqDto;
+import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemSearchResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.item.entity.Items;
 import swmaestro.spaceodyssey.weddingmate.domain.like.enums.LikeEnum;
 import swmaestro.spaceodyssey.weddingmate.domain.like.repository.LikesRepository;
@@ -19,47 +20,57 @@ import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 @Component
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class ItemsMapper {
-	private final FilesRepository fileRepository;
-	private final LikesRepository likeRepository;
+	private final FilesRepository filesRepository;
+	private final LikesRepository likesRepository;
 
-	public ItemResDto entityToDto(Users users, Items items, Boolean isWriter) {
+	public ItemResDto entityToDto(Users users, Items item, Boolean isWriter) {
 
-		List<String> imageList = fileRepository.findByItems(items).stream().map(Files::getUrl).toList();
-		Boolean isItemLiked = isItemLikedByUser(users, items.getItemId());
+		List<String> imageList = filesRepository.findByItems(item).stream().map(Files::getUrl).toList();
+		Boolean isItemLiked = isItemLikedByUser(users, item.getItemId());
 
 		ItemResDto.ItemDetail itemDetail = ItemResDto.ItemDetail.builder()
-			.itemTagList(items.getItemTagList())
-			.itemRecord(items.getItemRecord())
-			.date(items.getItemDate())
-			.category(items.getCategory())
-			.company(items.getCompany())
+			.itemTagList(item.getItemTagList())
+			.itemRecord(item.getItemRecord())
+			.date(item.getItemDate())
+			.category(item.getCategory())
+			.company(item.getCompany())
 			.build();
 
 		return ItemResDto.builder()
-			.portfolioId(items.getPortfolios().getPortfolioId())
+			.portfolioId(item.getPortfolios().getPortfolioId())
 			.itemDetail(itemDetail)
-			.order(items.getItemOrder())
-			.itemId(items.getItemId())
+			.order(item.getItemOrder())
+			.itemId(item.getItemId())
 			.imageList(imageList)
 			.isWriter(isWriter)
 			.isLiked(isItemLiked)
 			.build();
 	}
 
-	public Items dtoToEntity(Portfolios portfolios, ItemSaveReqDto itemSaveReqDto) {
+	public ItemSearchResDto dtoToEntity(Items item) {
+
+		return ItemSearchResDto.builder()
+			.url(item.getFilesList().get(0).getUrl())
+			.itemId(item.getItemId())
+			.build();
+	}
+
+
+	public Items dtoToEntity(Portfolios portfolio, ItemSaveReqDto itemSaveReqDto) {
 
 		return Items.builder()
 			.company(itemSaveReqDto.getCompany())
 			.itemRecord(itemSaveReqDto.getItemRecord())
 			.itemOrder(itemSaveReqDto.getOrder())
 			.itemDate(itemSaveReqDto.getDate())
-			.portfolios(portfolios)
+			.portfolios(portfolio)
 			.category(itemSaveReqDto.getCategory())
 			.itemTagList(itemSaveReqDto.getItemTagList())
 			.build();
 	}
 
+
 	private boolean isItemLikedByUser(Users users, Long itemId) {
-		return !likeRepository.findByUsersAndLikeTypeAndLikedId(users, LikeEnum.ITEM, itemId).isEmpty();
+		return !likesRepository.findByUsersAndLikeTypeAndLikedId(users, LikeEnum.ITEM, itemId).isEmpty();
 	}
 }

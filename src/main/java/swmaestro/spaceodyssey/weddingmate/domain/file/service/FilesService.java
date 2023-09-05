@@ -1,22 +1,19 @@
 package swmaestro.spaceodyssey.weddingmate.domain.file.service;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import swmaestro.spaceodyssey.weddingmate.domain.file.dto.FeedResDto;
+import swmaestro.spaceodyssey.weddingmate.domain.file.dto.FileMapper;
 import swmaestro.spaceodyssey.weddingmate.domain.file.dto.ImageListResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.file.entity.Files;
 import swmaestro.spaceodyssey.weddingmate.domain.file.repository.FilesRepository;
-import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.Portfolios;
-import swmaestro.spaceodyssey.weddingmate.domain.portfolio.repository.PortfoliosRepository;
 import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileNotFoundException;
 
 @Service
@@ -25,33 +22,38 @@ import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileNotFoundExce
 public class FilesService {
 
 	private final FilesRepository fileRepository;
-	private final PortfoliosRepository portfoliosRepository;
+	private final FileMapper fileMapper;
 
-	public Page<ImageListResDto> getImage(Pageable pageable) {
+	public FeedResDto getImagesAfterCursor(Long cursor, int pageSize) {
+		List<Files> fileList = fileRepository.findFilesAfterCursor(cursor, pageSize);
 
-		List<ImageListResDto> fileList = new ArrayList<>();
-
-		fileRepository.findAll().forEach(file -> {
-			if (file.getItems() != null) {
-				if (Boolean.FALSE.equals(file.getItems().getIsDeleted())) {
-					fileList.add(new ImageListResDto(file.getUrl(), file.getItems().getItemId(), null));
-				}
-			} else {
-				Optional<Portfolios> portfolio = portfoliosRepository.findByFiles(file);
-				if (portfolio.isPresent() && Boolean.FALSE.equals(portfolio.get().getIsDeleted())) {
-					fileList.add(new ImageListResDto(file.getUrl(), null, portfolio.get().getPortfolioId()));
-				}
-			}
-		});
+		List<ImageListResDto> imageListResDtoList = new ArrayList<>(fileList.stream().map(fileMapper::entityToDto).toList());
 
 		//이미지 랜덤하게 섞기
-		Collections.shuffle(fileList);
+		Collections.shuffle(imageListResDtoList);
 
-		//list를 page로 변환
-		int start = (int)pageable.getOffset();
-		int end = Math.min((start + pageable.getPageSize()), fileList.size());
+		if (fileList.size() != pageSize) {
+			return fileMapper.createFeedResponse(imageListResDtoList, Long.valueOf(0), fileList.size());
+		}
+		Files lastFile = fileList.get(fileList.size() - 1);
 
-		return new PageImpl<>(fileList.subList(start, end), pageable, fileList.size());
+		return fileMapper.createFeedResponse(imageListResDtoList, lastFile.getFileId(), fileList.size());
+	}
+
+	public FeedResDto getFirstPageImages(int pageSize) {
+		Long cursor = fileRepository.findMaxFileId();
+		Long randomCursor = getRandomCursor(cursor);
+		return getImagesAfterCursor(randomCursor, pageSize);
+	}
+
+
+	public Long getRandomCursor(Long max) {
+		SecureRandom secureRandom = new SecureRandom();
+		long randomValue = secureRandom.nextLong();
+		if (randomValue < 0) {
+			randomValue = -randomValue; // 음수면 양수로 바꾸어 줍니다.
+		}
+		return randomValue % max;
 	}
 
 	public Files findById(Long fileId) {
