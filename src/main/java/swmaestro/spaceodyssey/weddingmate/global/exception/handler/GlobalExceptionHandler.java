@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponse;
 import swmaestro.spaceodyssey.weddingmate.global.exception.category.CategoryNotFoundException;
+import swmaestro.spaceodyssey.weddingmate.global.exception.chat.ChatRoomNotAuthorizedException;
+import swmaestro.spaceodyssey.weddingmate.global.exception.chat.ChatRoomNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileKakaoProfileDownloadFailureException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileMalformedUrlException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileNameEmptyException;
@@ -20,6 +22,7 @@ import swmaestro.spaceodyssey.weddingmate.global.exception.portfolio.ItemNotFoun
 import swmaestro.spaceodyssey.weddingmate.global.exception.portfolio.PortfolioNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.profile.PlannerProfileNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.profile.ProfileModificationNotAllowedException;
+import swmaestro.spaceodyssey.weddingmate.global.exception.token.RefreshTokenCookieNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.token.RefreshTokenNotEqualException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.token.UnAuthorizedRefreshTokenException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.users.CustomerDuplicateRegistrationException;
@@ -33,10 +36,10 @@ import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserUnAuthorize
 public class GlobalExceptionHandler {
 
 	/*================== Basic Exception ==================*/
-	@ExceptionHandler(RuntimeException.class)
-	protected final ApiResponse<Object> handleRunTimeException(RuntimeException e) {
-		return ErrorResponse.toErrorResponseEntity(ErrorCode.RUNTIME_EXCEPTION, e.getMessage());
-	}
+	// @ExceptionHandler(RuntimeException.class)
+	// protected final ApiResponse<Object> handleRunTimeException(RuntimeException e) {
+	// 	return ErrorResponse.toErrorResponseEntity(ErrorCode.RUNTIME_EXCEPTION, e.getMessage());
+	// }
 
 	/*================== Oauth2 Exception ==================*/
 	@ExceptionHandler(OAuth2AuthProviderIdNotFoundException.class)
@@ -115,6 +118,12 @@ public class GlobalExceptionHandler {
 		return ErrorResponse.toErrorResponseEntity(ErrorCode.REFRESH_TOKEN_NOTFOUND, e.getMessage());
 	}
 
+	@ExceptionHandler(RefreshTokenCookieNotFoundException.class)
+	protected final ApiResponse<Object> handleRefreshTokenCookieNotFoundException(
+		RefreshTokenCookieNotFoundException e) {
+		return ErrorResponse.toErrorResponseEntity(ErrorCode.REFRESH_TOKEN_COOKIE_NOTFOUND, e.getMessage());
+	}
+
 	/*================== Portfolio Exception ==================*/
 	@ExceptionHandler(PortfolioNotFoundException.class)
 	protected final ApiResponse<Object> handlePortfolioNotFoundException(PortfolioNotFoundException e) {
@@ -175,5 +184,18 @@ public class GlobalExceptionHandler {
 	protected final ApiResponse<Object> handleLikeTypeNotSupportedException(
 		LikeTypeNotSupportedException e) {
 		return ErrorResponse.toErrorResponseEntity(ErrorCode.LIKE_TYPE_NOT_SUPPORTED, e.getMessage());
+	}
+
+	/*================== Chat Exception ==================*/
+	@ExceptionHandler(ChatRoomNotAuthorizedException.class)
+	protected final ApiResponse<Object> handleChatRoomNotAuthorizedException(
+		ChatRoomNotAuthorizedException e) {
+		return ErrorResponse.toErrorResponseEntity(ErrorCode.CHATROOM_NOT_AUTHORIZED, e.getMessage());
+	}
+
+	@ExceptionHandler(ChatRoomNotFoundException.class)
+	protected final ApiResponse<Object> handleChatRoomNotFoundException(
+		ChatRoomNotFoundException e) {
+		return ErrorResponse.toErrorResponseEntity(ErrorCode.CHATROOM_NOTFOUND, e.getMessage());
 	}
 }
