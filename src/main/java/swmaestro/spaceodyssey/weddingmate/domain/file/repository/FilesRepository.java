@@ -15,7 +15,7 @@ public interface FilesRepository extends JpaRepository<Files, Long> {
 
 	List<Files> findByItems(Items items);
 
-	@Query(value = "SELECT * FROM files WHERE file_id > :cursor AND item_id IS NOT NULL ORDER BY file_id ASC LIMIT :limit", nativeQuery = true)
+	@Query(value = "SELECT f.* FROM files f INNER JOIN items i ON f.item_id = i.item_id WHERE f.file_id > :cursor AND i.is_deleted = false LIMIT :limit", nativeQuery = true)
 	List<Files> findFilesAfterCursor(@Param("cursor") Long cursor, @Param("limit") int limit);
 
 	@Query(value = "SELECT MAX(fileId) FROM Files")
