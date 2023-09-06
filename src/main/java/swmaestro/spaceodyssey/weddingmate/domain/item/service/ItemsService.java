@@ -1,7 +1,11 @@
 package swmaestro.spaceodyssey.weddingmate.domain.item.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
@@ -94,8 +98,19 @@ public class ItemsService {
 		items.deleteItem();
 	}
 
-	public List<ItemSearchResDto> searchItemsByFullText(String keyword) {
-		return itemsRepository.searchItemsByFullText(keyword).stream().map(itemsMapper::dtoToEntity).toList();
+	public Page<ItemSearchResDto> searchItems(Pageable pageable, String keyword) {
+		List<Items> itemsList = new ArrayList<>();
+
+		// 키워드 필터링
+		if (keyword != null) {
+			itemsList = itemsRepository.searchItemsByKeyword(keyword);
+		}
+
+		List<ItemSearchResDto> itemSearchResDtoList = itemsList.stream().map(itemsMapper::entityToDto).toList();
+		int start = (int) pageable.getOffset();
+		int end = Math.min((start + pageable.getPageSize()), itemSearchResDtoList.size());
+
+		return new PageImpl<>(itemSearchResDtoList.subList(start, end), pageable, itemSearchResDtoList.size());
 	}
 
 	/*================== Repository 접근 ==================*/
