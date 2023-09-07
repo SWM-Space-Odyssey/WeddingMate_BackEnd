@@ -47,7 +47,7 @@ public class ItemsMapper {
 			.build();
 	}
 
-	public ItemSearchResDto dtoToEntity(Items item) {
+	public ItemSearchResDto entityToDto(Items item) {
 
 		return ItemSearchResDto.builder()
 			.url(item.getFilesList().get(0).getUrl())
