@@ -7,7 +7,7 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import swmaestro.spaceodyssey.weddingmate.domain.users.dto.AccessTokenDto;
@@ -25,11 +25,9 @@ public class AuthController {
 
 	@PostMapping("/refresh")
 	@ResponseStatus(HttpStatus.OK)
-	public ApiResponse<Object> refresh(
-		@CookieValue(value = "refreshToken", required = false) Cookie rtCookie) {
+	public ApiResponse<Object> refresh(HttpServletRequest request) {
 
-		String refreshToken = rtCookie.getValue();
-		AccessTokenDto resDto = authService.refresh(refreshToken);
+		AccessTokenDto resDto = authService.refresh(request);
 
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
