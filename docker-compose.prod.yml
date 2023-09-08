@@ -1,0 +1,35 @@
+version: '3'
+services:
+
+  web:
+    container_name: web
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    command: java -jar build/libs/weddingmate-0.0.1-SNAPSHOT.jar
+    env_file:
+      - .env
+    expose:
+      - 8080
+    ports:
+      - "8080:8080"
+
+  nginx:
+    container_name: nginx
+    build: ./config/nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - web
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    hostname: redis
+    command: redis-server /usr/local/conf/redis.conf
+    build:
+        context: ./config/redis
+    ports:
+      - 6379:6379
+    depends_on:
+      - web

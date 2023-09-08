@@ -1,0 +1,15 @@
+version: '3'
+services:
+
+  web_local:
+    container_name: web-local
+    build:
+      #Dockerfile 경로
+      context: ./
+      #Dockerfile 이름
+      dockerfile: Dockerfile
+    command: java -jar build/libs/weddingmate-0.0.1-SNAPSHOT.jar
+    expose:
+      - 8080
+    ports:
+      - "8080:8080"
