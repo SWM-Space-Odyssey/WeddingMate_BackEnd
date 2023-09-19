@@ -33,6 +33,9 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 	private final RedisService redisService;
 	private final CookieAuthorizationRequestRepository cookieAuthorizationRequestRepository;
 
+	@Value("${LOGIN_REDIRECT_URL}")
+	private String loginRedirectUrl;
+
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 		Authentication authentication) throws IOException, ServletException {
@@ -69,7 +72,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
 	private String makeRedirectUrl(String email, String redirectUrl) {
 		if (redirectUrl.equals(getDefaultTargetUrl())) {
-			redirectUrl = "https://dev.weddingmate.co.kr";
+			redirectUrl = loginRedirectUrl;
 		}
 
 		String accessToken = tokenProvider.createAccessToken(email);
