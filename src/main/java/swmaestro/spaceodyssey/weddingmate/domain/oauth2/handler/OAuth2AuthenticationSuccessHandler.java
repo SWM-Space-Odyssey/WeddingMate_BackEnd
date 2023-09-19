@@ -69,7 +69,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
 	private String makeRedirectUrl(String email, String redirectUrl) {
 		if (redirectUrl.equals(getDefaultTargetUrl())) {
-			redirectUrl = "https://weddingmate.co.kr";
+			redirectUrl = "https://dev.weddingmate.co.kr";
 		}
 
 		String accessToken = tokenProvider.createAccessToken(email);
