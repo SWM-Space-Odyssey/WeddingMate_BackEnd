@@ -21,10 +21,13 @@ import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemUpdateReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.Portfolios;
 import swmaestro.spaceodyssey.weddingmate.domain.item.repository.ItemsRepository;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.repository.PortfoliosRepository;
+import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Planners;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
+import swmaestro.spaceodyssey.weddingmate.domain.users.repository.PlannersRepository;
 import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.portfolio.ItemNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.portfolio.PortfolioNotFoundException;
+import swmaestro.spaceodyssey.weddingmate.global.exception.users.PlannerNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserUnAuthorizedException;
 
 @Service
@@ -35,6 +38,7 @@ public class ItemsService {
 	private final ItemsRepository itemsRepository;
 	private final PortfoliosRepository portfoliosRepository;
 	private final FilesRepository fileRepository;
+	private final PlannersRepository plannersRepository;
 
 	private final ItemsMapper itemsMapper;
 
@@ -117,6 +121,11 @@ public class ItemsService {
 	public Files findFileByUrl(String url) {
 		return fileRepository.findByUrl(url)
 			.orElseThrow(FileNotFoundException::new);
+	}
+
+	public Planners findPlannerByUsers(Users users) {
+		return plannersRepository.findByUsers(users)
+			.orElseThrow(PlannerNotFoundException::new);
 	}
 
 	/*================== 예외 처리 ==================*/
