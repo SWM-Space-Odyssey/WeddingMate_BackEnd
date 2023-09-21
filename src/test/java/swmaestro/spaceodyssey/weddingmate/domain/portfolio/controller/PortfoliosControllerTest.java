@@ -32,8 +32,7 @@ import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemOrderDto;
 import swmaestro.spaceodyssey.weddingmate.domain.item.entity.Items;
 import swmaestro.spaceodyssey.weddingmate.domain.item.repository.ItemsRepository;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.Portfolios;
-import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Planners;
-import swmaestro.spaceodyssey.weddingmate.domain.users.repository.PlannersRepository;
+import swmaestro.spaceodyssey.weddingmate.domain.users.repository.CustomersRepository;
 import swmaestro.spaceodyssey.weddingmate.global.config.test.DummyEntity;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.PortfolioSaveReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.PortfolioUpdateReqDto;
@@ -64,7 +63,7 @@ public class PortfoliosControllerTest extends DummyEntity {
 	private PortfoliosRepository portfoliosRepository;
 
 	@Autowired
-	private PlannersRepository plannersRepository;
+	private CustomersRepository customersRepository;
 
 	@Autowired
 	private ItemsRepository itemsRepository;
@@ -248,7 +247,7 @@ public class PortfoliosControllerTest extends DummyEntity {
 
 	void dataSetting() {
 		Users test = usersRepository.save(newMockUser("test"));
-		Planners planners = plannersRepository.save(newMockPlanner(test));
-		testPortfolios1 = portfoliosRepository.save(newMockPortfolio(planners));
+		//Customers customers = customersRepository.save(newMockCustomer(test));
+		testPortfolios1 = portfoliosRepository.save(newMockPortfolio(test));
 	}
 }

@@ -22,6 +22,7 @@ public class ResponseConstant {
 	public static final String USER_UNAUTHORIZED = "권한이 없는 유저입니다";
 	public static final String PLANNER_NOTFOUND = "해당 플래너를 찾을 수 없습니다.";
 	public static final String PLANNER_PROFILE_NOTFOUND = "해당 플래너의 프로필을 찾을 수 없습니다.";
+	public static final String CUSTOMER_NOTFOUND = "해당 고객을 찾을 수 없습니다";
 
 	public static final String PLANNER_DUPLICATE_REGISTRATION = "이미 플래너로 가입하셨습니다.";
 	public static final String CUSTOMER_DUPLICATE_REGISTRATION = "이미 예비부부로 가입하셨습니다.";

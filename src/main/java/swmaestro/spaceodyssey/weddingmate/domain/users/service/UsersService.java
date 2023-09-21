@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Customers;
 import swmaestro.spaceodyssey.weddingmate.domain.users.enums.UserRegisterStatusEnum;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Planners;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
@@ -26,6 +27,8 @@ public class UsersService {
 		Users pUsers = findUserByEmail(users.getEmail());
 		return pUsers.getRegisterStatus();
 	}
+
+
 
 	/*================== Repository 접근 ==================*/
 	@Transactional(readOnly = true)
@@ -55,6 +58,12 @@ public class UsersService {
 	@Transactional(readOnly = true)
 	public List<Users> findAllPlannerUser() {
 		return usersRepository.findAllByRegisterStatus(UserRegisterStatusEnum.PLANNER);
+	}
+
+	@Transactional(readOnly = true)
+	public Users findUserByCustomer(Customers customers) {
+		return usersRepository.findByCustomers(customers)
+			.orElseThrow(UserNotFoundException::new);
 	}
 
 	/*================== 예외 처리 ==================*/

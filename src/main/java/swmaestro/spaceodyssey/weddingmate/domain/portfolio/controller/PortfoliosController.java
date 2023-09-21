@@ -49,7 +49,7 @@ public class PortfoliosController {
 	public ApiResponse<Object> getPortfolioByUser(@AuthUsers Users users) {
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
-			.data(portfolioService.getPortfolioByUser(users))
+			.data(portfolioService.getPortfolioByUser(users.getUserId()))
 			.build();
 	}
 

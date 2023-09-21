@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -32,6 +33,9 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 	private final JwtTokenProvider tokenProvider;
 	private final RedisService redisService;
 	private final CookieAuthorizationRequestRepository cookieAuthorizationRequestRepository;
+
+	@Value("${LOGIN_REDIRECT_URL}")
+	private String loginRedirectUrl;
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -69,7 +73,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
 	private String makeRedirectUrl(String email, String redirectUrl) {
 		if (redirectUrl.equals(getDefaultTargetUrl())) {
-			redirectUrl = "https://weddingmate.co.kr";
+			redirectUrl = loginRedirectUrl;
 		}
 
 		String accessToken = tokenProvider.createAccessToken(email);

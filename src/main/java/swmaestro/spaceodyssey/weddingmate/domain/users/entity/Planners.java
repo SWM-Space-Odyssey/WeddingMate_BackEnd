@@ -1,6 +1,5 @@
 package swmaestro.spaceodyssey.weddingmate.domain.users.entity;
 
-import java.util.List;
 import java.util.function.Consumer;
 
 import jakarta.persistence.CascadeType;
@@ -10,14 +9,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.Portfolios;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerInfoDto;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.entity.PlannerProfiles;
 import swmaestro.spaceodyssey.weddingmate.global.entity.BaseTimeEntity;
@@ -46,9 +43,6 @@ public class Planners extends BaseTimeEntity {
 	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	@JoinColumn(name = "profile_id")
 	private PlannerProfiles plannerProfiles;
-
-	@OneToMany(mappedBy = "planners", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Portfolios> portfoliosList;
 
 	private String plannerTagList; // 최대 3개
 

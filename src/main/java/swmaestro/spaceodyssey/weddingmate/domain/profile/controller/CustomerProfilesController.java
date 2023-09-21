@@ -11,45 +11,34 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.PortfolioListResDto;
-import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileResDto;
-import swmaestro.spaceodyssey.weddingmate.domain.profile.service.PlannerProfilesService;
+import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.CustomerProfileResDto;
+import swmaestro.spaceodyssey.weddingmate.domain.profile.service.CustomerProfilesService;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.AuthUsers;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponse;
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponseStatus;
 
 @RestController
-@RequestMapping("/api/v1/planner")
+@RequestMapping("/api/v1/customer")
 @RequiredArgsConstructor
-public class PlannerProfilesController { // profileController가 spring 기본 config 클래스로 정의되어 있음
+public class CustomerProfilesController {
+	private final CustomerProfilesService customerProfilesService;
 
-	private final PlannerProfilesService plannerProfilesService;
-
-	@GetMapping()
+	@GetMapping("/{userId}")
 	@ResponseStatus(HttpStatus.OK)
-	public ApiResponse<Object> getAllPlannerProfileList(@AuthUsers Users users) {
-		List<PlannerProfileResDto> resDtoList = plannerProfilesService.getPlannerProfileList(users);
-		return ApiResponse.builder()
-			.status(ApiResponseStatus.SUCCESS)
-			.data(resDtoList)
-			.build();
-	}
-
-	@GetMapping("/{plannerProfileId}")
-	@ResponseStatus(HttpStatus.OK)
-	public ApiResponse<Object> getPlannerProfileByProfileId(@AuthUsers Users users, @PathVariable Long plannerProfileId) {
-		PlannerProfileResDto plannerProfileResDto = plannerProfilesService.getPlannerProfileByProfileId(users, plannerProfileId);
+	public ApiResponse<Object> getCustomerProfileById(@AuthUsers Users users, @PathVariable Long userId) {
+		CustomerProfileResDto customerProfileResDto = customerProfilesService.getCustomerProfileById(userId);
 
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
-			.data(plannerProfileResDto)
+			.data(customerProfileResDto)
 			.build();
 	}
 
 	@GetMapping("/{userId}/portfolio")
 	@ResponseStatus(HttpStatus.OK)
 	public ApiResponse<Object> getPlannerPortfolioByProfileId(@AuthUsers Users users, @PathVariable Long userId) {
-		List<PortfolioListResDto> portfolioListResDto = plannerProfilesService.getPlannerPortfolioByProfileId(users, userId);
+		List<PortfolioListResDto> portfolioListResDto = customerProfilesService.getPortfolioByUserId(users, userId);
 
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)

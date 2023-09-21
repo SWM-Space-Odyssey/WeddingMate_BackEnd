@@ -21,13 +21,10 @@ import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemUpdateReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.Portfolios;
 import swmaestro.spaceodyssey.weddingmate.domain.item.repository.ItemsRepository;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.repository.PortfoliosRepository;
-import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Planners;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
-import swmaestro.spaceodyssey.weddingmate.domain.users.repository.PlannersRepository;
 import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.portfolio.ItemNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.portfolio.PortfolioNotFoundException;
-import swmaestro.spaceodyssey.weddingmate.global.exception.users.PlannerNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserUnAuthorizedException;
 
 @Service
@@ -38,7 +35,6 @@ public class ItemsService {
 	private final ItemsRepository itemsRepository;
 	private final PortfoliosRepository portfoliosRepository;
 	private final FilesRepository fileRepository;
-	private final PlannersRepository plannersRepository;
 
 	private final ItemsMapper itemsMapper;
 
@@ -57,9 +53,7 @@ public class ItemsService {
 
 		checkItemDeleted(items);
 
-		Planners planners = findPlannerByUsers(users);
-
-		Boolean isWriter = checkUserIsWriter(items, planners);
+		Boolean isWriter = checkUserIsWriter(items, users);
 
 		return itemsMapper.entityToDto(users, items, isWriter);
 	}
@@ -69,9 +63,7 @@ public class ItemsService {
 
 		checkItemDeleted(items);
 
-		Planners planners = findPlannerByUsers(users);
-
-		verifyUserIsWriter(items, planners);
+		verifyUserIsWriter(items, users);
 
 		items.getFilesList().forEach(file -> file.setItems(null));
 
@@ -91,9 +83,7 @@ public class ItemsService {
 
 		checkItemDeleted(items);
 
-		Planners planners = findPlannerByUsers(users);
-
-		verifyUserIsWriter(items, planners);
+		verifyUserIsWriter(items, users);
 
 		items.deleteItem();
 	}
@@ -129,11 +119,6 @@ public class ItemsService {
 			.orElseThrow(FileNotFoundException::new);
 	}
 
-	public Planners findPlannerByUsers(Users users) {
-		return plannersRepository.findByUsers(users)
-			.orElseThrow(PlannerNotFoundException::new);
-	}
-
 	/*================== 예외 처리 ==================*/
 
 	public void checkItemDeleted(Items items) {
@@ -141,14 +126,13 @@ public class ItemsService {
 			throw new ItemNotFoundException();
 		}
 	}
-
-	public void verifyUserIsWriter(Items items, Planners planners) {
-		if (!items.getPortfolios().getPlanners().getPlannerId().equals(planners.getPlannerId())) {
+	public void verifyUserIsWriter(Items items, Users users) {
+		if (!items.getPortfolios().getUsers().getUserId().equals(users.getUserId())) {
 			throw new UserUnAuthorizedException();
 		}
 	}
 
-	public Boolean checkUserIsWriter(Items items, Planners planners) {
-		return items.getPortfolios().getPlanners().getPlannerId().equals(planners.getPlannerId());
+	public Boolean checkUserIsWriter(Items items, Users users) {
+		return items.getPortfolios().getUsers().getUserId().equals(users.getUserId());
 	}
 }

@@ -23,6 +23,7 @@ import swmaestro.spaceodyssey.weddingmate.global.exception.profile.ProfileModifi
 import swmaestro.spaceodyssey.weddingmate.global.exception.token.RefreshTokenNotEqualException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.token.UnAuthorizedRefreshTokenException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.users.CustomerDuplicateRegistrationException;
+import swmaestro.spaceodyssey.weddingmate.global.exception.users.CustomerNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.users.PlannerDuplicateRegistrationException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.users.PlannerNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserNameNotFoundException;
@@ -88,6 +89,11 @@ public class GlobalExceptionHandler {
 	protected final ApiResponse<Object> handleCustomerDuplicateResgistrationException(
 		CustomerDuplicateRegistrationException e) {
 		return ErrorResponse.toErrorResponseEntity(ErrorCode.CUSTOMER_DUPLICATE_REGISTRATION, e.getMessage());
+	}
+
+	@ExceptionHandler(CustomerNotFoundException.class)
+	protected final ApiResponse<Object> handlerCustomerNotFoundException(CustomerNotFoundException e) {
+		return ErrorResponse.toErrorResponseEntity(ErrorCode.CUSTOMER_NOTFOUND, e.getMessage());
 	}
 
 	/*================== Profile Exception ==================*/

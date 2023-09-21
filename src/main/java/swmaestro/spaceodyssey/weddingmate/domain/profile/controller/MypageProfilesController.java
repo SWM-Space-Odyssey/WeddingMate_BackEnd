@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.CustomerProfileResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileUpdateReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileUpdateResDto;
@@ -43,6 +44,17 @@ public class MypageProfilesController {
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
 			.data(resDto)
+			.build();
+	}
+
+	@GetMapping("/customer")
+	@ResponseStatus(HttpStatus.OK)
+	public ApiResponse<Object> getCustomerProfile(@AuthUsers Users users) {
+		CustomerProfileResDto customerProfileResDto = profilesService.getCustomerProfile(users);
+
+		return ApiResponse.builder()
+			.status(ApiResponseStatus.SUCCESS)
+			.data(customerProfileResDto)
 			.build();
 	}
 }

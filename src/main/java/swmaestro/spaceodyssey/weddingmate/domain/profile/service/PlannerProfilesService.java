@@ -65,11 +65,10 @@ public class PlannerProfilesService {
 			.build();
 	}
 
-	public List<PortfolioListResDto> getPlannerPortfolioByProfileId(Users cUsers, Long plannerProfileId) {
-		PlannerProfiles plannerProfiles = profilesService.findPlannerProfileById(plannerProfileId);
-		Planners planners = plannerService.findPlannerByPlannerProfileId(plannerProfiles.getPlannerProfileId());
+	public List<PortfolioListResDto> getPlannerPortfolioByProfileId(Users cUsers, Long userId) {
+		Users users = usersService.findUserById(userId);
 
-		return planners.getPortfoliosList().stream()
+		return users.getPortfoliosList().stream()
 			//삭제된 portfolio 제외
 			.filter(portfolio -> (Boolean.FALSE.equals(portfolio.getIsDeleted())))
 			.map(portfolio -> portfoliosMapper.entityToDto(cUsers, portfolio))
