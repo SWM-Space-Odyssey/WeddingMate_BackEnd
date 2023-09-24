@@ -6,6 +6,8 @@ import swmaestro.spaceodyssey.weddingmate.domain.like.entity.UserLikes;
 import swmaestro.spaceodyssey.weddingmate.domain.like.enums.LikeEnum;
 import swmaestro.spaceodyssey.weddingmate.domain.oauth2.enums.AuthProvider;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.Portfolios;
+import swmaestro.spaceodyssey.weddingmate.domain.users.dto.CustomerTagListDto;
+import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Customers;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Planners;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 
@@ -36,10 +38,33 @@ public class DummyEntity {
 		return planners;
 	}
 
-	public Portfolios newMockPortfolio(Planners planners) {
+	public Customers newMockCustomer(Users users) {
+
+		CustomerTagListDto customerTagListDto = CustomerTagListDto.builder()
+			.portfolioTagList("PortfolioTag1, PortfolioTag2")
+			.plannerTagList("PlannerTag1, PlannerTag2")
+			.dressTagList("DressTag1, DressTag2")
+			.studioTypeTagList("StudioTypeTag1, StudioTypeTag2")
+			.studioFocusTagList("StudioFocusTag1, StudioFocusTag2")
+			.makeupTagList("MakeupTag1, MakeupTag2")
+			.build();
+
+		Customers customers = Customers.builder()
+			.customerTagList(customerTagListDto)
+			.budget("저렴한")
+			.weddingDateConfirmed(true)
+			.regionList("서울")
+			.build();
+
+		customers.setUsers(users);
+
+		return customers;
+	}
+
+	public Portfolios newMockPortfolio(Users users) {
 		Portfolios portfolios = Portfolios.builder()
 			.title("Test Title")
-			.planners(planners)
+			.users(users)
 			.regionTag("서울")
 			.portfolioTagList("예쁜,고급스러운")
 			.build();

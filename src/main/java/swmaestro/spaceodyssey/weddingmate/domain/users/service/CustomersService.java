@@ -10,6 +10,7 @@ import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 import swmaestro.spaceodyssey.weddingmate.domain.users.enums.UserRegisterStatusEnum;
 import swmaestro.spaceodyssey.weddingmate.domain.users.mapper.CustomersMapper;
 import swmaestro.spaceodyssey.weddingmate.domain.users.repository.CustomersRepository;
+import swmaestro.spaceodyssey.weddingmate.global.exception.users.CustomerNotFoundException;
 
 @Transactional
 @Service
@@ -28,7 +29,7 @@ public class CustomersService {
 		pUsers.updateNickname(reqDto.getNickname());
 		pUsers.updateRegisterStatus(UserRegisterStatusEnum.CUSTOMER);
 
-		Customers customers = createCustomer(users, reqDto);
+		Customers customers = createCustomer(pUsers, reqDto);
 		customersRepository.save(customers);
 	}
 
@@ -40,5 +41,9 @@ public class CustomersService {
 	}
 
 	/*================== Repository 접근 ==================*/
-
+	@Transactional
+	public Customers findCustomerByUser(Users users) {
+		return customersRepository.findByUsers(users)
+			.orElseThrow(CustomerNotFoundException::new);
+	}
 }

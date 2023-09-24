@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
@@ -58,9 +57,7 @@ public class ItemsService {
 
 		checkItemDeleted(items);
 
-		Planners planners = findPlannerByUsers(users);
-
-		Boolean isWriter = checkUserIsWriter(items, planners);
+		Boolean isWriter = checkUserIsWriter(items, users);
 
 		return itemsMapper.entityToDto(users, items, isWriter);
 	}
@@ -70,9 +67,7 @@ public class ItemsService {
 
 		checkItemDeleted(items);
 
-		Planners planners = findPlannerByUsers(users);
-
-		verifyUserIsWriter(items, planners);
+		verifyUserIsWriter(items, users);
 
 		items.getFilesList().forEach(file -> file.setItems(null));
 
@@ -92,9 +87,7 @@ public class ItemsService {
 
 		checkItemDeleted(items);
 
-		Planners planners = findPlannerByUsers(users);
-
-		verifyUserIsWriter(items, planners);
+		verifyUserIsWriter(items, users);
 
 		items.deleteItem();
 	}
@@ -142,14 +135,13 @@ public class ItemsService {
 			throw new ItemNotFoundException();
 		}
 	}
-
-	public void verifyUserIsWriter(Items items, Planners planners) {
-		if (!items.getPortfolios().getPlanners().getPlannerId().equals(planners.getPlannerId())) {
+	public void verifyUserIsWriter(Items items, Users users) {
+		if (!items.getPortfolios().getUsers().getUserId().equals(users.getUserId())) {
 			throw new UserUnAuthorizedException();
 		}
 	}
 
-	public Boolean checkUserIsWriter(Items items, Planners planners) {
-		return items.getPortfolios().getPlanners().getPlannerId().equals(planners.getPlannerId());
+	public Boolean checkUserIsWriter(Items items, Users users) {
+		return items.getPortfolios().getUsers().getUserId().equals(users.getUserId());
 	}
 }
