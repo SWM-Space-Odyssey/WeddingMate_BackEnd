@@ -34,6 +34,7 @@ public class ResponseConstant {
 
 	/* PROFILE */
 	public static final String PROFILE_MODIFICATION_NOT_ALLOWED = "해당 프로필의 작성자가 아닙니다.";
+	public static final String CUSTOMER_PROFILE_UPDATE_SUCCESS = "해당 고객 프로필을 수정했습니다.";
 
 	/* PORTFOLIO */
 	public static final String PORTFOLIO_NOTFOUND = "해당 포트폴리오를 찾을 수 없습니다.";

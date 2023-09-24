@@ -42,6 +42,7 @@ public class CustomersMapper {
 	public CustomerInfoDto toCustomerInfoDto(Customers customers) {
 
 		return CustomerInfoDto.builder()
+			.weddingDateConfirmed(customers.getWeddingDateConfirmed())
 			.weddingDate(customers.getWeddingDate())
 			.budget(customers.getBudget())
 			.regionList(customers.getRegionList())

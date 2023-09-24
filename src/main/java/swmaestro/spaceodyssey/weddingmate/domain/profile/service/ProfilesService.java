@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.CustomerProfileResDto;
+import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.CustomerProfileUpdateReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileUpdateReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileUpdateResDto;
@@ -77,6 +78,18 @@ public class ProfilesService {
 			.customerInfoDto(customersMapper.toCustomerInfoDto(customers))
 			.build();
 
+	}
+
+	@Transactional
+	public void updateCustomerProfile(Users users, CustomerProfileUpdateReqDto reqDto) {
+		Customers customers = customersService.findCustomerByUser(users);
+
+		// 변경사항 수정
+		users.updateNickname(reqDto.getNickname());
+		usersRepository.save(users);
+
+		customers.updateCustomerInfo(reqDto.getCustomerInfo());
+		customers.updateCustomerTagList(reqDto.getCustomerTagList());
 	}
 
 	/*================== Repository 접근 ==================*/
