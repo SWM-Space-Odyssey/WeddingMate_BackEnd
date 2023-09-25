@@ -10,6 +10,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.CustomerInfoDto;
 import swmaestro.spaceodyssey.weddingmate.domain.users.dto.CustomerTagListDto;
 import swmaestro.spaceodyssey.weddingmate.global.entity.BaseTimeEntity;
 
@@ -60,11 +61,29 @@ public class Customers extends BaseTimeEntity {
 		this.makeupTagList = customerTagList.getMakeupTagList();
 	}
 
+	public void updateCustomerInfo(CustomerInfoDto dto) {
+		this.weddingDate = dto.getWeddingDate();
+		this.weddingDateConfirmed = dto.getWeddingDateConfirmed();
+		this.regionList = dto.getRegionList();
+		this.budget = dto.getBudget();
+	}
+
+	public void updateCustomerTagList(CustomerTagListDto dto) {
+		this.portfolioTagList = dto.getPortfolioTagList();
+		this.plannerTagList = dto.getPlannerTagList();
+		this.dressTagList = dto.getDressTagList();
+		this.studioTypeTagList = dto.getStudioTypeTagList();
+		this.studioFocusTagList = dto.getStudioFocusTagList();
+		this.makeupTagList = dto.getMakeupTagList();
+	}
+
+	/*================== 초기값 설정 ===================*/
 	public void setUsers(Users users) {
 		this.users = users;
 		users.setCustomers(this);
 	}
 
+	/*================== 기존 필드값 수정 ==================*/
 	public void setWeddingDate(String weddingDate) {
 		this.weddingDate = weddingDate;
 	}

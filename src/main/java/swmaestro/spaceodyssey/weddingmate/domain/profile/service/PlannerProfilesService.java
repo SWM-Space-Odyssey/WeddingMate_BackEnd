@@ -48,17 +48,17 @@ public class PlannerProfilesService {
 			.toList();
 	}
 
-	public PlannerProfileResDto getPlannerProfileByProfileId(Users cUsers, Long plannerProfileId) {
-		PlannerProfiles plannerProfiles = profilesService.findPlannerProfileById(plannerProfileId);
-		Planners planners = plannerService.findPlannerByPlannerProfileId(plannerProfiles.getPlannerProfileId());
-		Users userByPlanner = usersService.findUserByPlanner(planners);
+	public PlannerProfileResDto getPlannerProfileByProfileId(Users cUsers, Long userId) {
+		Users users = usersService.findUserById(userId);
+		Planners planners = plannerService.findPlannerByUser(users);
+		PlannerProfiles plannerProfiles = profilesService.findPlannerProfileByPlanner(planners);
 
 		Boolean isPlannerLiked = isLiked(cUsers, LikeEnum.PLANNER, planners.getPlannerId());
 
 		return PlannerProfileResDto.builder()
 			.plannerProfileId(plannerProfiles.getPlannerProfileId())
-			.nickname(userByPlanner.getNickname())
-			.profileImageUrl(userByPlanner.getProfileImage().getUrl())
+			.nickname(users.getNickname())
+			.profileImageUrl(users.getProfileImage().getUrl())
 			.plannerInfo(plannerMapper.toPlannerInfoDto(planners))
 			.plannerProfileInfo(profileMapper.toPlannerProfileInfoDto(plannerProfiles))
 			.isLiked(isPlannerLiked)
