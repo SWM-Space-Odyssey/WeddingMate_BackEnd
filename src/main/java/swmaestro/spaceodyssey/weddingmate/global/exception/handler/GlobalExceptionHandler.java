@@ -7,6 +7,7 @@ import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponse;
 import swmaestro.spaceodyssey.weddingmate.global.exception.category.CategoryNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.chat.ChatRoomNotAuthorizedException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.chat.ChatRoomNotFoundException;
+import swmaestro.spaceodyssey.weddingmate.global.exception.company.CompanyNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileKakaoProfileDownloadFailureException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileMalformedUrlException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileNameEmptyException;
@@ -203,5 +204,11 @@ public class GlobalExceptionHandler {
 	protected final ApiResponse<Object> handleChatRoomNotFoundException(
 		ChatRoomNotFoundException e) {
 		return ErrorResponse.toErrorResponseEntity(ErrorCode.CHATROOM_NOTFOUND, e.getMessage());
+	}
+
+	/*================== Company Exception ==================*/
+	@ExceptionHandler(CompanyNotFoundException.class)
+	protected final ApiResponse<Object> handleCompanyNotFundException(CompanyNotFoundException e) {
+		return ErrorResponse.toErrorResponseEntity(ErrorCode.COMPANY_NOTFOUND, e.getMessage());
 	}
 }

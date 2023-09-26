@@ -11,7 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ItemResDto {
 	private String itemRecord;
-	private String company;
+	private String companyName;
+	private Long companyId;
 	private String date;
 	private Long portfolioId;
 	private String itemTagList;
@@ -23,12 +24,13 @@ public class ItemResDto {
 	private Boolean isLiked;
 
 	@Builder
-	public ItemResDto(Long portfolioId, Integer order, Long itemId, List<String> imageList, Boolean isWriter, ItemDetail itemDetail, Boolean isLiked) {
+	public ItemResDto(Long portfolioId, Integer order, Long itemId, List<String> imageList, Boolean isWriter, ItemDetail itemDetail, Boolean isLiked, ItemCompany itemCompany) {
 		this.itemRecord = itemDetail.itemRecord;
-		this.company = itemDetail.company;
 		this.date = itemDetail.date;
 		this.itemTagList = itemDetail.itemTagList;
 		this.category = itemDetail.category;
+		this.companyName = itemCompany.companyName;
+		this.companyId = itemCompany.companyId;
 		this.portfolioId = portfolioId;
 		this.order = order;
 		this.itemId = itemId;
@@ -40,9 +42,14 @@ public class ItemResDto {
 	@Builder
 	public static class ItemDetail {
 		private String itemRecord;
-		private String company;
 		private String date;
 		private String itemTagList;
 		private String category;
+	}
+
+	@Builder
+	public static class ItemCompany {
+		private Long companyId;
+		private String companyName;
 	}
 }

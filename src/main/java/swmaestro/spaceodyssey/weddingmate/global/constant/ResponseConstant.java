@@ -75,4 +75,7 @@ public class ResponseConstant {
 	public static final String CHATROOM_NOTFOUND = "채팅방을 찾을 수 없습니다.";
 	public static final String CHATROOM_DELETE_SUCCESS = "해당 채팅방을 삭제했습니다.";
 	public static final String CHATROOM_NOT_AUTHORIZED = "해당 채팅방의 주인이 아닙니다.";
+
+	/* COMPANY */
+	public static final String COMPANY_NOTFOUND = "업체를 찾을 수 없습니다.";
 }

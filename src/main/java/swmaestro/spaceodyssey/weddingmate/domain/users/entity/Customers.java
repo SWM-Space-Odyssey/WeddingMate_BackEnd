@@ -1,5 +1,9 @@
 package swmaestro.spaceodyssey.weddingmate.domain.users.entity;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,6 +21,8 @@ import swmaestro.spaceodyssey.weddingmate.global.entity.BaseTimeEntity;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
+@SQLDelete(sql = "UPDATE customers SET is_deleted = true WHERE customer_id = ?")
+@Where(clause = "is_deleted = false")
 public class Customers extends BaseTimeEntity {
 
 	@Id
@@ -48,6 +54,10 @@ public class Customers extends BaseTimeEntity {
 
 	private String makeupTagList;
 
+	@Column(nullable = false)
+	private Boolean isDeleted;
+
+
 	@Builder
 	public Customers(Boolean weddingDateConfirmed, String regionList, String budget, CustomerTagListDto customerTagList) {
 		this.weddingDateConfirmed = weddingDateConfirmed;
@@ -59,6 +69,7 @@ public class Customers extends BaseTimeEntity {
 		this.studioTypeTagList = customerTagList.getStudioTypeTagList();
 		this.studioFocusTagList = customerTagList.getStudioFocusTagList();
 		this.makeupTagList = customerTagList.getMakeupTagList();
+		this.isDeleted = false;
 	}
 
 	public void updateCustomerInfo(CustomerInfoDto dto) {
@@ -86,5 +97,9 @@ public class Customers extends BaseTimeEntity {
 	/*================== 기존 필드값 수정 ==================*/
 	public void setWeddingDate(String weddingDate) {
 		this.weddingDate = weddingDate;
+	}
+
+	public void deleteCustomers() {
+		this.isDeleted = true;
 	}
 }
