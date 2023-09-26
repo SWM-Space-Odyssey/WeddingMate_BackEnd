@@ -10,9 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ItemUpdateReqDto {
 	private String itemRecord;
-	private String company;
+	private String companyName;
 	private String date;
 	private String itemTagList;
 	private String category;
 	private List<String> imageList;
+	private Long companyId;
 }

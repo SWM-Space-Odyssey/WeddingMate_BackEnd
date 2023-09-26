@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import swmaestro.spaceodyssey.weddingmate.domain.company.entity.Companies;
+import swmaestro.spaceodyssey.weddingmate.domain.company.service.CompaniesService;
 import swmaestro.spaceodyssey.weddingmate.domain.file.entity.Files;
 import swmaestro.spaceodyssey.weddingmate.domain.file.repository.FilesRepository;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemSearchResDto;
@@ -34,6 +36,7 @@ import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserUnAuthorize
 @RequiredArgsConstructor
 @Transactional
 public class ItemsService {
+	private final CompaniesService companiesService;
 
 	private final ItemsRepository itemsRepository;
 	private final PortfoliosRepository portfoliosRepository;
@@ -42,6 +45,7 @@ public class ItemsService {
 
 	private final ItemsMapper itemsMapper;
 
+	/*================== 아이템 생성 ==================*/
 	public void createItem(ItemSaveReqDto itemSaveReqDto) {
 		Portfolios portfolios = findPortfolioById(itemSaveReqDto.getPortfolioId());
 
@@ -49,9 +53,72 @@ public class ItemsService {
 
 		itemsRepository.save(items);
 
-		itemSaveReqDto.getImageList().stream().map(this::findFileByUrl).forEach(file -> file.setItems(items));
+		setItemCompanies(items, itemSaveReqDto);
+
+		setItemImages(items, itemSaveReqDto);
 	}
 
+	private void setItemCompanies(Items items, ItemSaveReqDto itemSaveReqDto) {
+		if (itemSaveReqDto.getCompanyId() != null) {
+			Companies companies = companiesService.findCompanyById(itemSaveReqDto.getCompanyId());
+			items.setCompanies(companies);
+			items.setCompanyName(companies.getName());
+		} else if (itemSaveReqDto.getCompanyName() != null) {
+			items.setCompanies(null);
+			items.setCompanyName(itemSaveReqDto.getCompanyName());
+		} else {
+			items.setCompanyName(null);
+			items.setCompanies(null);
+		}
+	}
+
+	private void setItemImages(Items items, ItemSaveReqDto itemSaveReqDto) {
+		// 이미지 정보 업데이트
+		itemSaveReqDto.getImageList()
+			.stream()
+			.map(this::findFileByUrl)
+			.forEach(file -> file.setItems(items));
+	}
+
+	/*================== 아이템 업데이트 ==================*/
+	public void updateItem(Users users, Long itemId, ItemUpdateReqDto itemUpdateReqDto) {
+		Items items = findItemById(itemId);
+
+		updateItemFields(items, itemUpdateReqDto);
+
+		checkItemDeleted(items);
+		verifyUserIsWriter(items, users);
+
+		updateItemImages(items, itemUpdateReqDto);
+	}
+
+	private void updateItemFields(Items items, ItemUpdateReqDto itemUpdateReqDto) {
+		// Items 엔티티의 필드 업데이트 로직
+		items.updateItem(itemUpdateReqDto);
+
+		// companyId 또는 company 정보 업데이트 로직
+		if (itemUpdateReqDto.getCompanyId() != null) {
+			Companies companies = companiesService.findCompanyById(itemUpdateReqDto.getCompanyId());
+			items.setCompanies(companies);
+			items.setCompanyName(companies.getName());
+		} else if (itemUpdateReqDto.getCompanyName() != null) {
+			items.setCompanies(null);
+			items.setCompanyName(itemUpdateReqDto.getCompanyName());
+		} else {
+			items.setCompanyName(null);
+			items.setCompanies(null);
+		}
+	}
+
+	private void updateItemImages(Items items, ItemUpdateReqDto itemUpdateReqDto) {
+		// 이미지 정보 업데이트 로직
+		items.getFilesList().forEach(file -> file.setItems(null));
+		itemUpdateReqDto.getImageList().stream()
+			.map(this::findFileByUrl)
+			.forEach(file -> file.setItems(items));
+	}
+
+	/*================== 그 외 함수들 ==================*/
 	public ItemResDto findById(Users users, Long id) {
 		Items items = findItemById(id);
 
@@ -60,26 +127,6 @@ public class ItemsService {
 		Boolean isWriter = checkUserIsWriter(items, users);
 
 		return itemsMapper.entityToDto(users, items, isWriter);
-	}
-
-	public void updateItem(Users users, Long itemId, ItemUpdateReqDto itemUpdateReqDto) {
-		Items items = findItemById(itemId);
-
-		checkItemDeleted(items);
-
-		verifyUserIsWriter(items, users);
-
-		items.getFilesList().forEach(file -> file.setItems(null));
-
-		itemUpdateReqDto.getImageList().stream().map(this::findFileByUrl).forEach(file -> file.setItems(items));
-
-		items.updateItem(
-			itemUpdateReqDto.getItemRecord(),
-			itemUpdateReqDto.getItemTagList(),
-			itemUpdateReqDto.getCompany(),
-			itemUpdateReqDto.getDate(),
-			itemUpdateReqDto.getCategory()
-		);
 	}
 
 	public void deleteItem(Users users, Long itemId) {

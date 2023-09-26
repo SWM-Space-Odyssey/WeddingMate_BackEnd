@@ -87,7 +87,6 @@ public class DummyEntity {
 		return Items.builder()
 			.portfolios(portfolios)
 			.itemDate("localtime")
-			.company("company")
 			.itemOrder(1)
 			.category("category")
 			.itemTagList("tag1,tag2")
