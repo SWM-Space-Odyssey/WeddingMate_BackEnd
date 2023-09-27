@@ -50,6 +50,7 @@ public class Companies extends BaseTimeEntity {
 		this.name = name;
 		this.address = address;
 		this.companyCategory = category;
+		this.likeCount = 0;
 	}
 
 	public void setLikeCount(Integer likeCount) {
