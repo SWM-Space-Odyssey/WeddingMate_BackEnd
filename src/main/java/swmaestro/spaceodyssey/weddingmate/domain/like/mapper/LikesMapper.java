@@ -4,8 +4,10 @@ import org.springframework.stereotype.Component;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import swmaestro.spaceodyssey.weddingmate.domain.company.entity.Companies;
 import swmaestro.spaceodyssey.weddingmate.domain.item.entity.Items;
 import swmaestro.spaceodyssey.weddingmate.domain.item.repository.ItemsRepository;
+import swmaestro.spaceodyssey.weddingmate.domain.like.dto.CompanyLikeResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.like.dto.PlannerLikeResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.like.dto.PortfolioLikeResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.Portfolios;
@@ -45,6 +47,16 @@ public class LikesMapper {
 			.id(planners.getPlannerId())
 			.name(planners.getUsers().getNickname())
 			.profileImg(planners.getUsers().getProfileImage().getUrl())
+			.build();
+	}
+
+	public CompanyLikeResDto entityToDto(Companies companies) {
+
+		return CompanyLikeResDto.builder()
+			.id(companies.getCompanyId())
+			.name(companies.getName())
+			.address(companies.getAddress())
+			//.repImgUrl(companies.getFiles().getUrl())
 			.build();
 	}
 }

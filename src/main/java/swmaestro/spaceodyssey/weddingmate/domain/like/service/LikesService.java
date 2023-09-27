@@ -6,8 +6,11 @@ import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import swmaestro.spaceodyssey.weddingmate.domain.company.entity.Companies;
+import swmaestro.spaceodyssey.weddingmate.domain.company.repository.CompaniesRepository;
 import swmaestro.spaceodyssey.weddingmate.domain.item.entity.Items;
 import swmaestro.spaceodyssey.weddingmate.domain.item.repository.ItemsRepository;
+import swmaestro.spaceodyssey.weddingmate.domain.like.dto.CompanyLikeResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.like.dto.PlannerLikeResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.like.dto.PortfolioLikeResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.like.entity.UserLikes;
@@ -19,6 +22,7 @@ import swmaestro.spaceodyssey.weddingmate.domain.portfolio.repository.Portfolios
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Planners;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 import swmaestro.spaceodyssey.weddingmate.domain.users.repository.PlannersRepository;
+import swmaestro.spaceodyssey.weddingmate.global.exception.company.CompanyNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.portfolio.ItemNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.portfolio.PortfolioNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.users.PlannerNotFoundException;
@@ -33,6 +37,7 @@ public class LikesService {
 	private final PlannersRepository plannersRepository;
 	private final PortfoliosRepository portfoliosRepository;
 	private final ItemsRepository itemsRepository;
+	private final CompaniesRepository companiesRepository;
 
 
 	public boolean like(Long id, Users users, LikeEnum likeEnum) {
@@ -82,19 +87,24 @@ public class LikesService {
 			.toList();
 	}
 
+	public List<CompanyLikeResDto> getUserLikedCompany(Users users) {
+
+		List<UserLikes> likeList = getLikesByUsersAndType(users, LikeEnum.COMPANY);
+
+		return likeList.stream()
+			.map(userLikes -> findCompanyById(userLikes.getLikedId()))
+			.map(likesMapper::entityToDto)
+			.toList();
+	}
+
 	/*================== LikeCount 업데이트 ==================*/
 	private void updateLikeCount(Long id, LikeEnum likeEnum, boolean isIncrement) {
 
 		switch (likeEnum) {
-			case PORTFOLIO:
-				updatePortfolioLikeCount(id, isIncrement);
-				break;
-			case ITEM:
-				updateItemLikeCount(id, isIncrement);
-				break;
-			case PLANNER:
-				updatePlannerLikeCount(id, isIncrement);
-				break;
+			case PORTFOLIO -> updatePortfolioLikeCount(id, isIncrement);
+			case ITEM -> updateItemLikeCount(id, isIncrement);
+			case PLANNER -> updatePlannerLikeCount(id, isIncrement);
+			case COMPANY -> updateCompanyLikeCount(id, isIncrement);
 		}
 	}
 
@@ -140,6 +150,20 @@ public class LikesService {
 		}
 	}
 
+	private void updateCompanyLikeCount(Long id, boolean isIncrement) {
+
+		Companies companies = findCompanyById(id);
+
+		if (companies != null) {
+			if (isIncrement) {
+				companies.setLikeCount(companies.getLikeCount() + 1);
+			} else {
+				companies.setLikeCount(companies.getLikeCount() - 1);
+			}
+			companiesRepository.save(companies);
+		}
+	}
+
 	/*================== Repository 접근 ==================*/
 	private List<UserLikes> getLikesByUsersAndTypeAndId(Users users, LikeEnum likeEnum, Long id) {
 		return likeRepository.findByUsersAndLikeTypeAndLikedId(users, likeEnum, id);
@@ -171,6 +195,11 @@ public class LikesService {
 	public Items findItemById(Long id) {
 		return itemsRepository.findById(id)
 			.orElseThrow(ItemNotFoundException::new);
+	}
+
+	public Companies findCompanyById(Long id) {
+		return companiesRepository.findById(id)
+			.orElseThrow(CompanyNotFoundException::new);
 	}
 }
 
