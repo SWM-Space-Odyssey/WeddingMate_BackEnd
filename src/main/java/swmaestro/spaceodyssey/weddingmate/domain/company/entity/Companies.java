@@ -43,10 +43,16 @@ public class Companies extends BaseTimeEntity {
 	@JoinColumn(name = "file_id")
 	private Files files;
 
+	private Integer likeCount;
+
 	@Builder
 	public Companies(String name, String address, String category) {
 		this.name = name;
 		this.address = address;
 		this.companyCategory = category;
+	}
+
+	public void setLikeCount(Integer likeCount) {
+		this.likeCount = likeCount;
 	}
 }

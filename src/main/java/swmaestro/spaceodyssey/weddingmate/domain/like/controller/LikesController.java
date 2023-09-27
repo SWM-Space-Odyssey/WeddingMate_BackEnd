@@ -52,6 +52,14 @@ public class LikesController {
 			.build();
 	}
 
+	@GetMapping("/company")
+	public ApiResponse<Object> getUserLikedCompany(@AuthUsers Users users) {
+		return ApiResponse.builder()
+			.status(ApiResponseStatus.SUCCESS)
+			.data((likesService.getUserLikedCompany(users)))
+			.build();
+	}
+
 	@PostMapping("")
 	public ApiResponse<Object> like(@AuthUsers Users users, @RequestBody LikeReqDto likeReqDto) {
 		LikeEnum likeType = getLikeTypeFromDto(likeReqDto);
@@ -73,6 +81,7 @@ public class LikesController {
 			case "PORTFOLIO" -> LikeEnum.PORTFOLIO;
 			case "ITEM" -> LikeEnum.ITEM;
 			case "PLANNER" -> LikeEnum.PLANNER;
+			case "COMPANY" -> LikeEnum.COMPANY;
 			default -> throw new LikeTypeNotSupportedException();
 		};
 	}
