@@ -58,16 +58,16 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           mkdir scripts
-          touch scripts/code-deploy.sh
-          echo "aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin $ECR_REGISTRY" >> scripts/code-deploy.sh
-          echo "docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> scripts/code-deploy.sh
-          echo "sh /home/ubuntu/srv/weddingmate/config/scripts/deploy.sh $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> scripts/code-deploy.sh
+          touch scripts/deploy.sh
+          echo "aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin $ECR_REGISTRY" >> scripts/deploy.sh
+          echo "docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> scripts/deploy.sh
+          echo "sh /home/ubuntu/srv/weddingmate/config/scripts/deploy.sh $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> scripts/deploy.sh
 
       - name: upload to s3
         env:
           IMAGE_TAG: ${{ github.sha }}
           run: |
-            zip -r deploy-$IMAGE_TAG.zip ./scripts/code-deploy.sh appspec.yml
+            zip -r deploy-$IMAGE_TAG.zip ./scripts appspec.yml
             aws s3 cp --region ap-northeast-2 --acl private ./deploy-$IMAGE_TAG.zip s3://weddingmate-codedeploy-bucket
        
       - name: start deploy
