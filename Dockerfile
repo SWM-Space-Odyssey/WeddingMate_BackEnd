@@ -1,4 +1,4 @@
-FROM gradle:latest AS BUILD
+FROM adoptopenjdk:17-jre-hotspot AS BUILD
 # Create working directory
 RUN mkdir /app
 COPY . /app/
