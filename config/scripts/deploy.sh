@@ -27,4 +27,4 @@ fi
 echo "start docker-compose up: ubuntu"
 sudo docker-compose -f /home/ubuntu/srv/weddingmate/docker-compose.prod.yml down
 
-sudo TAG=$TAG docker-compose -f /home/ubuntu/srv/weddingmate/docker-compose.prod.yml up --build -d
+sudo TAG=$TAG docker-compose -f /home/ubuntu/srv/weddingmate/docker-compose.prod.yml up -d
