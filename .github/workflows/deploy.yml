@@ -1,8 +1,8 @@
-name: Deploy to EC2
-on: #develop branch에 push 될 경우에만 수행
+name: Deploy
+on: #main branch에 push 될 경우에만 수행
   push:
     branches:
-      - develop
+      - feature/SO-269-codedeploy-CD
 
 jobs:
   build:
@@ -12,44 +12,87 @@ jobs:
       - name: checkout #branch로 checkout
         uses: actions/checkout@main
 
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
       - name: create env file
         run: |
           touch .env
-          echo "${{ secrets.ENV_VARS }}" >> .env
+          echo "${{ secrets.ENV_VARS_PROD }}" >> .env
 
       #ec2 서버에 접속 해 리모트 디렉토리 생성
-      - name: create remote directory
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ubuntu
-          key: ${{ secrets.KEY }}
-          port : 22
-          script: mkdir -p /home/ubuntu/srv/weddingmate
+      # - name: create remote directory
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: ${{ secrets.HOST_PROD }}
+      #     username: ubuntu
+      #     key: ${{ secrets.KEY }}
+      #     port : 22
+      #     script: mkdir -p /home/ubuntu/srv/weddingmate
 
       #ssh key로 현재 푸시된 소스를 서버에 복사
-      - name: copy source via ssh key
-        uses: burnett01/rsync-deployments@4.1
-        with:
-          switches: -avzr --delete
-          remote_path: /home/ubuntu/srv/weddingmate
-          remote_host: ${{ secrets.HOST }}
-          remote_user: ubuntu
-          remote_key: ${{ secrets.KEY }}
+      # - name: copy source via ssh key
+      #   uses: burnett01/rsync-deployments@4.1
+      #   with:
+      #     switches: -avzr --delete
+      #     remote_path: /home/ubuntu/srv/weddingmate
+      #     remote_host: ${{ secrets.HOST_PROD }}
+      #     remote_user: ubuntu
+      #     remote_key: ${{ secrets.KEY }}
 
-      - name: executing remote ssh commands using password
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ubuntu
-          key: ${{ secrets.KEY }}
-          script: |
-            sh /home/ubuntu/srv/weddingmate/config/scripts/deploy.sh
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: weddingmate
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          mkdir scripts
+          touch scripts/deploy.sh
+          echo "aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin $ECR_REGISTRY" >> scripts/deploy.sh
+          echo "docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> scripts/deploy.sh
+          echo "sh /home/ubuntu/srv/weddingmate/config/scripts/deploy.sh $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> scripts/deploy.sh
 
+      - name: upload to s3
+        env:
+          IMAGE_TAG: ${{ github.sha }}
+          run: |
+            zip -r deploy-$IMAGE_TAG.zip ./scripts appspec.yml
+            aws s3 cp --region ap-northeast-2 --acl private ./deploy-$IMAGE_TAG.zip s3://weddingmate-codedeploy-bucket
+       
+      - name: start deploy
+        env:
+          IMAGE_TAG: ${{ github.sha }}
+          run: |
+            aws deploy create-deployment --application-name deploy \
+            --deployment-config-name CodeDeployDefault.OneAtATime \
+            --deployment-group-name deploy-group \
+            --s3-location bucket=weddingmate-codedeploy-bucket,bundleType=zip,key=deploy-$IMAGE_TAG.zip
+            
+      - name: slack-notification
+        uses: 8398a7/action-slack@v3
+        with:
+            status: ${{ job.status }}
+            author_name: Github Action Test # default: 8398a7@action-slack
+            fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+        env:
+            SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
+        if: always() # Pick up events even if the job fails or is canceled.
+        
       - name: delete unused images and containers
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.HOST }}
+          host: ${{ secrets.HOST_PROD }}
           username: ubuntu
           key: ${{ secrets.KEY }}
           script: |
