@@ -1,5 +1,5 @@
 #tag는 첫번째 인수
-TAG=$1
+export TAG=$1
 
 #docker가 없다면 docker 설치
 if ! type docker > /dev/null
@@ -27,4 +27,4 @@ fi
 echo "start docker-compose up: ubuntu"
 sudo docker-compose -f /home/ubuntu/srv/weddingmate/docker-compose.prod.yml down
 
-sudo TAG=$TAG docker-compose -f /home/ubuntu/srv/weddingmate/docker-compose.prod.yml up -d
+sudo docker-compose -f /home/ubuntu/srv/weddingmate/docker-compose.prod.yml up -d
