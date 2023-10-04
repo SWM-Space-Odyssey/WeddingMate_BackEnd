@@ -41,9 +41,7 @@ public class Files extends BaseTimeEntity {
 	@JoinColumn(name = "item_id")
 	private Items items;
 
-	@Column(nullable = false)
-	private Boolean isDeleted;
-
+	private Boolean isDeleted = false;
 
 	public void setItems(Items items) {
 		this.items = items;
@@ -54,7 +52,6 @@ public class Files extends BaseTimeEntity {
 		this.filename = filename;
 		this.filetype = filetype;
 		this.url = url;
-		this.isDeleted = false;
 	}
 
 	public void deleteFile() {
