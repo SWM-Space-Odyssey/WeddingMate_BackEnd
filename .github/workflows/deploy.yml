@@ -39,7 +39,7 @@ jobs:
       - name: Create remote directory
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.HOST_PROD }}
+          host: ${{ secrets.HOST }}
           username: ubuntu
           key: ${{ secrets.KEY }}
           port: 22
@@ -50,7 +50,7 @@ jobs:
         with:
           switches: -avzr --delete
           remote_path: /home/ubuntu/srv/weddingmate
-          remote_host: ${{ secrets.HOST_PROD }}
+          remote_host: ${{ secrets.HOST }}
           remote_user: ubuntu
           remote_key: ${{ secrets.KEY }}
 
@@ -102,7 +102,7 @@ jobs:
       - name: Delete unused images and containers
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.HOST_PROD }}
+          host: ${{ secrets.HOST }}
           username: ubuntu
           key: ${{ secrets.KEY }}
           script: |
