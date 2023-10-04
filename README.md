@@ -10,6 +10,11 @@
 <br>
 
 ### 설계 및 개발
+- [💻카카오 소셜 로그인](https://github.com/SWM-Space-Odyssey/WeddingMate_BackEnd/discussions/19)
+- [🤔Image 전송과 데이터 전송 API 분리](https://github.com/SWM-Space-Odyssey/WeddingMate_BackEnd/discussions/21)
+- [💻redis sub/pub를 사용한 실시간 채팅 API](https://github.com/SWM-Space-Odyssey/WeddingMate_BackEnd/pull/89)
+- [💻테스트를 통한 좋아요 설계 비교](https://github.com/SWM-Space-Odyssey/WeddingMate_BackEnd/pull/82)
+
 - Service 계층과 Repository
    - [🤔Service 계층에서 Repository를 호출하는 것이 옳은가?](https://github.com/SWM-Space-Odyssey/WeddingMate_BackEnd/discussions/22)
    - [💻순환 참조를 피하기 위해 Service 계층에서 Repository 호출 로직 분리](https://github.com/SWM-Space-Odyssey/WeddingMate_BackEnd/pull/113)
@@ -22,13 +27,6 @@
    - [🤔File 테이블 내의 item_id 칼럼 리팩토링](https://github.com/SWM-Space-Odyssey/WeddingMate_BackEnd/discussions/53)
    - [🤔Tag 테이블 리팩토링 및 검색](https://github.com/SWM-Space-Odyssey/WeddingMate_BackEnd/discussions/54)
    - [💻MySQL full text search 적용 및 페이지네이션 추가](https://github.com/SWM-Space-Odyssey/WeddingMate_BackEnd/pull/95)
-
-     
-- [🤔Image 전송과 데이터 전송 API 분리](https://github.com/SWM-Space-Odyssey/WeddingMate_BackEnd/discussions/21)
-
-- [💻redis sub/pub를 사용한 실시간 채팅 API](https://github.com/SWM-Space-Odyssey/WeddingMate_BackEnd/pull/89)
-
-- [💻테스트를 통한 좋아요 설계 비교](https://github.com/SWM-Space-Odyssey/WeddingMate_BackEnd/pull/82)
 
 ### 리팩토링
 - [📃DB 테이블 복수형으로 변경](https://github.com/SWM-Space-Odyssey/WeddingMate_BackEnd/discussions/80)
