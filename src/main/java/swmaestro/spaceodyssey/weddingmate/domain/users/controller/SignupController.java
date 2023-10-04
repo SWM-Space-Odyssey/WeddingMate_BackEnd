@@ -15,6 +15,7 @@ import swmaestro.spaceodyssey.weddingmate.domain.users.dto.CustomerSignupReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.users.dto.PlannerSignupReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.AuthUsers;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
+import swmaestro.spaceodyssey.weddingmate.domain.users.enums.UserAccountStatusEnum;
 import swmaestro.spaceodyssey.weddingmate.domain.users.enums.UserRegisterStatusEnum;
 import swmaestro.spaceodyssey.weddingmate.domain.users.service.CustomersService;
 import swmaestro.spaceodyssey.weddingmate.domain.users.service.PlannersService;
@@ -54,10 +55,27 @@ public class SignupController {
 	@GetMapping()
 	@ResponseStatus(value = HttpStatus.OK)
 	public ApiResponse<Object> checkUserRegisterStatus(@AuthUsers Users users) {
-		UserRegisterStatusEnum userRegisterStatusEnum = usersService.getUserRegisterStatus(users);
+		Object responseData;
+
+		UserAccountStatusEnum usersAccountStatus = usersService.checkUsersAccountStatus(users);
+		if (usersAccountStatus == UserAccountStatusEnum.NORMAL) {
+			responseData = usersService.getUserRegisterStatus(users);
+		} else {
+			responseData = getAccountStatusMessage(usersAccountStatus);
+		}
+
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
-			.data(userRegisterStatusEnum)
+			.data(responseData)
 			.build();
+	}
+
+	private String getAccountStatusMessage(UserAccountStatusEnum accountStatus) {
+		return switch (accountStatus) {
+			case WITHDRAW -> ACCOUNT_WITHDRAW_MESSAGE;
+			case SUSPENDED -> ACCOUNT_SUSPENDED_MESSAGE;
+			case BANNED -> ACCOUNT_BANNED_MESSAGE;
+			default -> "";
+		};
 	}
 }
