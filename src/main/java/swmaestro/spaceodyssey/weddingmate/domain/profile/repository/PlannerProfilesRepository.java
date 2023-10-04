@@ -9,4 +9,6 @@ import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Planners;
 
 public interface PlannerProfilesRepository extends JpaRepository<PlannerProfiles, Long> {
 	Optional<PlannerProfiles> findPlannerProfilesByPlanners(Planners planners);
+
+	Optional<PlannerProfiles> findById(Long plannerProfileId);
 }

@@ -17,14 +17,14 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import swmaestro.spaceodyssey.weddingmate.domain.chat.dto.ChatMessageReqDto;
-import swmaestro.spaceodyssey.weddingmate.domain.chat.dto.ChatRoomResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.chat.dto.ChatRoomDto;
+import swmaestro.spaceodyssey.weddingmate.domain.chat.dto.ChatRoomResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.chat.entity.ChatMessages;
 import swmaestro.spaceodyssey.weddingmate.domain.chat.entity.ChatRooms;
 import swmaestro.spaceodyssey.weddingmate.domain.chat.pubsub.RedisSubscriber;
 import swmaestro.spaceodyssey.weddingmate.domain.chat.repository.ChatRoomsRepository;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
-import swmaestro.spaceodyssey.weddingmate.domain.users.service.UsersService;
+import swmaestro.spaceodyssey.weddingmate.domain.users.service.repositoryservice.UsersRepositoryService;
 import swmaestro.spaceodyssey.weddingmate.global.exception.chat.ChatRoomNotAuthorizedException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.chat.ChatRoomNotFoundException;
 
@@ -33,17 +33,14 @@ import swmaestro.spaceodyssey.weddingmate.global.exception.chat.ChatRoomNotFound
 @Service
 @RequiredArgsConstructor
 public class ChatRoomsService {
-	private final ChatRoomsRepository chatRoomRepository;
-	private final UsersService usersService;
-
-	// 쪽지방(topic)에 발행되는 메시지 처리하는 리스너
-	private final RedisMessageListenerContainer redisMessageListenerContainer;
-
-	// 구독 처리 서비스
-	private final RedisSubscriber redisSubscriber;
-
 	// 1. redis
 	private static final String CHAT_ROOM_PREFIX = "CHAT_ROOM";
+	private final ChatRoomsRepository chatRoomRepository;
+	private final UsersRepositoryService usersRepositoryService;
+	// 쪽지방(topic)에 발행되는 메시지 처리하는 리스너
+	private final RedisMessageListenerContainer redisMessageListenerContainer;
+	// 구독 처리 서비스
+	private final RedisSubscriber redisSubscriber;
 	private final RedisTemplate<String, Object> redisTemplate;
 	private HashOperations<String, String, ChatRoomDto> opsHashChatRoom;
 
@@ -66,12 +63,12 @@ public class ChatRoomsService {
 		});
 	}
 
-	public ChannelTopic getTopic(String roomId){
+	public ChannelTopic getTopic(String roomId) {
 		return topicMap.get(roomId);
 	}
 
 	@Transactional
-	public void updateChatRoomLastMessageAndTime(String roomId, ChatMessages chatMessages){
+	public void updateChatRoomLastMessageAndTime(String roomId, ChatMessages chatMessages) {
 		ChatRooms chatRooms = findByRoomId(roomId);
 		chatRooms.updateLastMessage(chatMessages.getMessage());
 		chatRooms.updateLastMessageTime(chatMessages.getLastMessageTime());
@@ -80,20 +77,20 @@ public class ChatRoomsService {
 	/*================== Room CRUD 관련 함수 ==================*/
 	public ChatRoomResDto createRoom(Users users, ChatMessageReqDto reqDto) {
 		String senderEmail = users.getEmail();
-		String receiverEmail = usersService.findUserByNickname(reqDto.getReceiver()).getEmail();
+		String receiverEmail = usersRepositoryService.findUserByNickname(reqDto.getReceiver()).getEmail();
 		ChatRooms chatRooms = findBySenderAndReceiver(senderEmail, receiverEmail);
 
 		// 1) 처음 쪽지방 생성하는 경우
 		if (chatRooms == null) {
 			ChatRoomDto chatRoomDto = ChatRoomDto.create(senderEmail, receiverEmail);
-			opsHashChatRoom.put(CHAT_ROOM_PREFIX, chatRoomDto.getRoomId(),chatRoomDto);
+			opsHashChatRoom.put(CHAT_ROOM_PREFIX, chatRoomDto.getRoomId(), chatRoomDto);
 			chatRooms = chatRoomRepository.save(chatRoomDto.toEntity());
 		}
 
 		return chatRooms.toChatRoomResDto();
 	}
 
-	public List<ChatRoomResDto> findAllRoomByUser(Users users){
+	public List<ChatRoomResDto> findAllRoomByUser(Users users) {
 		List<ChatRooms> chatRoomsList = findByUserEmail(users.getEmail());
 
 		return chatRoomsList.stream()
@@ -105,13 +102,13 @@ public class ChatRoomsService {
 				String roomName = createRoomName(users, chatRooms);
 
 				return ChatRoomResDto.builder()
-						.roomName(roomName)
-						.roomId(chatRooms.getRoomId())
-						.sender(chatRooms.getSender())
-						.receiver(chatRooms.getReceiver())
-						.latestMessage(chatRooms.getLastMessage())
-						.lastMessageTime(chatRooms.getLastMessageTime())
-						.build();
+					.roomName(roomName)
+					.roomId(chatRooms.getRoomId())
+					.sender(chatRooms.getSender())
+					.receiver(chatRooms.getReceiver())
+					.latestMessage(chatRooms.getLastMessage())
+					.lastMessageTime(chatRooms.getLastMessageTime())
+					.build();
 			})
 			.toList();
 	}
@@ -136,7 +133,7 @@ public class ChatRoomsService {
 	/*================== 편의성 함수 ==================*/
 	public String createRoomName(Users users, ChatRooms chatRooms) {
 		String email = users.getEmail().equals(chatRooms.getSender()) ? chatRooms.getReceiver() : chatRooms.getSender();
-		return usersService.findUserByEmail(email).getNickname();
+		return usersRepositoryService.findUserByEmail(email).getNickname();
 	}
 
 	public void checkUserIsChatRoomOwner(Users users, ChatRooms chatRooms) {
