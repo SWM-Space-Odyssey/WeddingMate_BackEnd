@@ -80,14 +80,14 @@ jobs:
           zip -r deploy-$ZIP_TAG.zip ./scripts appspec.yml
           aws s3 cp --region ap-northeast-2 --acl private ./deploy-$ZIP_TAG.zip s3://weddingmate-codedeploy-bucket
        
-      # - name: Start deploy
-      #   env:
-      #     IMAGE_TAG: ${{ github.sha }}
-      #   run: |
-      #     aws deploy create-deployment --application-name deploy \
-      #     --deployment-config-name CodeDeployDefault.OneAtATime \
-      #     --deployment-group-name deploy-group \
-      #     --s3-location bucket=weddingmate-codedeploy-bucket,bundleType=zip,key=deploy-$IMAGE_TAG.zip
+      - name: Start deploy
+        env:
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          aws deploy create-deployment --application-name deploy \
+          --deployment-config-name CodeDeployDefault.OneAtATime \
+          --deployment-group-name deploy-group \
+          --s3-location bucket=weddingmate-codedeploy-bucket,bundleType=zip,key=deploy-$IMAGE_TAG.zip
             
       - name: Slack notification
         uses: 8398a7/action-slack@v3
