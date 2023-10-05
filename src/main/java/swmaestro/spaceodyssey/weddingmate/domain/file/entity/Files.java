@@ -42,19 +42,17 @@ public class Files extends BaseTimeEntity {
 	private Items items;
 
 	@Column(nullable = false)
-	private Boolean isDeleted;
-
-
-	public void setItems(Items items) {
-		this.items = items;
-	}
+	private Boolean isDeleted = false;
 
 	@Builder
 	public Files(String filename, String filetype, String url) {
 		this.filename = filename;
 		this.filetype = filetype;
 		this.url = url;
-		this.isDeleted = false;
+	}
+
+	public void setItems(Items items) {
+		this.items = items;
 	}
 
 	public void deleteFile() {

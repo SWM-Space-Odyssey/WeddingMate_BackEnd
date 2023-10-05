@@ -2,7 +2,11 @@ package swmaestro.spaceodyssey.weddingmate.domain.users.entity;
 
 import java.util.function.Consumer;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -22,6 +26,8 @@ import swmaestro.spaceodyssey.weddingmate.global.entity.BaseTimeEntity;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
+@SQLDelete(sql = "UPDATE planners SET is_deleted = true WHERE planner_id = ?")
+@Where(clause = "is_deleted = false")
 public class Planners extends BaseTimeEntity {
 
 	@Id
@@ -29,6 +35,7 @@ public class Planners extends BaseTimeEntity {
 	private Long plannerId;
 
 	@OneToOne(mappedBy = "planners")
+	@JoinColumn(name = "user_id")
 	private Users users;
 
 	@NotNull(message = "소속은 필수로 입력되어야 합니다.")
@@ -46,7 +53,10 @@ public class Planners extends BaseTimeEntity {
 
 	private String plannerTagList; // 최대 3개
 
-	private Integer likeCount;
+	private Integer likeCount = 0;
+
+	@Column(nullable = false)
+	private Boolean isDeleted = false;
 
 	@Builder
 	public Planners(String company, String position, String regionList, String plannerTagList) {
@@ -54,7 +64,6 @@ public class Planners extends BaseTimeEntity {
 		this.position = position;
 		this.regionList = regionList;
 		this.plannerTagList = plannerTagList;
-		this.likeCount = 0;
 	}
 
 	public void updatePlannerInfo(PlannerInfoDto dto) {
@@ -80,15 +89,15 @@ public class Planners extends BaseTimeEntity {
 		this.company = company;
 	}
 
-	public void updatePosition(String position){
+	public void updatePosition(String position) {
 		this.position = position;
 	}
 
-	public void updateRegionList(String regionList){
+	public void updateRegionList(String regionList) {
 		this.regionList = regionList;
 	}
 
-	public void updatePlannerTagList(String plannerTagList){
+	public void updatePlannerTagList(String plannerTagList) {
 		this.plannerTagList = plannerTagList;
 	}
 
@@ -100,5 +109,9 @@ public class Planners extends BaseTimeEntity {
 
 	public void setLikeCount(Integer likeCount) {
 		this.likeCount = likeCount;
+	}
+
+	public void deletePlanners() {
+		this.isDeleted = true;
 	}
 }

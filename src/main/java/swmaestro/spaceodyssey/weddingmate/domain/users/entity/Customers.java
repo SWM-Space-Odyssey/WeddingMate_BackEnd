@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -30,6 +31,7 @@ public class Customers extends BaseTimeEntity {
 	private Long customerId;
 
 	@OneToOne(mappedBy = "customers")
+	@JoinColumn(name = "user_id")
 	private Users users;
 
 	@NotNull(message = "예식일 확정 여부는 필수로 입력되어야 합니다.")
@@ -54,9 +56,7 @@ public class Customers extends BaseTimeEntity {
 
 	private String makeupTagList;
 
-	@Column(nullable = false)
-	private Boolean isDeleted;
-
+	private Boolean isDeleted = false;
 
 	@Builder
 	public Customers(Boolean weddingDateConfirmed, String regionList, String budget, CustomerTagListDto customerTagList) {

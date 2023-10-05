@@ -16,6 +16,15 @@ public class ResponseConstant {
 	// customer
 	public static final String CUSTOMER_SIGNUP_SUCCESS = " 고객님의 회원가입이 완료되었습니다.";
 
+	public static final String LOGOUT_SUCCESS = "로그아웃에 성공했습니다.";
+	public static final String SIGNOUT_SUCCESS = "회원 탈퇴에 성공했습니다.";
+
+	// accountStatus
+
+	public static final String ACCOUNT_SUSPENDED_MESSAGE = "정지된 계정입니다.";
+	public static final String ACCOUNT_WITHDRAW_MESSAGE = "이미 탈퇴한 계정입니다.";
+	public static final String ACCOUNT_BANNED_MESSAGE = "재가입 불가능한 계정입니다.";
+
 	// exception
 	public static final String USER_NOTFOUND = "해당 유저를 찾을 수 없습니다.";
 	public static final String USER_NAME_NOTFOUND = "해당 유저의 이름을 찾을 수 없습니다(CustomUserDetailsService)";

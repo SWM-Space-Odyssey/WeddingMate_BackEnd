@@ -42,14 +42,13 @@ public class UserLikes {
 	private Long likedId; // 해당 유형의 테이블의 주 키와 연결
 
 	@Column(nullable = false)
-	private Boolean isDeleted;
+	private Boolean isDeleted = false;
 
 	@Builder
 	public UserLikes(Users users, LikeEnum likeEnum, Long likedId) {
 		this.users = users;
 		this.likeType = likeEnum;
 		this.likedId = likedId;
-		this.isDeleted = false;
 	}
 
 	public void deleteUserLikes() {
