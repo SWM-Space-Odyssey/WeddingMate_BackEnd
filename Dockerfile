@@ -1,4 +1,4 @@
-FROM gradle:latest AS BUILD
+FROM openjdk:17-ea-11-jdk-slim as build
 # Create working directory
 RUN mkdir /app
 COPY . /app/
