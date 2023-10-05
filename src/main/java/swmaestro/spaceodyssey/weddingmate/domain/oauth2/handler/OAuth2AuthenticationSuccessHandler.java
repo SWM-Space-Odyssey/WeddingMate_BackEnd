@@ -78,6 +78,14 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
 		String accessToken = tokenProvider.createAccessToken(email);
 
+		logger.info(UriComponentsBuilder.fromHttpUrl(redirectUrl)
+			.path("/oauth2/redirect")
+			.queryParam("accessToken", accessToken)
+			.queryParam("redirectUrl", redirectUrl)
+			.build()
+			.encode() // percent-endcoding
+			.toUriString());
+
 		return UriComponentsBuilder.fromHttpUrl(redirectUrl)
 			.path("/oauth2/redirect")
 			.queryParam("accessToken", accessToken)

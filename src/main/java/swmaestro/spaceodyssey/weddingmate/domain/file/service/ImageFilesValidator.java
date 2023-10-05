@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileNameEmptyException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileNotImageException;
 
-@NoArgsConstructor(access= AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ImageFilesValidator {
 
 	// Tike : 이미지 파일인지 확인해주는 library
