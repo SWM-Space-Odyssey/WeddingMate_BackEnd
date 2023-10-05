@@ -1,7 +1,13 @@
 # WeddingMate_BackEnd
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FSWM-Space-Odyssey%2FWeddingMate_BackEnd&count_bg=%23005324&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
+
+## 👩🏻 BE 팀원 구성
+|                      **nitronium102**                      |                      **lina1919**                      |
+|:----------------------------------------------------------:|:------------------------------------------------------:|
+| <img src="https://github.com/nitronium102.png" width="80"> | <img src="https://github.com/lina1919.png" width="80"> |
+|          [강민지](https://github.com/nitronium102)           |         [박유림](https://github.com/lina1919)          |
 ## MVP별 기능 정리
-[링크](https://github.com/SWM-Space-Odyssey/WeddingMate_BackEnd/issues/112)
+[MVP별 기능 정리](https://github.com/SWM-Space-Odyssey/WeddingMate_BackEnd/issues/112)
 
 ## DOCUMENTS
 > 💻 : PR 링크 <br>
@@ -41,6 +47,8 @@
 - [💻docker에서 redis 설정하기](https://github.com/SWM-Space-Odyssey/WeddingMate_BackEnd/pull/25)
 - [📃AWS 보안 그룹과 사설/공인 IP](https://github.com/SWM-Space-Odyssey/WeddingMate_BackEnd/discussions/81)
 - [📃redis.conf 설정](https://github.com/SWM-Space-Odyssey/WeddingMate_BackEnd/discussions/17)
+- [💻CI/CD v1 : github actions를 활용한 배포 자동화 flow](https://github.com/SWM-Space-Odyssey/WeddingMate_BackEnd/pull/9)
+- [💻CI/CD v2 : docker image ecr에 pull/push 로직 추가](https://github.com/SWM-Space-Odyssey/WeddingMate_BackEnd/pull/115)
 
 ### 기타
 - [📃프로젝트 버전 설정](https://dev-minji.tistory.com/212)
