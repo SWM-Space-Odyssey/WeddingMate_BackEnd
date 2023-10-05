@@ -5,5 +5,4 @@ public enum LikeEnum {
 	PORTFOLIO,
 	ITEM,
 	PLANNER,
-	COMPANY
 }
