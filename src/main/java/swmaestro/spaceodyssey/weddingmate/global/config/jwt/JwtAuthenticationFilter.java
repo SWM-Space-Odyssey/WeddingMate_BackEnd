@@ -42,7 +42,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 				// BlackList에 존재하는 토큰으로 요청이 온 경우
 				Optional<String> isBlackList = redisService.getBlackList(token);
 				if (isBlackList.isPresent()){
-					throw new RuntimeException("이미 로그아웃된 토큰입니다.");
+					throw new RuntimeException("이미 만료된 토큰입니다.");
 				}
 
 				Authentication authentication = jwtTokenProvider.getAuthentication(token);

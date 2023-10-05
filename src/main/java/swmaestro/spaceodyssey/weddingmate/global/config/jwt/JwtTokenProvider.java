@@ -28,12 +28,11 @@ import swmaestro.spaceodyssey.weddingmate.domain.oauth2.service.CustomUserDetail
 @RequiredArgsConstructor
 public class JwtTokenProvider {
 
+	private static final Long accessTokenValidationMs = 12 * 60 * 60 * 1000L; // 12시간으로 변경
+	private static final Long refreshTokenValidationMs = 15 * 24 * 60 * 60 * 1000L;
 	private final CustomUserDetailsService customUserDetailsService;
-
 	@Value("${spring.jwt.secret}")
 	private String secretKey;
-	private final Long accessTokenValidationMs = 12 * 60 * 60 * 1000L; // 12시간으로 변경
-	private final Long refreshTokenValidationMs = 15 * 24 * 60 * 60 * 1000L;
 
 	public Long getRefreshTokenValidationMs() {
 		return refreshTokenValidationMs;
@@ -68,6 +67,7 @@ public class JwtTokenProvider {
 	private Key getSignKey(String secretKey) {
 		return Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
 	}
+
 	public boolean validateToken(String authToken) {
 		try {
 			Jwts.parserBuilder()
@@ -108,8 +108,7 @@ public class JwtTokenProvider {
 
 	public Authentication getAuthentication(String token) {
 		String email = getClaims(token).getSubject();
-
-		if (email == null){
+		if (email == null) {
 			throw new IllegalStateException("Access token" + token + "권한 정보가 없는 토큰입니다.");
 		}
 

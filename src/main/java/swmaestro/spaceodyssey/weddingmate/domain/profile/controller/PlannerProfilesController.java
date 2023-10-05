@@ -38,7 +38,7 @@ public class PlannerProfilesController { // profileController가 spring 기본 c
 	@GetMapping("/{userId}")
 	@ResponseStatus(HttpStatus.OK)
 	public ApiResponse<Object> getPlannerProfileByProfileId(@AuthUsers Users users, @PathVariable Long userId) {
-		PlannerProfileResDto plannerProfileResDto = plannerProfilesService.getPlannerProfileByProfileId(users, userId);
+		PlannerProfileResDto plannerProfileResDto = plannerProfilesService.getPlannerProfileByUserId(users, userId);
 
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)

@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.file.dto.FileInfoDto;
 import swmaestro.spaceodyssey.weddingmate.domain.file.entity.Files;
 import swmaestro.spaceodyssey.weddingmate.domain.file.enums.FilePathType;
-import swmaestro.spaceodyssey.weddingmate.domain.file.service.FilesService;
+import swmaestro.spaceodyssey.weddingmate.domain.file.service.FilesRepositoryService;
 import swmaestro.spaceodyssey.weddingmate.domain.file.service.FilesUploadService;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 import swmaestro.spaceodyssey.weddingmate.domain.users.repository.UsersRepository;
@@ -19,7 +19,7 @@ import swmaestro.spaceodyssey.weddingmate.domain.users.repository.UsersRepositor
 public class ProfilesFilesUploadService {
 
 	private final FilesUploadService fileUploadService;
-	private final FilesService fileService;
+	private final FilesRepositoryService filesRepositoryService;
 	private final UsersRepository usersRepository;
 
 	public Files createUserProfile(String providerId, String imageUrl) {
@@ -44,7 +44,7 @@ public class ProfilesFilesUploadService {
 	}
 
 	public String deleteProfileFile(Users users) {
-		Files files = fileService.findById(users.getProfileImage().getFileId());
+		Files files = filesRepositoryService.findById(users.getProfileImage().getFileId());
 
 		// TODO : default 이미지를 기존 파일 대신 업로드
 
