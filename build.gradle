@@ -71,6 +71,9 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
     runtimeOnly 'com.h2database:h2'
     testImplementation 'junit:junit:4.13.1'
+
+    //actuator
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 }
 
 tasks.named('test') {
