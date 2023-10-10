@@ -2,6 +2,9 @@ package swmaestro.spaceodyssey.weddingmate.domain.users.entity;
 
 import java.util.List;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,6 +34,8 @@ import swmaestro.spaceodyssey.weddingmate.global.entity.BaseTimeEntity;
 @SuppressWarnings("checkstyle:RegexpMultiline")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@SQLDelete(sql = "UPDATE users SET account_status = 'WITHDRAW' WHERE user_id = ?")
+@Where(clause = "account_status = 'NORMAL'")
 @Entity
 public class Users extends BaseTimeEntity {
 	@Id
@@ -108,6 +113,10 @@ public class Users extends BaseTimeEntity {
 
 	public void updateRegisterStatus(UserRegisterStatusEnum registerStatus) {
 		this.registerStatus = registerStatus;
+	}
+
+	public void updateAccountStatus(UserAccountStatusEnum accountStatus) {
+		this.accountStatus = accountStatus;
 	}
 
 	public void updateNickname(String nickname) {

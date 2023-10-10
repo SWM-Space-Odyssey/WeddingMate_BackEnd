@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -25,6 +26,7 @@ public class PlannerProfiles extends BaseTimeEntity {
 	private Long plannerProfileId;
 
 	@OneToOne(mappedBy = "plannerProfiles")
+	@JoinColumn(name = "planner_id")
 	private Planners planners;
 
 	private String bio;
@@ -52,11 +54,11 @@ public class PlannerProfiles extends BaseTimeEntity {
 	}
 
 	/*================== 기존 필드값 수정 ==================*/
-	public void updateBio(String bio){
+	public void updateBio(String bio) {
 		this.bio = bio;
 	}
 
-	public void updateSns(String sns){
+	public void updateSns(String sns) {
 		this.sns = sns;
 	}
 

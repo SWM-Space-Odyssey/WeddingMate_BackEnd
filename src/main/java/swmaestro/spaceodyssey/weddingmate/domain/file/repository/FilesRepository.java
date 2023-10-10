@@ -5,10 +5,10 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import swmaestro.spaceodyssey.weddingmate.domain.file.entity.Files;
 import swmaestro.spaceodyssey.weddingmate.domain.item.entity.Items;
-import io.lettuce.core.dynamic.annotation.Param;
 
 public interface FilesRepository extends JpaRepository<Files, Long> {
 	Optional<Files> findByUrl(String url);

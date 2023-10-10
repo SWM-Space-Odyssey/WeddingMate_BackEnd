@@ -22,8 +22,9 @@ public class PortfolioDetailResDto {
 	private Boolean isLiked;
 
 	@Builder
-	public PortfolioDetailResDto (Long id, String title, String tagList, List<ItemResDto> itemResDtoList, String repImgUrl,
-									Boolean isWriter, String region, Long userId, Boolean isLiked) {
+	public PortfolioDetailResDto(Long id, String title, String tagList, List<ItemResDto> itemResDtoList,
+		String repImgUrl,
+		Boolean isWriter, String region, Long userId, Boolean isLiked) {
 		this.id = id;
 		this.title = title;
 		this.tagList = tagList;

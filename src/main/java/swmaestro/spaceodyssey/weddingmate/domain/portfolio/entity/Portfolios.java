@@ -3,6 +3,9 @@ package swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -26,6 +29,8 @@ import swmaestro.spaceodyssey.weddingmate.global.entity.BaseTimeEntity;
 @NoArgsConstructor
 @Getter
 @Entity
+@SQLDelete(sql = "UPDATE portfolios SET is_deleted = true WHERE portfolio_id = ?")
+@Where(clause = "is_deleted = false")
 public class Portfolios extends BaseTimeEntity {
 
 	@Id
@@ -49,13 +54,29 @@ public class Portfolios extends BaseTimeEntity {
 	private Users users;
 
 	@Column(nullable = false)
-	private Boolean isDeleted;
+	private Boolean isDeleted = false;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "file_id")
 	private Files files;
 
-	private Integer likeCount;
+	private Integer likeCount = 0;
+
+	@Builder
+	public Portfolios(String title, Users users, String portfolioTagList, String regionTag) {
+		this.title = title;
+		this.users = users;
+		this.portfolioTagList = portfolioTagList;
+		this.regionTag = regionTag;
+	}
+
+	public void setFiles(Files files) {
+		this.files = files;
+	}
+
+	public void setLikeCount(Integer likeCount) {
+		this.likeCount = likeCount;
+	}
 
 	public void updatePortfolio(String title, String regionTag, String portfolioTagList) {
 		this.title = title;
@@ -67,21 +88,4 @@ public class Portfolios extends BaseTimeEntity {
 		this.isDeleted = true;
 	}
 
-	@Builder
-	public Portfolios(String title, Users users, String portfolioTagList, String regionTag) {
-		this.title = title;
-		this.users = users;
-		this.portfolioTagList = portfolioTagList;
-		this.regionTag = regionTag;
-		this.isDeleted = false;
-		this.likeCount = 0;
-	}
-
-	public void setFiles(Files files) {
-		this.files = files;
-	}
-
-	public void setLikeCount(Integer likeCount) {
-		this.likeCount = likeCount;
-	}
 }

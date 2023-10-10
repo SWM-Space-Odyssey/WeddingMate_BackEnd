@@ -2,7 +2,9 @@ package swmaestro.spaceodyssey.weddingmate.domain.item.entity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
+
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -27,6 +29,8 @@ import swmaestro.spaceodyssey.weddingmate.global.entity.BaseTimeEntity;
 @Getter
 @NoArgsConstructor
 @Entity
+@SQLDelete(sql = "UPDATE items SET is_deleted = true WHERE file_id = ?")
+@Where(clause = "is_deleted = false")
 public class Items extends BaseTimeEntity {
 
 	@Id
@@ -53,27 +57,26 @@ public class Items extends BaseTimeEntity {
 	private String category;
 
 	@Column(nullable = false)
-	private Boolean isDeleted;
+	private Boolean isDeleted = false;
 
 	@OneToMany(mappedBy = "items", cascade = CascadeType.PERSIST)
 	private List<Files> filesList = new ArrayList<>();
 
-	private Integer likeCount;
+	private Integer likeCount = 0;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "company_id")
 	private Companies companies;
 
 	@Builder
-	public Items(String itemRecord, String itemTagList, String itemDate, Integer itemOrder, Portfolios portfolios, String category) {
+	public Items(String itemRecord, String itemTagList, String itemDate, Integer itemOrder, Portfolios portfolios,
+		String category) {
 		this.itemRecord = itemRecord;
 		this.itemTagList = itemTagList;
 		this.itemDate = itemDate;
 		this.itemOrder = itemOrder;
 		this.portfolios = portfolios;
 		this.category = category;
-		this.isDeleted = false;
-		this.likeCount = 0;
 	}
 
 	/*================== 기존 필드값 수정 ==================*/
@@ -102,11 +105,5 @@ public class Items extends BaseTimeEntity {
 
 	public void setLikeCount(Integer likeCount) {
 		this.likeCount = likeCount;
-	}
-
-	private void updateFieldIfNotNull(String newValue, Consumer<String> fieldUpdater) {
-		if (newValue != null) {
-			fieldUpdater.accept(newValue);
-		}
 	}
 }

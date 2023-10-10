@@ -106,6 +106,8 @@ public class SecurityConfig {
 		configuration.addAllowedOrigin("http://localhost:5173");
 		configuration.addAllowedOrigin("https://weddingmate.co.kr");
 		configuration.addAllowedOrigin("https://dev.weddingmate.co.kr");
+		configuration.addAllowedOrigin("https://server.weddingmate.co.kr");
+		configuration.addAllowedOrigin("https://api.weddingmate.co.kr");
 		configuration.setAllowCredentials(true); // 클라이언트에서 쿠키 요청 허용
 		configuration.setAllowedOriginPatterns(Collections.singletonList("*")); // 모든 IP 주소 허용 (프론트엔드 IP, react만 허용) 핸드폰은 js 요청을 하지 않고 java나 swift 쓰기 때문에 cors에 안 걸림
 		configuration.setMaxAge(MAX_AGE_SECS);
