@@ -24,7 +24,6 @@ import swmaestro.spaceodyssey.weddingmate.domain.portfolio.mapper.PortfoliosMapp
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.repository.PortfoliosRepository;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 import swmaestro.spaceodyssey.weddingmate.domain.users.service.repositoryservice.UsersRepositoryService;
-import swmaestro.spaceodyssey.weddingmate.global.config.annotation.LogExecutionTime;
 import swmaestro.spaceodyssey.weddingmate.global.exception.portfolio.ItemNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserUnAuthorizedException;
 
@@ -102,7 +101,6 @@ public class PortfolioService {
 		itemsRepositoryService.softDeleteItemByPortfolioId(portfolios.getPortfolioId());
 	}
 
-	@LogExecutionTime
 	public PortfolioDetailResDto getPortfolioDetail(Users users, Long id) {
 		Portfolios portfolios = portfolioRepositoryService.findPortfolioById(id);
 
