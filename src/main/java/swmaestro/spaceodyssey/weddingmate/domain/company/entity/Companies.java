@@ -3,6 +3,7 @@ package swmaestro.spaceodyssey.weddingmate.domain.company.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,23 +23,18 @@ import swmaestro.spaceodyssey.weddingmate.global.entity.BaseTimeEntity;
 @Getter
 @NoArgsConstructor
 @Entity
+@Schema(hidden = true)
 public class Companies extends BaseTimeEntity {
+	@OneToMany(mappedBy = "companies", cascade = CascadeType.PERSIST)
+	private final List<Items> items = new ArrayList<>();
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long companyId;
-
 	private String name;
-
 	private String address;
-
 	private String companyCategory;
-
 	@Column(nullable = false)
 	private Boolean isDeleted;
-
-	@OneToMany(mappedBy = "companies", cascade = CascadeType.PERSIST)
-	private final List<Items> items = new ArrayList<>();
-
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "file_id")
 	private Files files;

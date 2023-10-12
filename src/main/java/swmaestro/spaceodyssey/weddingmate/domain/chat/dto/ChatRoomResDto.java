@@ -28,7 +28,7 @@ public class ChatRoomResDto {
 	// 사용자 관련 쪽지방 전체 조회
 	@Builder
 	public ChatRoomResDto(String roomName, String roomId, String sender, String receiver,
-			String latestMessage, LocalDateTime lastMessageTime) {
+		String latestMessage, LocalDateTime lastMessageTime) {
 		this.roomName = roomName;
 		this.roomId = roomId;
 		this.sender = sender;

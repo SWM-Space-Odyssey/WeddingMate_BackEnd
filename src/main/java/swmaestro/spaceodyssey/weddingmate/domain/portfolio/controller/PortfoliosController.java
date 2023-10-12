@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +26,7 @@ import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponse;
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponseStatus;
 
+@Tag(name = "Portfolio API", description = "포트폴리오 관련 API")
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -32,6 +35,7 @@ public class PortfoliosController {
 
 	private final PortfolioService portfolioService;
 
+	@Operation(summary = "유저가 업로드한 포트폴리오 저장")
 	@PostMapping("/save")
 	@ResponseStatus(HttpStatus.CREATED)
 	public ApiResponse<Object> createPortfolio(@AuthUsers Users users,
@@ -44,6 +48,7 @@ public class PortfoliosController {
 			.build();
 	}
 
+	@Operation(summary = "유저가 올린 포트폴리오 목록 제공")
 	@GetMapping("/")
 	@ResponseStatus(HttpStatus.OK)
 	public ApiResponse<Object> getPortfolioByUser(@AuthUsers Users users) {
@@ -53,6 +58,7 @@ public class PortfoliosController {
 			.build();
 	}
 
+	@Operation(summary = "id값으로 해당하는 포트폴리오 조회")
 	@GetMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public ApiResponse<Object> getPortfolioById(@AuthUsers Users users, @PathVariable("id") Long id) {
@@ -62,6 +68,7 @@ public class PortfoliosController {
 			.build();
 	}
 
+	@Operation(summary = "id값으로 해당하는 포트폴리오 수정(작성자 조회)")
 	@PostMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public ApiResponse<Object> updatePortfolio(@AuthUsers Users users, @PathVariable("id") Long id,
@@ -74,6 +81,7 @@ public class PortfoliosController {
 			.build();
 	}
 
+	@Operation(summary = "id값으로 해당하는 포트폴리오 삭제(작성자 조회)")
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public ApiResponse<Object> deletePortfolio(@AuthUsers Users users, @PathVariable("id") Long id) {

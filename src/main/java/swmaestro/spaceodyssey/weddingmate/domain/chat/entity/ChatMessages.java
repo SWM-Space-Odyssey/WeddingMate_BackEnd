@@ -42,7 +42,7 @@ public class ChatMessages {
 		this.lastMessageTime = LocalDateTime.now();
 	}
 
-	public ChatMessageResDto toChatMessageResDto(){
+	public ChatMessageResDto toChatMessageResDto() {
 		return ChatMessageResDto.builder()
 			.roomId(this.roomId)
 			.sender(this.sender)
