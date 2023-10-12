@@ -6,11 +6,10 @@ import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import swmaestro.spaceodyssey.weddingmate.domain.company.entity.Companies;
-import swmaestro.spaceodyssey.weddingmate.domain.company.repository.CompaniesRepository;
 import swmaestro.spaceodyssey.weddingmate.domain.company.service.CompaniesRepositoryService;
 import swmaestro.spaceodyssey.weddingmate.domain.item.entity.Items;
-import swmaestro.spaceodyssey.weddingmate.domain.item.repository.ItemsRepository;
 import swmaestro.spaceodyssey.weddingmate.domain.item.service.ItemsRepositoryService;
 import swmaestro.spaceodyssey.weddingmate.domain.like.dto.CompanyLikeResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.like.dto.PlannerLikeResDto;
@@ -19,15 +18,15 @@ import swmaestro.spaceodyssey.weddingmate.domain.like.entity.UserLikes;
 import swmaestro.spaceodyssey.weddingmate.domain.like.enums.LikeEnum;
 import swmaestro.spaceodyssey.weddingmate.domain.like.mapper.LikesMapper;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.Portfolios;
-import swmaestro.spaceodyssey.weddingmate.domain.portfolio.repository.PortfoliosRepository;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.service.PortfolioRepositoryService;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Planners;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
-import swmaestro.spaceodyssey.weddingmate.domain.users.repository.PlannersRepository;
 import swmaestro.spaceodyssey.weddingmate.domain.users.service.repositoryservice.PlannersRepositoryService;
+import swmaestro.spaceodyssey.weddingmate.global.config.aop.DistributedLock.DistributedLock;
 
-@Transactional
+@Slf4j
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class LikesService {
 
@@ -38,22 +37,21 @@ public class LikesService {
 	private final ItemsRepositoryService itemsRepositoryService;
 	private final CompaniesRepositoryService companiesRepositoryService;
 
-	private final PlannersRepository plannersRepository;
-	private final PortfoliosRepository portfoliosRepository;
-	private final ItemsRepository itemsRepository;
-	private final CompaniesRepository companiesRepository;
+	private static final String REDISSON_LOCK_PREFIX = "Id:";
 
 	public boolean like(Long id, Users users, LikeEnum likeEnum) {
 		List<UserLikes> likeList = likesRepositoryService.getLikesByUsersAndTypeAndId(users, likeEnum, id);
 
+		String key = REDISSON_LOCK_PREFIX + String.valueOf(id);
+
 		if (likeList.isEmpty()) {
 			likesRepositoryService.saveLike(users, id, likeEnum);
-			updateLikeCount(id, likeEnum, true);
+			updateLikeCountByLock(key, id, likeEnum, true);
 			return true;
 		}
 
 		likesRepositoryService.deleteLike(users, id, likeEnum);
-		updateLikeCount(id, likeEnum, false);
+		updateLikeCountByLock(key, id, likeEnum, false);
 		return false;
 	}
 
@@ -104,7 +102,8 @@ public class LikesService {
 	}
 
 	/*================== LikeCount 업데이트 ==================*/
-	private void updateLikeCount(Long id, LikeEnum likeEnum, boolean isIncrement) {
+	@DistributedLock(key = "#lockName")
+	public void updateLikeCountByLock(String lockName, Long id, LikeEnum likeEnum, boolean isIncrement) {
 
 		switch (likeEnum) {
 			case PORTFOLIO -> updatePortfolioLikeCount(id, isIncrement);
@@ -117,14 +116,10 @@ public class LikesService {
 	private void updatePortfolioLikeCount(Long id, boolean isIncrement) {
 
 		Portfolios portfolios = portfolioRepositoryService.findPortfolioById(id);
-
-		if (portfolios != null) {
-			if (isIncrement) {
-				portfolios.setLikeCount(portfolios.getLikeCount() + 1);
-			} else {
-				portfolios.setLikeCount(portfolios.getLikeCount() - 1);
-			}
-			portfoliosRepository.save(portfolios);
+		if (isIncrement) {
+			portfolios.setLikeCount(portfolios.getLikeCount() + 1);
+		} else {
+			portfolios.setLikeCount(portfolios.getLikeCount() - 1);
 		}
 	}
 
@@ -138,7 +133,6 @@ public class LikesService {
 			} else {
 				items.setLikeCount(items.getLikeCount() - 1);
 			}
-			itemsRepository.save(items);
 		}
 	}
 
@@ -152,7 +146,6 @@ public class LikesService {
 			} else {
 				planners.setLikeCount(planners.getLikeCount() - 1);
 			}
-			plannersRepository.save(planners);
 		}
 	}
 
@@ -166,7 +159,6 @@ public class LikesService {
 			} else {
 				companies.setLikeCount(companies.getLikeCount() - 1);
 			}
-			companiesRepository.save(companies);
 		}
 	}
 }

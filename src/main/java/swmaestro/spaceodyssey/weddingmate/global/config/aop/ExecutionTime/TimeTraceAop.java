@@ -1,4 +1,4 @@
-package swmaestro.spaceodyssey.weddingmate.global.config.annotation;
+package swmaestro.spaceodyssey.weddingmate.global.config.aop.ExecutionTime;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -14,7 +14,7 @@ public class TimeTraceAop {
 
 	Logger logger = LoggerFactory.getLogger(TimeTraceAop.class);
 
-	@Around("@annotation(LogExecutionTime)")
+	@Around("@annotation(swmaestro.spaceodyssey.weddingmate.global.config.aop.ExecutionTime.LogExecutionTime)")
 	public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
