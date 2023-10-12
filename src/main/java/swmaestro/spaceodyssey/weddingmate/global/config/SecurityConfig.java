@@ -66,6 +66,7 @@ public class SecurityConfig {
 			auth
 				.requestMatchers("/login/**", "/oauth2/**").permitAll()
 				.requestMatchers("/stomp/**").permitAll()
+				.requestMatchers("/actuator/**").permitAll()
 				.requestMatchers("/api/v1/token/**").permitAll()
 				.anyRequest().authenticated()
 		);

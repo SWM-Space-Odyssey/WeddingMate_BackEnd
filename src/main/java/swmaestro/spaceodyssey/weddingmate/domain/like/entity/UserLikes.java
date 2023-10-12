@@ -49,6 +49,7 @@ public class UserLikes {
 		this.users = users;
 		this.likeType = likeEnum;
 		this.likedId = likedId;
+		this.isDeleted = false;
 	}
 
 	public void deleteUserLikes() {
