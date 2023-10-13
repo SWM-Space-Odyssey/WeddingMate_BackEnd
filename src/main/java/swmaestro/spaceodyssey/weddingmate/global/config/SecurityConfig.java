@@ -68,7 +68,7 @@ public class SecurityConfig {
 				.requestMatchers("/stomp/**").permitAll()
 				.requestMatchers("/api/v1/token/**").permitAll()
 				.requestMatchers("/v3/api-docs/**").permitAll()
-				.requestMatchers("swagger-ui/**").permitAll()
+				.requestMatchers("/swagger-ui/**").permitAll()
 				.anyRequest().authenticated()
 		);
 
