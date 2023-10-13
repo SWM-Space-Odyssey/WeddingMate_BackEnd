@@ -8,7 +8,6 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
-import io.swagger.v3.oas.models.servers.Server;
 
 @Configuration
 public class SwaggerConfig {
@@ -30,7 +29,6 @@ public class SwaggerConfig {
 
 		return new OpenAPI()
 			.info(apiInfo())
-			.addServersItem(new Server().url("/"))
 			.addSecurityItem(securityRequirement)
 			.components(components);
 	}
