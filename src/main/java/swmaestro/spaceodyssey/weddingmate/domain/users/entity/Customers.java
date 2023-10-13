@@ -3,7 +3,6 @@ package swmaestro.spaceodyssey.weddingmate.domain.users.entity;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -59,7 +58,8 @@ public class Customers extends BaseTimeEntity {
 	private Boolean isDeleted = false;
 
 	@Builder
-	public Customers(Boolean weddingDateConfirmed, String regionList, String budget, CustomerTagListDto customerTagList) {
+	public Customers(Boolean weddingDateConfirmed, String regionList, String budget,
+		CustomerTagListDto customerTagList) {
 		this.weddingDateConfirmed = weddingDateConfirmed;
 		this.regionList = regionList;
 		this.budget = budget;

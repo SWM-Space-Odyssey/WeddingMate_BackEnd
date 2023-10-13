@@ -31,6 +31,14 @@ public class ChatRoomDto implements Serializable {
 	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
 	private LocalDateTime lastMessageTime;
 
+	@Builder
+	public ChatRoomDto(String roomName, String roomId, String sender, String receiver) {
+		this.roomName = roomName;
+		this.roomId = roomId;
+		this.sender = sender;
+		this.receiver = receiver;
+	}
+
 	// 쪽지방 생성
 	public static ChatRoomDto create(String senderEmail, String receiverEmail) {
 		return ChatRoomDto.builder()
@@ -39,14 +47,6 @@ public class ChatRoomDto implements Serializable {
 			.sender(senderEmail)
 			.receiver(receiverEmail)
 			.build();
-	}
-
-	@Builder
-	public ChatRoomDto(String roomName, String roomId, String sender, String receiver) {
-		this.roomName = roomName;
-		this.roomId = roomId;
-		this.sender = sender;
-		this.receiver = receiver;
 	}
 
 	public ChatRooms toEntity() {

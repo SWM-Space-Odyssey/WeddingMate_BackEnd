@@ -62,12 +62,14 @@ public class ChatRooms {
 	}
 
 	public String getLastMessageOrDefault() {
-		return this.chatMessagesList.isEmpty() ? "" : this.chatMessagesList.get(this.chatMessagesList.size() - 1).getMessage();
+		return this.chatMessagesList.isEmpty() ? "" :
+			this.chatMessagesList.get(this.chatMessagesList.size() - 1).getMessage();
 	}
 
 	public void updateLastMessage(String lastMessage) {
 		this.lastMessage = lastMessage;
 	}
+
 	public void updateLastMessageTime(LocalDateTime lastMessageTime) {
 		this.lastMessageTime = lastMessageTime;
 	}

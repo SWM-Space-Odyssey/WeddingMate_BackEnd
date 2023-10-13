@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.RequiredArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.chat.dto.ChatMessageReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.chat.service.ChatRoomsService;
@@ -16,6 +17,7 @@ import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponse;
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponseStatus;
 
+@Hidden
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/chat")

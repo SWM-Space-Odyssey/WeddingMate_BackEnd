@@ -4,3 +4,4 @@ spring:
       - dev
       - oauth
       - cloud
+      - swagger
