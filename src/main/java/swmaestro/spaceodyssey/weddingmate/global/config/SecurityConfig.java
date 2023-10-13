@@ -33,7 +33,14 @@ import swmaestro.spaceodyssey.weddingmate.global.config.jwt.JwtTokenProvider;
 public class SecurityConfig {
 
 	private static final Long MAX_AGE_SECS = 3600L;
-
+	private static final String[] AUTH_WHITELIST = {
+		"/login/**", "/oauth2/**",
+		"/stomp/**", // 채팅
+		"/actuator/**", // health check
+		"/api/v1/token/**", // token
+		"/swagger-ui/**", "/api-docs",
+		"/v3/api-docs/**", "/api-docs/**", "/swagger-ui/index.html"
+	};
 	// JWT
 	private final JwtTokenProvider jwtTokenProvider;
 	private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
@@ -64,13 +71,7 @@ public class SecurityConfig {
 		// 요청에 대한 권한 설정
 		http.authorizeHttpRequests(auth ->
 			auth
-				.requestMatchers("/login/**", "/oauth2/**").permitAll()
-				.requestMatchers("/stomp/**").permitAll()
-				.requestMatchers("/actuator/**").permitAll()
-				.requestMatchers("/api/v1/token/**").permitAll()
-				.requestMatchers("/v3/api-docs/**").permitAll()
-				.requestMatchers("/swagger-ui/**").permitAll()
-				.requestMatchers("swagger-ui/**").permitAll()
+				.requestMatchers(AUTH_WHITELIST).permitAll()
 				.anyRequest().authenticated()
 		);
 
