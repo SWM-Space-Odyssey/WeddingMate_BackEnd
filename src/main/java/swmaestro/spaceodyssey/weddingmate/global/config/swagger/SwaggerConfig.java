@@ -12,16 +12,20 @@ import io.swagger.v3.oas.models.servers.Server;
 
 @Configuration
 public class SwaggerConfig {
+
+	private static final String BEARER_TOKEN_PREFIX = "Bearer";
+	private static final String JWT_SCHEME_NAME = "JWT";
+
 	@Bean
 	public OpenAPI openAPI() {
 
-		String jwt = "JWT";
-		SecurityRequirement securityRequirement = new SecurityRequirement().addList(jwt); // 헤더에 토큰 포함
-		Components components = new Components().addSecuritySchemes(jwt, new SecurityScheme()
-			.name(jwt)
+		// JWT 관련 인증 설정
+		SecurityRequirement securityRequirement = new SecurityRequirement().addList(JWT_SCHEME_NAME); // 헤더에 토큰 포함
+		Components components = new Components().addSecuritySchemes(JWT_SCHEME_NAME, new SecurityScheme()
+			.name(JWT_SCHEME_NAME)
 			.type(SecurityScheme.Type.HTTP)
-			.scheme("bearer")
-			.bearerFormat("JWT")
+			.scheme(BEARER_TOKEN_PREFIX)
+			.bearerFormat(JWT_SCHEME_NAME)
 		);
 
 		return new OpenAPI()
