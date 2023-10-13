@@ -46,10 +46,12 @@ public class SecurityConfig {
 	private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 	private final JwtAuthenticationFilter jwtAuthenticationFilter;
 	private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+
 	// OAUTH2
 	private final CustomOAuth2UserService customOAuth2UserService;
 	private final OAuth2AuthenticationSuccessHandler authenticationSuccessHandler;
 	private final OAuth2AuthenticationFailureHandler authenticationFailureHandler;
+
 	// COOKIE
 	private final CookieAuthorizationRequestRepository cookieAuthorizationRequestRepository;
 
