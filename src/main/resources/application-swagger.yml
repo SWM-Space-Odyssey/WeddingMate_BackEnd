@@ -1,5 +1,6 @@
 springdoc:
   swagger-ui:
+    path: /swagger-ui
     # 각 API의 그룹 표시 순서
     # path, query, body, response 순으로 출력
     groups-order: DESC
@@ -19,6 +20,9 @@ springdoc:
 
     # swagger-ui에서 try 했을 때 request duration을 알려주는 설정
     display-request-duration: true
+
+    # 페이지 마지막에 보여지는 schema hidden
+    defaultModelsExpandDepth: -1
 
   # openAPI 접근 경로. default 값은 /v3/api-docs 이다.
   api-docs:
