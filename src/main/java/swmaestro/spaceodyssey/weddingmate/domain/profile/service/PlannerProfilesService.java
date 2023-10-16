@@ -39,7 +39,7 @@ public class PlannerProfilesService {
 		return plannerUserList.parallelStream()
 			.map(user -> {
 				Planners planners = plannersRepositoryService.findPlannerByUsers(user);
-				Boolean isPlannerLiked = likesRepositoryService.isLiked(cUsers, LikeEnum.PLANNER,
+				Boolean isPlannerLiked = likesRepositoryService.isLiked(cUsers, LikeEnum.planner,
 					planners.getPlannerId());
 				PlannerProfiles plannerProfiles = planners.getPlannerProfiles();
 				return profileMapper.toPlannerProfileResDto(user, planners, plannerProfiles, isPlannerLiked);
@@ -53,7 +53,7 @@ public class PlannerProfilesService {
 		PlannerProfiles plannerProfiles = profileRepositoryService.findPlannerProfileById(
 			planners.getPlannerProfiles().getPlannerProfileId());
 
-		Boolean isPlannerLiked = likesRepositoryService.isLiked(cUsers, LikeEnum.PLANNER, planners.getPlannerId());
+		Boolean isPlannerLiked = likesRepositoryService.isLiked(cUsers, LikeEnum.planner, planners.getPlannerId());
 
 		return PlannerProfileResDto.builder()
 			.plannerProfileId(plannerProfiles.getPlannerProfileId())
