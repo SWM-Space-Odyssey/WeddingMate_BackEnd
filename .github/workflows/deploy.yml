@@ -49,9 +49,10 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          cd config/codedeploy/
+          mkdir config
+          mkdir config/codedeploy
           
-          touch deploy.sh
+          touch config/codedeploy/deploy.sh
           echo "aws ecr get-login-password --region ap-northeast-2 | sudo docker login --username AWS --password-stdin $ECR_REGISTRY" >> config/codedeploy/deploy.sh
           echo "sudo docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> config/codedeploy/deploy.sh
           echo "sh /home/ubuntu/srv/weddingmate/config/codedeploy/deploy.sh $IMAGE_TAG" >> config/codedeploy/deploy.sh
