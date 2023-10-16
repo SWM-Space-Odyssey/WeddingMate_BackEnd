@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemSaveReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemUpdateReqDto;
@@ -25,12 +27,15 @@ import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponse;
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponseStatus;
 
+@Tag(name = "Item API", description = "포트폴리오 내 아이템 관련 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/portfolio/item")
 public class ItemsController {
 
 	private final ItemsService itemsService;
+
+	@Operation(summary = "이미지와 아이템 정보로 아이템을 생성")
 	@PostMapping("/save")
 	@ResponseStatus(HttpStatus.CREATED)
 	public ApiResponse<Object> createItem(@RequestBody ItemSaveReqDto itemSaveReqDto) {
@@ -41,6 +46,7 @@ public class ItemsController {
 			.build();
 	}
 
+	@Operation(summary = "id값으로 해당하는 아이템 호출")
 	@GetMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public ApiResponse<Object> getItemById(@AuthUsers Users users, @PathVariable("id") Long id) {
@@ -50,9 +56,11 @@ public class ItemsController {
 			.build();
 	}
 
+	@Operation(summary = "id값으로 해당하는 아이템 수정")
 	@PutMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
-	public ApiResponse<Object> updateItem(@AuthUsers Users users, @PathVariable("id") Long id, @RequestBody ItemUpdateReqDto itemUpdateReqDto) {
+	public ApiResponse<Object> updateItem(@AuthUsers Users users, @PathVariable("id") Long id,
+		@RequestBody ItemUpdateReqDto itemUpdateReqDto) {
 		itemsService.updateItem(users, id, itemUpdateReqDto);
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
@@ -60,6 +68,7 @@ public class ItemsController {
 			.build();
 	}
 
+	@Operation(summary = "id값으로 해당하는 아이템 삭제")
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public ApiResponse<Object> deleteItem(@AuthUsers Users users, @PathVariable("id") Long id) {
@@ -70,15 +79,16 @@ public class ItemsController {
 			.build();
 	}
 
+	@Operation(summary = "keyword값으로 해당하는 아이템 검색 후 리턴")
 	@GetMapping("/search")
 	public ApiResponse<Object> search(
-		@PageableDefault(size = 18) Pageable pageable, @RequestParam(name = "keyword", required = false) String keyword) {
+		@PageableDefault(size = 18) Pageable pageable,
+		@RequestParam(name = "keyword", required = false) String keyword) {
 
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
 			.data(itemsService.searchItems(pageable, keyword))
 			.build();
 	}
-
 
 }

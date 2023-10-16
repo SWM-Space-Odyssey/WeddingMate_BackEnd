@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.RequiredArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.PortfolioListResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerProfileResDto;
@@ -18,6 +19,7 @@ import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponse;
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponseStatus;
 
+@Hidden
 @RestController
 @RequestMapping("/api/v1/planner")
 @RequiredArgsConstructor
@@ -49,7 +51,8 @@ public class PlannerProfilesController { // profileController가 spring 기본 c
 	@GetMapping("/{userId}/portfolio")
 	@ResponseStatus(HttpStatus.OK)
 	public ApiResponse<Object> getPlannerPortfolioByProfileId(@AuthUsers Users users, @PathVariable Long userId) {
-		List<PortfolioListResDto> portfolioListResDto = plannerProfilesService.getPlannerPortfolioByProfileId(users, userId);
+		List<PortfolioListResDto> portfolioListResDto = plannerProfilesService.getPlannerPortfolioByProfileId(users,
+			userId);
 
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)

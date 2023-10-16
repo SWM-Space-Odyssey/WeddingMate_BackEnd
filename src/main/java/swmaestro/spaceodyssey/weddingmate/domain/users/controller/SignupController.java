@@ -10,19 +10,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.users.dto.CustomerSignupReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.users.dto.PlannerSignupReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.AuthUsers;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 import swmaestro.spaceodyssey.weddingmate.domain.users.enums.UserAccountStatusEnum;
-import swmaestro.spaceodyssey.weddingmate.domain.users.enums.UserRegisterStatusEnum;
 import swmaestro.spaceodyssey.weddingmate.domain.users.service.CustomersService;
 import swmaestro.spaceodyssey.weddingmate.domain.users.service.PlannersService;
 import swmaestro.spaceodyssey.weddingmate.domain.users.service.UsersService;
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponse;
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponseStatus;
 
+@Tag(name = "Signup API", description = "회원가입 API")
 @RestController
 @RequestMapping("/api/v1/signup")
 @RequiredArgsConstructor
@@ -32,6 +34,7 @@ public class SignupController {
 	private final PlannersService plannerService;
 	private final CustomersService customersService;
 
+	@Operation(summary = "플래너 회원가입")
 	@PostMapping("/planner")
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public ApiResponse<Object> plannerSignup(@AuthUsers Users users, @RequestBody PlannerSignupReqDto reqDto) {
@@ -42,6 +45,7 @@ public class SignupController {
 			.build();
 	}
 
+	@Operation(summary = "예비부부 회원가입")
 	@PostMapping("/customer")
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public ApiResponse<Object> customerSignup(@AuthUsers Users users, @RequestBody CustomerSignupReqDto reqDto) {
@@ -52,6 +56,7 @@ public class SignupController {
 			.build();
 	}
 
+	@Operation(summary = "유저의 가입 상태 확인(UNREGISTERED, CUSTOMER, PLANNER")
 	@GetMapping()
 	@ResponseStatus(value = HttpStatus.OK)
 	public ApiResponse<Object> checkUserRegisterStatus(@AuthUsers Users users) {

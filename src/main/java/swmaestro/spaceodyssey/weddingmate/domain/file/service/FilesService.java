@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
@@ -22,6 +23,7 @@ public class FilesService {
 
 	private final FilesRepository fileRepository;
 	private final FileMapper fileMapper;
+	private final RedisTemplate redisTemplate;
 
 	public FeedResDto getImagesAfterCursor(Long cursor, int pageSize) {
 		List<Files> fileList = fileRepository.findFilesAfterCursor(cursor, pageSize);

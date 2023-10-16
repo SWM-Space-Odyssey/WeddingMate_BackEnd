@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +25,7 @@ import swmaestro.spaceodyssey.weddingmate.domain.users.service.AuthService;
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponse;
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponseStatus;
 
+@Tag(name = "Auth API", description = "토큰 및 로그아웃, 회원탈퇴 API")
 @Slf4j
 @RestController
 @RequestMapping("/api/v1/token")
@@ -31,6 +34,7 @@ public class AuthController {
 
 	private final AuthService authService;
 
+	@Operation(summary = "로그인 유효기간 갱신")
 	@PostMapping("/refresh")
 	@ResponseStatus(HttpStatus.OK)
 	public ApiResponse<Object> refresh(HttpServletRequest request) {
@@ -43,6 +47,7 @@ public class AuthController {
 			.build();
 	}
 
+	@Operation(summary = "로그아웃")
 	@PostMapping("/logout")
 	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<ApiResponse<Object>> logout(@RequestBody AccessTokenDto requestDto) {
@@ -57,6 +62,7 @@ public class AuthController {
 				.build());
 	}
 
+	@Operation(summary = "회원 탈퇴")
 	@DeleteMapping("/signout")
 	@ResponseStatus(HttpStatus.OK)
 	public ApiResponse<Object> signout(@AuthUsers Users users, @RequestBody AccessTokenDto requestDto) {
