@@ -25,7 +25,6 @@ public class PlannerLikeImpl implements LikeService {
 	@Override
 	@DistributedLock(key="#lockName")
 	public void updateLikeCount(String lockName, Long id, boolean isIncrement) {
-
 		Planners planners = plannersRepositoryService.findPlannerById(id);
 
 		if (isIncrement) {
@@ -37,7 +36,6 @@ public class PlannerLikeImpl implements LikeService {
 
 	@Override
 	public List<PlannerLikeResDto> getUserLiked(Users users) {
-
 		List<UserLikes> likeList = likesRepositoryService.getLikesByUsersAndType(users, LikeEnum.planner);
 
 		return likeList.stream()
