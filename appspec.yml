@@ -13,7 +13,10 @@ permissions:
       mode: 755
 
 hooks:
+    BeforeInstall:
+        - location: config/codedeploy/beforeInstall.sh
+          timeout: 100
     AfterInstall:
-        - location: scripts/deploy.sh
+        - location: config/codedeploy/deploy.sh
           timeout: 60
           runas: ubuntu
