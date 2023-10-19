@@ -19,16 +19,19 @@ public class ItemLikeImpl implements LikesService {
 	private final LikesRepositoryService likesRepositoryService;
 	private final ItemsRepositoryService itemsRepositoryService;
 	private final LikesMapper likesMapper;
+
 	@Override
-	public void updateLikeCount(String lockName, Long id, boolean isIncrement) {
+	public void increaseLikeCount(String lockName, Long id, boolean isIncrement) {
 
 		Items items = itemsRepositoryService.findItemById(id);
+		items.increaseLikeCount();
+	}
 
-		if (isIncrement) {
-			items.setLikeCount(items.getLikeCount() + 1);
-		} else {
-			items.setLikeCount(items.getLikeCount() - 1);
-		}
+	@Override
+	public void decreaseLikeCount(String lockName, Long id, boolean isIncrement) {
+
+		Items items = itemsRepositoryService.findItemById(id);
+		items.decreaseLikeCount();
 	}
 
 	@Override

@@ -23,21 +23,20 @@ public class LikeActionService {
 
 	private static final String REDISSON_LOCK_PREFIX = "Id:";
 
-	public boolean like(Long id, Users users, LikeEnum likeEnum) {
+	public boolean checkIsLiked(Long id, Users users, LikeEnum likeEnum) {
 		List<UserLikes> likeList = likesRepositoryService.getLikesByUsersAndTypeAndId(users, likeEnum, id);
+		return !likeList.isEmpty();
+	}
 
-		LikesService likeService = likeServiceMap.get(likeEnum.getServiceName());
+	public void like(Long id, Users users, LikeEnum likeEnum) {
+		likesRepositoryService.saveLike(users, id, likeEnum);
+		String key = REDISSON_LOCK_PREFIX + id;
+		likeServiceMap.get(likeEnum.getServiceName()).increaseLikeCount(key, id, false);
+	}
 
-		String key = REDISSON_LOCK_PREFIX + String.valueOf(id);
-
-		if (likeList.isEmpty()) {
-			likesRepositoryService.saveLike(users, id, likeEnum);
-			likeService.updateLikeCount(key, id, true);
-			return true;
-		}
-
+	public void unlike(Long id, Users users, LikeEnum likeEnum) {
 		likesRepositoryService.deleteLike(users, id, likeEnum);
-		likeService.updateLikeCount(key, id, false);
-		return false;
+		String key = REDISSON_LOCK_PREFIX + id;
+		likeServiceMap.get(likeEnum.getServiceName()).decreaseLikeCount(key, id, false);
 	}
 }

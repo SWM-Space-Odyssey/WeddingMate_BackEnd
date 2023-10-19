@@ -21,15 +21,17 @@ public class CompanyLikeImpl implements LikesService {
 	private final LikesMapper likesMapper;
 
 	@Override
-	public void updateLikeCount(String lockName, Long id, boolean isIncrement) {
+	public void increaseLikeCount(String lockName, Long id, boolean isIncrement) {
 
 		Companies companies = companiesRepositoryService.findCompanyById(id);
+		companies.increaseLikeCount();
+	}
 
-		if (isIncrement) {
-			companies.setLikeCount(companies.getLikeCount() + 1);
-		} else {
-			companies.setLikeCount(companies.getLikeCount() - 1);
-		}
+	@Override
+	public void decreaseLikeCount(String lockName, Long id, boolean isIncrement) {
+
+		Companies companies = companiesRepositoryService.findCompanyById(id);
+		companies.decreaseLikeCount();
 	}
 
 	@Override

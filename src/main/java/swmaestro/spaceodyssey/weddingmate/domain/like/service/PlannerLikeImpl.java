@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
+import swmaestro.spaceodyssey.weddingmate.domain.item.entity.Items;
 import swmaestro.spaceodyssey.weddingmate.domain.like.dto.PlannerLikeResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.like.entity.UserLikes;
 import swmaestro.spaceodyssey.weddingmate.domain.like.enums.LikeEnum;
@@ -22,14 +23,17 @@ public class PlannerLikeImpl implements LikesService {
 	private final LikesMapper likesMapper;
 
 	@Override
-	public void updateLikeCount(String lockName, Long id, boolean isIncrement) {
-		Planners planners = plannersRepositoryService.findPlannerById(id);
+	public void increaseLikeCount(String lockName, Long id, boolean isIncrement) {
 
-		if (isIncrement) {
-			planners.setLikeCount(planners.getLikeCount() + 1);
-		} else {
-			planners.setLikeCount(planners.getLikeCount() - 1);
-		}
+		Planners planners = plannersRepositoryService.findPlannerById(id);
+		planners.increaseLikeCount();
+	}
+
+	@Override
+	public void decreaseLikeCount(String lockName, Long id, boolean isIncrement) {
+
+		Planners planners = plannersRepositoryService.findPlannerById(id);
+		planners.decreaseLikeCount();
 	}
 
 	@Override
