@@ -86,6 +86,6 @@ public class ItemsMapper {
 
 
 	private boolean isItemLikedByUser(Users users, Long itemId) {
-		return !likesRepository.findByUsersAndLikeTypeAndLikedId(users, LikeEnum.ITEM, itemId).isEmpty();
+		return !likesRepository.findByUsersAndLikeTypeAndLikedId(users, LikeEnum.item, itemId).isEmpty();
 	}
 }

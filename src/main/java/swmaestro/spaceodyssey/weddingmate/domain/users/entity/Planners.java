@@ -107,8 +107,19 @@ public class Planners extends BaseTimeEntity {
 		}
 	}
 
-	public void setLikeCount(Integer likeCount) {
-		this.likeCount = likeCount;
+	public void increaseLikeCount() {
+		this.likeCount += 1;
+	}
+
+	public void decreaseLikeCount() {
+		validateLikeCount();
+		this.likeCount -= 1;
+	}
+
+	private void validateLikeCount() {
+		if (likeCount < 1) {
+			throw new IllegalArgumentException();
+		}
 	}
 
 	public void deletePlanners() {

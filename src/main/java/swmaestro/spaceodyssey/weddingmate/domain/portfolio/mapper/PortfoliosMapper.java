@@ -60,6 +60,6 @@ public class PortfoliosMapper {
 	}
 
 	private boolean isPortfolioLikedByUser(Users users, Long portfolioId) {
-		return !likeRepository.findByUsersAndLikeTypeAndLikedId(users, LikeEnum.PORTFOLIO, portfolioId).isEmpty();
+		return !likeRepository.findByUsersAndLikeTypeAndLikedId(users, LikeEnum.portfolio, portfolioId).isEmpty();
 	}
 }
