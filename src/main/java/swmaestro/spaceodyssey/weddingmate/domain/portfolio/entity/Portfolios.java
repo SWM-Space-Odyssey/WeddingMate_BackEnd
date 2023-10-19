@@ -74,8 +74,19 @@ public class Portfolios extends BaseTimeEntity {
 		this.files = files;
 	}
 
-	public void setLikeCount(Integer likeCount) {
-		this.likeCount = likeCount;
+	public void increaseLikeCount() {
+		this.likeCount += 1;
+	}
+
+	public void decreaseLikeCount() {
+		validateLikeCount();
+		this.likeCount -= 1;
+	}
+
+	private void validateLikeCount() {
+		if (likeCount < 1) {
+			throw new IllegalArgumentException();
+		}
 	}
 
 	public void updatePortfolio(String title, String regionTag, String portfolioTagList) {
