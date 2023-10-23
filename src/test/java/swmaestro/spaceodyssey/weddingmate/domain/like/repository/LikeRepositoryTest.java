@@ -52,7 +52,7 @@ public class LikeRepositoryTest extends DummyEntity {
 		Users users = usersRepository.findByNickname("test0").get();
 
 		long startTime = System.currentTimeMillis();
-		likeRepository.findByUsersAndLikeTypeAndLikedId(users,LikeEnum.ITEM, Long.valueOf(1));
+		likeRepository.findByUsersAndLikeTypeAndLikedId(users,LikeEnum.item, Long.valueOf(1));
 		long endTime = System.currentTimeMillis();
 		long executionTime = endTime - startTime;
 
@@ -62,7 +62,7 @@ public class LikeRepositoryTest extends DummyEntity {
 	@Test
 	public void testLikeRepositoryFindByUsersAndLikeTypeIn() {
 		Users users = usersRepository.findByNickname("test0").get();
-		Collection<LikeEnum> likeTypes = Arrays.asList(LikeEnum.PORTFOLIO, LikeEnum.ITEM);
+		Collection<LikeEnum> likeTypes = Arrays.asList(LikeEnum.portfolio, LikeEnum.item);
 
 		long startTime = System.currentTimeMillis();
 		likeRepository.findByUsersAndLikeTypeIn(users, likeTypes);
@@ -75,9 +75,9 @@ public class LikeRepositoryTest extends DummyEntity {
 	private void dataSetting() {
 		for (int i = 0; i < count; i++) {
 			Users users = usersRepository.save(newMockUser("test" + i));
-			likeRepository.save(mockUserLike((long)i, LikeEnum.PORTFOLIO, users));
-			likeRepository.save(mockUserLike((long)i, LikeEnum.PLANNER, users));
-			likeRepository.save(mockUserLike((long)i, LikeEnum.ITEM, users));
+			likeRepository.save(mockUserLike((long)i, LikeEnum.portfolio, users));
+			likeRepository.save(mockUserLike((long)i, LikeEnum.planner, users));
+			likeRepository.save(mockUserLike((long)i, LikeEnum.item, users));
 		}
 	}
 }
