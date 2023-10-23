@@ -1,9 +1,9 @@
 package swmaestro.spaceodyssey.weddingmate.domain.oauth2;
 
+import java.util.Map;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-
-import java.util.Map;
 
 @Getter
 @AllArgsConstructor
@@ -22,8 +22,4 @@ public abstract class OAuth2UserInfo {
 	public abstract String getEmail();
 
 	public abstract String getImageUrl();
-
-	public abstract String getGender();
-
-	public abstract String getAge();
 }
