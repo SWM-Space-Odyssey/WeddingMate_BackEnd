@@ -23,7 +23,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @SQLDelete(sql = "UPDATE users SET account_status = 'WITHDRAW' WHERE user_id = ?")
-@Where(clause = "account_status = 'NORMAL'")
+@Where(clause = "account_status != 'WITHDRAW'")
 @Entity
 public class Users extends BaseTimeEntity {
 	@Id
