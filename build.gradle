@@ -56,6 +56,9 @@ dependencies {
     // redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
+    // redisson
+    implementation 'org.redisson:redisson-spring-boot-starter:3.18.0'
+
     // S3
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
@@ -80,6 +83,11 @@ dependencies {
 
     //aop
     implementation 'org.springframework.boot:spring-boot-starter-aop'
+
+    // test-containers
+    testImplementation group: 'org.testcontainers', name: 'testcontainers', version: '1.17.2'
+    testImplementation group: 'org.testcontainers', name: 'junit-jupiter', version: '1.17.3'
+    testImplementation group: 'org.testcontainers', name: 'mysql', version: '1.17.3'
 }
 
 tasks.named('test') {
