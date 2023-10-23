@@ -3,6 +3,7 @@ package swmaestro.spaceodyssey.weddingmate.domain.like.service;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.item.entity.Items;
@@ -13,6 +14,7 @@ import swmaestro.spaceodyssey.weddingmate.domain.like.mapper.LikesMapper;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Planners;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 import swmaestro.spaceodyssey.weddingmate.domain.users.service.repositoryservice.PlannersRepositoryService;
+import swmaestro.spaceodyssey.weddingmate.global.config.aop.DistributedLock.DistributedLock;
 
 @Component
 @RequiredArgsConstructor
@@ -23,20 +25,23 @@ public class PlannerLikeImpl implements LikesService {
 	private final LikesMapper likesMapper;
 
 	@Override
-	public void increaseLikeCount(String lockName, Long id, boolean isIncrement) {
+	@DistributedLock(key="#lockName")
+	public void increaseLikeCount(String lockName, Long id) {
 
 		Planners planners = plannersRepositoryService.findPlannerById(id);
 		planners.increaseLikeCount();
 	}
 
 	@Override
-	public void decreaseLikeCount(String lockName, Long id, boolean isIncrement) {
+	@DistributedLock(key="#lockName")
+	public void decreaseLikeCount(String lockName, Long id) {
 
 		Planners planners = plannersRepositoryService.findPlannerById(id);
 		planners.decreaseLikeCount();
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<PlannerLikeResDto> getUserLiked(Users users) {
 		List<UserLikes> likeList = likesRepositoryService.getLikesByUsersAndType(users, LikeEnum.planner);
 
