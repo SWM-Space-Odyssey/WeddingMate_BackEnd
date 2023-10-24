@@ -7,6 +7,7 @@ import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponse;
 import swmaestro.spaceodyssey.weddingmate.global.exception.category.CategoryNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.chat.ChatRoomNotAuthorizedException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.chat.ChatRoomNotFoundException;
+import swmaestro.spaceodyssey.weddingmate.global.exception.company.CompanyNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileKakaoProfileDownloadFailureException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileMalformedUrlException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileNameEmptyException;
@@ -26,6 +27,7 @@ import swmaestro.spaceodyssey.weddingmate.global.exception.token.RefreshTokenCoo
 import swmaestro.spaceodyssey.weddingmate.global.exception.token.RefreshTokenNotEqualException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.token.UnAuthorizedRefreshTokenException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.users.CustomerDuplicateRegistrationException;
+import swmaestro.spaceodyssey.weddingmate.global.exception.users.CustomerNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.users.PlannerDuplicateRegistrationException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.users.PlannerNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserNameNotFoundException;
@@ -91,6 +93,11 @@ public class GlobalExceptionHandler {
 	protected final ApiResponse<Object> handleCustomerDuplicateResgistrationException(
 		CustomerDuplicateRegistrationException e) {
 		return ErrorResponse.toErrorResponseEntity(ErrorCode.CUSTOMER_DUPLICATE_REGISTRATION, e.getMessage());
+	}
+
+	@ExceptionHandler(CustomerNotFoundException.class)
+	protected final ApiResponse<Object> handlerCustomerNotFoundException(CustomerNotFoundException e) {
+		return ErrorResponse.toErrorResponseEntity(ErrorCode.CUSTOMER_NOTFOUND, e.getMessage());
 	}
 
 	/*================== Profile Exception ==================*/
@@ -197,5 +204,11 @@ public class GlobalExceptionHandler {
 	protected final ApiResponse<Object> handleChatRoomNotFoundException(
 		ChatRoomNotFoundException e) {
 		return ErrorResponse.toErrorResponseEntity(ErrorCode.CHATROOM_NOTFOUND, e.getMessage());
+	}
+
+	/*================== Company Exception ==================*/
+	@ExceptionHandler(CompanyNotFoundException.class)
+	protected final ApiResponse<Object> handleCompanyNotFundException(CompanyNotFoundException e) {
+		return ErrorResponse.toErrorResponseEntity(ErrorCode.COMPANY_NOTFOUND, e.getMessage());
 	}
 }

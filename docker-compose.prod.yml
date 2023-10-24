@@ -3,9 +3,10 @@ services:
 
   web:
     container_name: web
-    build:
-      context: ./
-      dockerfile: Dockerfile
+    image: 231494810622.dkr.ecr.ap-northeast-2.amazonaws.com/weddingmate-prod:latest
+    # build:
+    #   context: ./
+    #   dockerfile: Dockerfile
     command: java -jar build/libs/weddingmate-0.0.1-SNAPSHOT.jar
     env_file:
       - .env

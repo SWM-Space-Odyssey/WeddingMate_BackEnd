@@ -10,6 +10,7 @@ import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 import swmaestro.spaceodyssey.weddingmate.domain.users.enums.UserRegisterStatusEnum;
 import swmaestro.spaceodyssey.weddingmate.domain.users.mapper.CustomersMapper;
 import swmaestro.spaceodyssey.weddingmate.domain.users.repository.CustomersRepository;
+import swmaestro.spaceodyssey.weddingmate.domain.users.service.repositoryservice.UsersRepositoryService;
 
 @Transactional
 @Service
@@ -19,16 +20,17 @@ public class CustomersService {
 	private final UsersService usersService;
 	private final CustomersMapper customersMapper;
 	private final CustomersRepository customersRepository;
+	private final UsersRepositoryService usersRepositoryService;
 
 	@Transactional
 	public void signupCustomer(Users users, CustomerSignupReqDto reqDto) {
-		Users pUsers = usersService.findUserByEmail(users.getEmail());
+		Users pUsers = usersRepositoryService.findUserByEmail(users.getEmail());
 		usersService.checkUserIsRegistered(users);
 
 		pUsers.updateNickname(reqDto.getNickname());
 		pUsers.updateRegisterStatus(UserRegisterStatusEnum.CUSTOMER);
 
-		Customers customers = createCustomer(users, reqDto);
+		Customers customers = createCustomer(pUsers, reqDto);
 		customersRepository.save(customers);
 	}
 
@@ -38,7 +40,5 @@ public class CustomersService {
 		customers.setUsers(users);
 		return customers;
 	}
-
-	/*================== Repository 접근 ==================*/
 
 }

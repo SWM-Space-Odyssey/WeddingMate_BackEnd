@@ -13,7 +13,6 @@ import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.PortfolioDetailRe
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.PortfolioListResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.dto.PortfolioSaveReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.Portfolios;
-import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Planners;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 
 @Component
@@ -45,22 +44,22 @@ public class PortfoliosMapper {
 			.itemResDtoList(itemResDtoList)
 			.repImgUrl(portfolios.getFiles().getUrl())
 			.isWriter(isWriter)
-			.plannerId(portfolios.getPlanners().getPlannerProfiles().getPlannerProfileId())
+			.userId(portfolios.getUsers().getUserId())
 			.isLiked(isPortfolioLiked)
 			.build();
 	}
 
-	public Portfolios dtoToEntity(Planners planners, PortfolioSaveReqDto portfolioSaveReqDto) {
+	public Portfolios dtoToEntity(Users users, PortfolioSaveReqDto portfolioSaveReqDto) {
 
 		return Portfolios.builder()
 			.title(portfolioSaveReqDto.getTitle())
-			.planners(planners)
+			.users(users)
 			.regionTag(portfolioSaveReqDto.getRegion())
 			.portfolioTagList(portfolioSaveReqDto.getTags())
 			.build();
 	}
 
 	private boolean isPortfolioLikedByUser(Users users, Long portfolioId) {
-		return !likeRepository.findByUsersAndLikeTypeAndLikedId(users, LikeEnum.PORTFOLIO, portfolioId).isEmpty();
+		return !likeRepository.findByUsersAndLikeTypeAndLikedId(users, LikeEnum.portfolio, portfolioId).isEmpty();
 	}
 }

@@ -1,23 +1,24 @@
 package swmaestro.spaceodyssey.weddingmate.domain.users.entity;
 
-import java.util.List;
 import java.util.function.Consumer;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.Portfolios;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.dto.PlannerInfoDto;
 import swmaestro.spaceodyssey.weddingmate.domain.profile.entity.PlannerProfiles;
 import swmaestro.spaceodyssey.weddingmate.global.entity.BaseTimeEntity;
@@ -25,6 +26,8 @@ import swmaestro.spaceodyssey.weddingmate.global.entity.BaseTimeEntity;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
+@SQLDelete(sql = "UPDATE planners SET is_deleted = true WHERE planner_id = ?")
+@Where(clause = "is_deleted = false")
 public class Planners extends BaseTimeEntity {
 
 	@Id
@@ -32,6 +35,7 @@ public class Planners extends BaseTimeEntity {
 	private Long plannerId;
 
 	@OneToOne(mappedBy = "planners")
+	@JoinColumn(name = "user_id")
 	private Users users;
 
 	@NotNull(message = "소속은 필수로 입력되어야 합니다.")
@@ -47,12 +51,12 @@ public class Planners extends BaseTimeEntity {
 	@JoinColumn(name = "profile_id")
 	private PlannerProfiles plannerProfiles;
 
-	@OneToMany(mappedBy = "planners", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Portfolios> portfoliosList;
-
 	private String plannerTagList; // 최대 3개
 
-	private Integer likeCount;
+	private Integer likeCount = 0;
+
+	@Column(nullable = false)
+	private Boolean isDeleted = false;
 
 	@Builder
 	public Planners(String company, String position, String regionList, String plannerTagList) {
@@ -60,7 +64,6 @@ public class Planners extends BaseTimeEntity {
 		this.position = position;
 		this.regionList = regionList;
 		this.plannerTagList = plannerTagList;
-		this.likeCount = 0;
 	}
 
 	public void updatePlannerInfo(PlannerInfoDto dto) {
@@ -86,15 +89,15 @@ public class Planners extends BaseTimeEntity {
 		this.company = company;
 	}
 
-	public void updatePosition(String position){
+	public void updatePosition(String position) {
 		this.position = position;
 	}
 
-	public void updateRegionList(String regionList){
+	public void updateRegionList(String regionList) {
 		this.regionList = regionList;
 	}
 
-	public void updatePlannerTagList(String plannerTagList){
+	public void updatePlannerTagList(String plannerTagList) {
 		this.plannerTagList = plannerTagList;
 	}
 
@@ -104,7 +107,22 @@ public class Planners extends BaseTimeEntity {
 		}
 	}
 
-	public void setLikeCount(Integer likeCount) {
-		this.likeCount = likeCount;
+	public void increaseLikeCount() {
+		this.likeCount += 1;
+	}
+
+	public void decreaseLikeCount() {
+		validateLikeCount();
+		this.likeCount -= 1;
+	}
+
+	private void validateLikeCount() {
+		if (likeCount < 1) {
+			throw new IllegalArgumentException();
+		}
+	}
+
+	public void deletePlanners() {
+		this.isDeleted = true;
 	}
 }

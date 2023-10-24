@@ -2,62 +2,61 @@ package swmaestro.spaceodyssey.weddingmate.domain.like.controller;
 
 import static swmaestro.spaceodyssey.weddingmate.global.constant.ResponseConstant.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Map;
+
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+
 import swmaestro.spaceodyssey.weddingmate.domain.like.dto.LikeReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.like.enums.LikeEnum;
 import swmaestro.spaceodyssey.weddingmate.domain.like.service.LikesService;
+import swmaestro.spaceodyssey.weddingmate.domain.like.service.LikeActionService;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.AuthUsers;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponse;
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponseStatus;
-import swmaestro.spaceodyssey.weddingmate.global.exception.like.LikeTypeNotSupportedException;
 
+@Tag(name = "Like API", description = "좋아요 관련 API")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/like")
+@RequestMapping("/api/v1/likes")
 public class LikesController {
 
 
-	@Autowired
-	private LikesService likesService;
+	private final LikeActionService likesService;
+	private final Map<String, LikesService> likeServiceMap;
 
-	@GetMapping("/portfolio")
-	public ApiResponse<Object> getUserLikedPortfolio(@AuthUsers Users users) {
+	@Operation(summary = "유저가 좋아요한 포트폴리오/아이템/플래너/회사 목록 제공")
+	@GetMapping("/by-user-id/{service}")
+	public ApiResponse<Object> getUserLiked(@AuthUsers Users users, @NotNull @PathVariable("service") LikeEnum service) {
+
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
-			.data((likesService.getUserLikedPortfolio(users)))
+			.data((likeServiceMap.get(service.getServiceName()).getUserLiked(users)))
 			.build();
 	}
 
-	@GetMapping("/item")
-	public ApiResponse<Object> getUserLikedItem(@AuthUsers Users users) {
-		return ApiResponse.builder()
-			.status(ApiResponseStatus.SUCCESS)
-			.data((likesService.getUserLikedItem(users)))
-			.build();
-	}
-
-	@GetMapping("/planner")
-	public ApiResponse<Object> getUserLikedPlanner(@AuthUsers Users users) {
-		return ApiResponse.builder()
-			.status(ApiResponseStatus.SUCCESS)
-			.data((likesService.getUserLikedPlanner(users)))
-			.build();
-	}
-
-	@PostMapping("")
+	@Operation(summary = "유저의 좋아요 반영(포트폴리오/아이템/플래너/회사)")
+	@PostMapping()
 	public ApiResponse<Object> like(@AuthUsers Users users, @RequestBody LikeReqDto likeReqDto) {
-		LikeEnum likeType = getLikeTypeFromDto(likeReqDto);
-		Boolean isLiked = likesService.like(likeReqDto.getId(), users, likeType);
+		Boolean checkIsLiked = likesService.checkIsLiked(likeReqDto.getId(), users, likeReqDto.getLikeType());
 
-		String resultMessage = Boolean.TRUE.equals(isLiked) ? LIKE_SUCCESS : UNLIKE_SUCCESS;
+		if (Boolean.TRUE.equals(checkIsLiked)) {
+			likesService.unlike(likeReqDto.getId(), users, likeReqDto.getLikeType());
+		} else {
+			likesService.like(likeReqDto.getId(), users, likeReqDto.getLikeType());
+		}
+
+		String resultMessage = Boolean.TRUE.equals(checkIsLiked) ? UNLIKE_SUCCESS : LIKE_SUCCESS;
 
 		return ApiResponse.builder()
 			.status(ApiResponseStatus.SUCCESS)
@@ -65,17 +64,4 @@ public class LikesController {
 			.build();
 	}
 
-
-	private LikeEnum getLikeTypeFromDto(LikeReqDto likeReqDto) {
-		String likeType = likeReqDto.getLikeType();
-
-		return switch (likeType) {
-			case "PORTFOLIO" -> LikeEnum.PORTFOLIO;
-			case "ITEM" -> LikeEnum.ITEM;
-			case "PLANNER" -> LikeEnum.PLANNER;
-			default -> throw new LikeTypeNotSupportedException();
-		};
-	}
-
 }
-

@@ -16,12 +16,24 @@ public class ResponseConstant {
 	// customer
 	public static final String CUSTOMER_SIGNUP_SUCCESS = " 고객님의 회원가입이 완료되었습니다.";
 
+	public static final String LOGOUT_SUCCESS = "로그아웃에 성공했습니다.";
+	public static final String SIGNOUT_SUCCESS = "회원 탈퇴에 성공했습니다.";
+
+	// accountStatus
+
+	public static final String ACCOUNT_SUSPENDED_MESSAGE = "정지된 계정입니다.";
+	public static final String ACCOUNT_WITHDRAW_MESSAGE = "이미 탈퇴한 계정입니다.";
+	public static final String ACCOUNT_BANNED_MESSAGE = "영구 정지된 계정입니다.";
+	public static final String ACCOUNT_NON_ELIGIBLE_MESSAGE = "서비스 대상이 아닌 계정입니다.";
+
 	// exception
 	public static final String USER_NOTFOUND = "해당 유저를 찾을 수 없습니다.";
+	public static final String USER_NOT_TARGET = "가입 대상자가 아닙니다.";
 	public static final String USER_NAME_NOTFOUND = "해당 유저의 이름을 찾을 수 없습니다(CustomUserDetailsService)";
 	public static final String USER_UNAUTHORIZED = "권한이 없는 유저입니다";
 	public static final String PLANNER_NOTFOUND = "해당 플래너를 찾을 수 없습니다.";
 	public static final String PLANNER_PROFILE_NOTFOUND = "해당 플래너의 프로필을 찾을 수 없습니다.";
+	public static final String CUSTOMER_NOTFOUND = "해당 고객을 찾을 수 없습니다";
 
 	public static final String PLANNER_DUPLICATE_REGISTRATION = "이미 플래너로 가입하셨습니다.";
 	public static final String CUSTOMER_DUPLICATE_REGISTRATION = "이미 예비부부로 가입하셨습니다.";
@@ -30,9 +42,12 @@ public class ResponseConstant {
 	public static final String OAUTH_PROVIDERID_NOTFOUND = "OAuth2 Provider에서 ProviderId을 찾을 수 없습니다.";
 	public static final String OAUTH_DUPLICATE_EMAIL = "회원가입을 통해 이미 가입하였습니다. 해당 SNS 계정으로 다시 시도해주세요.";
 	public static final String OAUTH_UNAUTHORIZED_URL = "해당 url은 인증되지 않았습니다.";
+	public static final String OAUTH_GENDER_NOT_PROVIDED = "성별 미제공";
+	public static final String OAUTH_AGE_NOT_PROVIDED = "연령 미제공";
 
 	/* PROFILE */
 	public static final String PROFILE_MODIFICATION_NOT_ALLOWED = "해당 프로필의 작성자가 아닙니다.";
+	public static final String CUSTOMER_PROFILE_UPDATE_SUCCESS = "해당 고객 프로필을 수정했습니다.";
 
 	/* PORTFOLIO */
 	public static final String PORTFOLIO_NOTFOUND = "해당 포트폴리오를 찾을 수 없습니다.";
@@ -73,4 +88,7 @@ public class ResponseConstant {
 	public static final String CHATROOM_NOTFOUND = "채팅방을 찾을 수 없습니다.";
 	public static final String CHATROOM_DELETE_SUCCESS = "해당 채팅방을 삭제했습니다.";
 	public static final String CHATROOM_NOT_AUTHORIZED = "해당 채팅방의 주인이 아닙니다.";
+
+	/* COMPANY */
+	public static final String COMPANY_NOTFOUND = "업체를 찾을 수 없습니다.";
 }

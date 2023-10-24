@@ -1,20 +1,31 @@
 package swmaestro.spaceodyssey.weddingmate.domain.users.controller;
 
 import static org.springframework.http.HttpHeaders.*;
+import static swmaestro.spaceodyssey.weddingmate.global.constant.ResponseConstant.*;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import swmaestro.spaceodyssey.weddingmate.domain.users.dto.AccessTokenDto;
+import swmaestro.spaceodyssey.weddingmate.domain.users.entity.AuthUsers;
+import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 import swmaestro.spaceodyssey.weddingmate.domain.users.service.AuthService;
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponse;
 import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponseStatus;
 
+@Tag(name = "Auth API", description = "토큰 및 로그아웃, 회원탈퇴 API")
 @Slf4j
 @RestController
 @RequestMapping("/api/v1/token")
@@ -23,6 +34,7 @@ public class AuthController {
 
 	private final AuthService authService;
 
+	@Operation(summary = "로그인 유효기간 갱신")
 	@PostMapping("/refresh")
 	@ResponseStatus(HttpStatus.OK)
 	public ApiResponse<Object> refresh(HttpServletRequest request) {
@@ -35,18 +47,30 @@ public class AuthController {
 			.build();
 	}
 
-	@PostMapping("/blacklist")
+	@Operation(summary = "로그아웃")
+	@PostMapping("/logout")
 	@ResponseStatus(HttpStatus.OK)
-	public ResponseEntity<ApiResponse<Object>> signOut(@RequestBody AccessTokenDto requestDto) {
-		AccessTokenDto resDto = authService.signOut(requestDto);
+	public ResponseEntity<ApiResponse<Object>> logout(@RequestBody AccessTokenDto requestDto) {
+		authService.logout(requestDto);
 		ResponseCookie responseCookie = removeRefreshTokenCookie();
 
 		return ResponseEntity.ok()
 			.header(SET_COOKIE, responseCookie.toString())
 			.body(ApiResponse.builder()
 				.status(ApiResponseStatus.SUCCESS)
-				.data(resDto)
+				.data(LOGOUT_SUCCESS)
 				.build());
+	}
+
+	@Operation(summary = "회원 탈퇴")
+	@DeleteMapping("/signout")
+	@ResponseStatus(HttpStatus.OK)
+	public ApiResponse<Object> signout(@AuthUsers Users users, @RequestBody AccessTokenDto requestDto) {
+		authService.signout(users, requestDto);
+		return ApiResponse.builder()
+			.status(ApiResponseStatus.SUCCESS)
+			.data(SIGNOUT_SUCCESS)
+			.build();
 	}
 
 	public ResponseCookie removeRefreshTokenCookie() {

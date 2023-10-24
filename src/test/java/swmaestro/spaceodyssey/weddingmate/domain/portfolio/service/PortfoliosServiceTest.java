@@ -65,8 +65,7 @@ public class PortfoliosServiceTest extends DummyEntity {
 	void setup() {
 		mockUser = newMockUser("testUser");
 		ReflectionTestUtils.setField(mockUser, "userId", 1L);
-		mockPlanners = newMockPlanner(mockUser);
-		mockPortfolios = newMockPortfolio(mockPlanners);
+		mockPortfolios = newMockPortfolio(mockUser);
 		ReflectionTestUtils.setField(mockPortfolios, "portfolioId", 1L);
 		mockFiles = newMockFile();
 	}

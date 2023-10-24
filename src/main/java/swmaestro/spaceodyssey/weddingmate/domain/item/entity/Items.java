@@ -3,6 +3,9 @@ package swmaestro.spaceodyssey.weddingmate.domain.item.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,13 +20,17 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import swmaestro.spaceodyssey.weddingmate.domain.company.entity.Companies;
 import swmaestro.spaceodyssey.weddingmate.domain.file.entity.Files;
+import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemUpdateReqDto;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.Portfolios;
 import swmaestro.spaceodyssey.weddingmate.global.entity.BaseTimeEntity;
 
 @Getter
 @NoArgsConstructor
 @Entity
+@SQLDelete(sql = "UPDATE items SET is_deleted = true WHERE file_id = ?")
+@Where(clause = "is_deleted = false")
 public class Items extends BaseTimeEntity {
 
 	@Id
@@ -36,7 +43,7 @@ public class Items extends BaseTimeEntity {
 	@Column(nullable = false)
 	private String itemRecord;
 
-	private String company;
+	private String companyName;
 
 	private String itemDate;
 
@@ -50,20 +57,34 @@ public class Items extends BaseTimeEntity {
 	private String category;
 
 	@Column(nullable = false)
-	private Boolean isDeleted;
+	private Boolean isDeleted = false;
 
 	@OneToMany(mappedBy = "items", cascade = CascadeType.PERSIST)
 	private List<Files> filesList = new ArrayList<>();
 
-	private Integer likeCount;
+	private Integer likeCount = 0;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "company_id")
+	private Companies companies;
 
-	public void updateItem(String itemRecord, String itemTagList, String company, String itemDate, String category) {
+	@Builder
+	public Items(String itemRecord, String itemTagList, String itemDate, Integer itemOrder, Portfolios portfolios,
+		String category) {
 		this.itemRecord = itemRecord;
 		this.itemTagList = itemTagList;
-		this.company = company;
 		this.itemDate = itemDate;
+		this.itemOrder = itemOrder;
+		this.portfolios = portfolios;
 		this.category = category;
+	}
+
+	/*================== 기존 필드값 수정 ==================*/
+	public void updateItem(ItemUpdateReqDto dto) {
+		this.itemRecord = dto.getItemRecord();
+		this.itemTagList = dto.getItemTagList();
+		this.itemDate = dto.getDate();
+		this.category = dto.getCategory();
 	}
 
 	public void updateOrder(Integer itemOrder) {
@@ -73,21 +94,27 @@ public class Items extends BaseTimeEntity {
 	public void deleteItem() {
 		this.isDeleted = true;
 	}
-	@Builder
-	public Items(String itemRecord, String itemTagList, String company, String itemDate, Integer itemOrder, Portfolios portfolios, String category) {
-		this.itemRecord = itemRecord;
-		this.itemTagList = itemTagList;
-		this.company = company;
-		this.itemDate = itemDate;
-		this.itemOrder = itemOrder;
-		this.portfolios = portfolios;
-		this.category = category;
-		this.isDeleted = false;
-		this.likeCount = 0;
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
 
-	public void setLikeCount(Integer likeCount) {
-		this.likeCount = likeCount;
+	public void setCompanies(Companies companies) {
+		this.companies = companies;
 	}
 
+	public void increaseLikeCount() {
+		this.likeCount += 1;
+	}
+
+	public void decreaseLikeCount() {
+		validateLikeCount();
+		this.likeCount -= 1;
+	}
+
+	private void validateLikeCount() {
+		if (likeCount < 1) {
+			throw new IllegalArgumentException();
+		}
+	}
 }

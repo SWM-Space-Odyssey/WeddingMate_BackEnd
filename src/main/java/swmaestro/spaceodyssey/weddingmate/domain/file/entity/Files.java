@@ -1,5 +1,9 @@
 package swmaestro.spaceodyssey.weddingmate.domain.file.entity;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -17,6 +21,9 @@ import swmaestro.spaceodyssey.weddingmate.global.entity.BaseTimeEntity;
 @Entity
 @Getter
 @NoArgsConstructor
+@SQLDelete(sql = "UPDATE files SET is_deleted = true WHERE file_id = ?")
+@Where(clause = "is_deleted = false")
+@Schema(hidden = true)
 public class Files extends BaseTimeEntity {
 
 	@Id
@@ -36,15 +43,22 @@ public class Files extends BaseTimeEntity {
 	@JoinColumn(name = "item_id")
 	private Items items;
 
-	public void setItems(Items items) {
-		this.items = items;
-	}
+	@Column(nullable = false)
+	private Boolean isDeleted = false;
 
 	@Builder
 	public Files(String filename, String filetype, String url) {
 		this.filename = filename;
 		this.filetype = filetype;
 		this.url = url;
+	}
+
+	public void setItems(Items items) {
+		this.items = items;
+	}
+
+	public void deleteFile() {
+		this.isDeleted = true;
 	}
 }
 

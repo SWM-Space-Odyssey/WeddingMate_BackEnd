@@ -30,6 +30,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-data-rest' // NOTFOUND exception
 
+    // swagger
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+
     // security
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -53,6 +56,9 @@ dependencies {
     // redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
+    // redisson
+    implementation 'org.redisson:redisson-spring-boot-starter:3.18.0'
+
     // S3
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
@@ -71,6 +77,17 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
     runtimeOnly 'com.h2database:h2'
     testImplementation 'junit:junit:4.13.1'
+
+    //actuator
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    //aop
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+
+    // test-containers
+    testImplementation group: 'org.testcontainers', name: 'testcontainers', version: '1.17.2'
+    testImplementation group: 'org.testcontainers', name: 'junit-jupiter', version: '1.17.3'
+    testImplementation group: 'org.testcontainers', name: 'mysql', version: '1.17.3'
 }
 
 tasks.named('test') {
