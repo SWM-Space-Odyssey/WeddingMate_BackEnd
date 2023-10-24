@@ -3,7 +3,7 @@ services:
 
   web:
     container_name: web
-    image: 231494810622.dkr.ecr.ap-northeast-2.amazonaws.com/weddingmate:latest
+    image: 231494810622.dkr.ecr.ap-northeast-2.amazonaws.com/weddingmate-prod:latest
     # build:
     #   context: ./
     #   dockerfile: Dockerfile
