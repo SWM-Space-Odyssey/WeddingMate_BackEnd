@@ -72,8 +72,11 @@ dependencies {
     // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.21.0'
     runtimeOnly 'com.h2database:h2'
-    testImplementation 'junit:junit:4.13.1'
+    //testImplementation 'junit:junit:4.13.1'
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
 
     //actuator
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
