@@ -139,6 +139,10 @@ public class Users extends BaseTimeEntity {
 		this.reportCnt = 0;
 	}
 
+	public void setAccountStatusToNormal() {
+		this.accountStatus = UserAccountStatusEnum.NORMAL;
+	}
+
 	public void setAccountStatusToSuspended() {
 		this.accountStatus = UserAccountStatusEnum.SUSPENDED;
 	}
