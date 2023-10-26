@@ -6,9 +6,8 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum SuspensionPeriodEnum {
-	FIRST_BLOCK(0, 14),
-	SECOND_BLOCK(1, 30),
-	FINAL_BLOCK(2, 90);
+	FIRST_BLOCK(1, 14),
+	SECOND_BLOCK(2, 30),
 
 	private final int blockCnt;
 	private final int days;
