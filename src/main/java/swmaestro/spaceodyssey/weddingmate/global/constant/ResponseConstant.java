@@ -87,4 +87,7 @@ public class ResponseConstant {
 
 	/* COMPANY */
 	public static final String COMPANY_NOTFOUND = "업체를 찾을 수 없습니다.";
+
+	/* REPORT */
+	public static final String REPORT_CREATE_SUCCESS = "신고가 성공적으로 접수되었습니다.";
 }
