@@ -17,6 +17,9 @@ import swmaestro.spaceodyssey.weddingmate.domain.users.enums.UserAccountStatusEn
 import swmaestro.spaceodyssey.weddingmate.domain.users.enums.UserRegisterStatusEnum;
 import swmaestro.spaceodyssey.weddingmate.global.entity.BaseTimeEntity;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @SuppressWarnings("checkstyle:RegexpMultiline")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
