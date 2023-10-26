@@ -1,28 +1,14 @@
 package swmaestro.spaceodyssey.weddingmate.domain.users.entity;
 
-import java.util.List;
-
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import swmaestro.spaceodyssey.weddingmate.domain.file.entity.Files;
 import swmaestro.spaceodyssey.weddingmate.domain.oauth2.OAuth2UserInfo;
 import swmaestro.spaceodyssey.weddingmate.domain.oauth2.enums.AuthProvider;
@@ -30,6 +16,9 @@ import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.Portfolios;
 import swmaestro.spaceodyssey.weddingmate.domain.users.enums.UserAccountStatusEnum;
 import swmaestro.spaceodyssey.weddingmate.domain.users.enums.UserRegisterStatusEnum;
 import swmaestro.spaceodyssey.weddingmate.global.entity.BaseTimeEntity;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @SuppressWarnings("checkstyle:RegexpMultiline")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -43,7 +32,7 @@ public class Users extends BaseTimeEntity {
 	private Long userId;
 
 	@Email(message = "올바르지 않은 이메일 형식입니다.",
-		regexp = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$")
+			regexp = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$")
 	@Column(nullable = false)
 	private String email;
 
@@ -78,6 +67,9 @@ public class Users extends BaseTimeEntity {
 
 	@Column(nullable = false)
 	private Integer reportCnt = 0;
+
+	@Column
+	private LocalDateTime suspensionEndTime;
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "planner_id")
@@ -139,11 +131,35 @@ public class Users extends BaseTimeEntity {
 		}
 	}
 
+	public void setSuspensionEndTime(LocalDateTime suspensionEndTime) {
+		this.suspensionEndTime = suspensionEndTime;
+	}
+
+	public void resetReportCnt() {
+		this.reportCnt = 0;
+	}
+
+	public void setAccountStatusToSuspended() {
+		this.accountStatus = UserAccountStatusEnum.SUSPENDED;
+	}
+
+	public void setAccountStatusToBanned() {
+		this.accountStatus = UserAccountStatusEnum.BANNED;
+	}
+
 	public void createPhone(String phone) {
 		this.phone = phone;
 	}
 
 	public void updateProfileImage(Files profileImage) {
 		this.profileImage = profileImage;
+	}
+
+	public void incrementReportCnt() {
+		this.reportCnt++;
+	}
+
+	public void incrementBlockCnt() {
+		this.blockCnt++;
 	}
 }
