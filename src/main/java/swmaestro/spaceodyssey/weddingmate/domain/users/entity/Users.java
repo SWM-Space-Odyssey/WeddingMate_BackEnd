@@ -17,14 +17,11 @@ import swmaestro.spaceodyssey.weddingmate.domain.users.enums.UserAccountStatusEn
 import swmaestro.spaceodyssey.weddingmate.domain.users.enums.UserRegisterStatusEnum;
 import swmaestro.spaceodyssey.weddingmate.global.entity.BaseTimeEntity;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
 @SuppressWarnings("checkstyle:RegexpMultiline")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @SQLDelete(sql = "UPDATE users SET account_status = 'WITHDRAW' WHERE user_id = ?")
-@Where(clause = "account_status = 'NORMAL'")
+@Where(clause = "account_status != 'WITHDRAW'")
 @Entity
 public class Users extends BaseTimeEntity {
 	@Id
@@ -36,7 +33,14 @@ public class Users extends BaseTimeEntity {
 	@Column(nullable = false)
 	private String email;
 
+	@Column(nullable = false)
 	private String nickname;
+
+	@Column(nullable = false)
+	private String gender;
+
+	@Column(nullable = false)
+	private String age;
 
 	@Pattern(regexp = "^[0-9]{3}-[0-9]{4}-[0-9]{4}$", message = "올바르지 않은 핸드폰 번호 형식입니다.")
 	private String phone;
@@ -83,9 +87,12 @@ public class Users extends BaseTimeEntity {
 	private List<Portfolios> portfoliosList;
 
 	@Builder
-	public Users(String email, String nickname, Files profileImage, AuthProvider authProvider, String authProviderId) {
+	public Users(String email, String nickname, String gender, String age,
+				 Files profileImage, AuthProvider authProvider, String authProviderId) {
 		this.email = email;
 		this.nickname = nickname;
+		this.gender = gender;
+		this.age = age;
 		this.profileImage = profileImage;
 		this.authProvider = authProvider;
 		this.authProviderId = authProviderId;
@@ -149,6 +156,10 @@ public class Users extends BaseTimeEntity {
 
 	public void setAccountStatusToBanned() {
 		this.accountStatus = UserAccountStatusEnum.BANNED;
+	}
+
+	public void setAccountStatusToNotEligible() {
+		this.accountStatus = UserAccountStatusEnum.NON_ELIGIBLE;
 	}
 
 	public void createPhone(String phone) {

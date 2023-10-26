@@ -23,10 +23,12 @@ public class ResponseConstant {
 
 	public static final String ACCOUNT_SUSPENDED_MESSAGE = "정지된 계정입니다.";
 	public static final String ACCOUNT_WITHDRAW_MESSAGE = "이미 탈퇴한 계정입니다.";
-	public static final String ACCOUNT_BANNED_MESSAGE = "재가입 불가능한 계정입니다.";
+	public static final String ACCOUNT_BANNED_MESSAGE = "영구 정지된 계정입니다.";
+	public static final String ACCOUNT_NON_ELIGIBLE_MESSAGE = "서비스 대상이 아닌 계정입니다.";
 
 	// exception
 	public static final String USER_NOTFOUND = "해당 유저를 찾을 수 없습니다.";
+	public static final String USER_NOT_TARGET = "가입 대상자가 아닙니다.";
 	public static final String USER_NAME_NOTFOUND = "해당 유저의 이름을 찾을 수 없습니다(CustomUserDetailsService)";
 	public static final String USER_UNAUTHORIZED = "권한이 없는 유저입니다";
 	public static final String PLANNER_NOTFOUND = "해당 플래너를 찾을 수 없습니다.";
@@ -40,6 +42,8 @@ public class ResponseConstant {
 	public static final String OAUTH_PROVIDERID_NOTFOUND = "OAuth2 Provider에서 ProviderId을 찾을 수 없습니다.";
 	public static final String OAUTH_DUPLICATE_EMAIL = "회원가입을 통해 이미 가입하였습니다. 해당 SNS 계정으로 다시 시도해주세요.";
 	public static final String OAUTH_UNAUTHORIZED_URL = "해당 url은 인증되지 않았습니다.";
+	public static final String OAUTH_GENDER_NOT_PROVIDED = "성별 미제공";
+	public static final String OAUTH_AGE_NOT_PROVIDED = "연령 미제공";
 
 	/* PROFILE */
 	public static final String PROFILE_MODIFICATION_NOT_ALLOWED = "해당 프로필의 작성자가 아닙니다.";
