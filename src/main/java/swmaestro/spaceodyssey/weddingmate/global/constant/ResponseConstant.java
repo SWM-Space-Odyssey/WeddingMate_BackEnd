@@ -21,7 +21,7 @@ public class ResponseConstant {
 
 	// accountStatus
 
-	public static final String ACCOUNT_SUSPENDED_MESSAGE = "정지된 계정입니다.";
+	public static final String ACCOUNT_SUSPENDED_MESSAGE = "신고 누적으로 인해 일시 정지된 계정입니다.";
 	public static final String ACCOUNT_WITHDRAW_MESSAGE = "이미 탈퇴한 계정입니다.";
 	public static final String ACCOUNT_BANNED_MESSAGE = "영구 정지된 계정입니다.";
 	public static final String ACCOUNT_NON_ELIGIBLE_MESSAGE = "서비스 대상이 아닌 계정입니다.";
