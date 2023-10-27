@@ -1,7 +1,7 @@
 package swmaestro.spaceodyssey.weddingmate.domain.report.service;
 
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 import swmaestro.spaceodyssey.weddingmate.domain.users.enums.SuspensionPeriodEnum;
 import swmaestro.spaceodyssey.weddingmate.domain.users.enums.UserAccountStatusEnum;
