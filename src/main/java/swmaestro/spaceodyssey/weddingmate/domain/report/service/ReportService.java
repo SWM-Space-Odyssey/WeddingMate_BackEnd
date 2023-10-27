@@ -1,8 +1,8 @@
 package swmaestro.spaceodyssey.weddingmate.domain.report.service;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import swmaestro.spaceodyssey.weddingmate.domain.report.dto.ReportByReportedResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.report.dto.ReportByReporterResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.report.dto.ReportReqDto;
@@ -17,7 +17,6 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class ReportService {
 
 	private final ReportRepository reportRepository;
@@ -40,7 +39,7 @@ public class ReportService {
 		userSuspensionService.addReportCnt(reportedUser);
 	}
 
-	@Transactional()
+	@Transactional(readOnly = true)
 	public List<ReportByReporterResDto> getReportsByReporterUserId(Users user, Long userId) {
 		verifyCurrentUserMatchesTargetUser(user, userId);
 
@@ -50,7 +49,7 @@ public class ReportService {
 				.toList();
 	}
 
-	@Transactional()
+	@Transactional(readOnly = true)
 	public List<ReportByReportedResDto> getReportsByReportedUserId(Users user, Long userId) {
 		verifyCurrentUserMatchesTargetUser(user, userId);
 
