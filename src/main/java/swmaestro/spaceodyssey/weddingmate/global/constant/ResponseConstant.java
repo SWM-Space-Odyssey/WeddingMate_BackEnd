@@ -21,7 +21,7 @@ public class ResponseConstant {
 
 	// accountStatus
 
-	public static final String ACCOUNT_SUSPENDED_MESSAGE = "정지된 계정입니다.";
+	public static final String ACCOUNT_SUSPENDED_MESSAGE = "신고 누적으로 인해 일시 정지된 계정입니다.\n 다음 일시까지 로그인이 제한됩니다 : ";
 	public static final String ACCOUNT_WITHDRAW_MESSAGE = "이미 탈퇴한 계정입니다.";
 	public static final String ACCOUNT_BANNED_MESSAGE = "영구 정지된 계정입니다.";
 	public static final String ACCOUNT_NON_ELIGIBLE_MESSAGE = "서비스 대상이 아닌 계정입니다.";
@@ -91,4 +91,7 @@ public class ResponseConstant {
 
 	/* COMPANY */
 	public static final String COMPANY_NOTFOUND = "업체를 찾을 수 없습니다.";
+
+	/* REPORT */
+	public static final String REPORT_CREATE_SUCCESS = "신고가 성공적으로 접수되었습니다.";
 }
