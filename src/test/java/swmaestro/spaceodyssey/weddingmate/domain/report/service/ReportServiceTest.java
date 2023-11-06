@@ -32,6 +32,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class ReportServiceTest extends DummyEntity {
 
+	private static final String REDISSON_LOCK_PREFIX = "Id:";
 	Users reporterUser;
 	Users reportedUser;
 	Portfolios portfolio;
@@ -48,6 +49,7 @@ class ReportServiceTest extends DummyEntity {
 	private ReportMapper reportMapper;
 	@Mock
 	private ReportRepository reportRepository;
+	private String lockname;
 
 	@BeforeEach
 	void setUp() {
@@ -57,6 +59,8 @@ class ReportServiceTest extends DummyEntity {
 	@Test
 	@DisplayName("[성공] 신고 성공")
 	void makeReport() {
+		lockname = REDISSON_LOCK_PREFIX + reportedUser.getUserId();
+
 		ReportReqDto reqDto = ReportReqDto.builder()
 				.reportedUserId(reportedUser.getUserId())
 				.reportedItemId(portfolio.getPortfolioId())
@@ -79,10 +83,10 @@ class ReportServiceTest extends DummyEntity {
 						report.getReportItemType().equals(reqDto.getReportItemType()) &&
 						report.getReportItemId().equals(reqDto.getReportedItemId())
 		));
-		verify(userSuspensionService).addReportCnt(reportedUser);
+		verify(userSuspensionService).addReportCnt(lockname, reportedUser.getUserId());
 
 		verify(reportRepository, times(1)).save(any());
-		verify(userSuspensionService, times(1)).addReportCnt(any());
+		verify(userSuspensionService, times(1)).addReportCnt(lockname, reportedUser.getUserId());
 
 		// then
 		// 해당 서비스에서는 userSuspensionService를 검증하는 것이 아님

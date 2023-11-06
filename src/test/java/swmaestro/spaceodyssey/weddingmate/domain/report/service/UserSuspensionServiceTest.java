@@ -16,13 +16,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ExtendWith(MockitoExtension.class)
 class UserSuspensionServiceTest extends DummyEntity {
 
+	private static final String REDISSON_LOCK_PREFIX = "Id:";
 	Users baseUser;
 	Users zeroToOneBlockUser;
 	Users oneBlockUser;
 	Users twoBlockUser;
-
 	@InjectMocks
 	UserSuspensionService userSuspensionService;
+	private String lockname;
 
 	@BeforeEach
 	void setUp() {
@@ -32,7 +33,8 @@ class UserSuspensionServiceTest extends DummyEntity {
 	@Test
 	@DisplayName("[성공] BLOCK 0, REPORT 0인 유저 신고")
 	void addReportCntToBaseUser() {
-		Users resultUser = userSuspensionService.addReportCnt(baseUser);
+		lockname = REDISSON_LOCK_PREFIX + baseUser.getUserId();
+		Users resultUser = userSuspensionService.addReportCnt(lockname, baseUser.getUserId());
 
 		assertEquals(1, resultUser.getReportCnt());
 		assertEquals(0, resultUser.getBlockCnt());
@@ -42,7 +44,8 @@ class UserSuspensionServiceTest extends DummyEntity {
 	@Test
 	@DisplayName("[성공] BLOCK 0, REPORT 2인 유저 신고")
 	void addReportCntToZeroToOneBlockUser() {
-		Users resultUser = userSuspensionService.addReportCnt(zeroToOneBlockUser);
+		lockname = REDISSON_LOCK_PREFIX + zeroToOneBlockUser.getUserId();
+		Users resultUser = userSuspensionService.addReportCnt(lockname, zeroToOneBlockUser.getUserId());
 
 		assertEquals(0, resultUser.getReportCnt());
 		assertEquals(1, resultUser.getBlockCnt());
@@ -52,7 +55,8 @@ class UserSuspensionServiceTest extends DummyEntity {
 	@Test
 	@DisplayName("[성공] BLOCK 1, REPORT 2인 유저 신고")
 	void addReportCntToTwoBlockUser() {
-		Users resultUser = userSuspensionService.addReportCnt(oneBlockUser);
+		lockname = REDISSON_LOCK_PREFIX + oneBlockUser.getUserId();
+		Users resultUser = userSuspensionService.addReportCnt(lockname, oneBlockUser.getUserId());
 
 		assertEquals(0, resultUser.getReportCnt());
 		assertEquals(2, resultUser.getBlockCnt());
@@ -62,7 +66,8 @@ class UserSuspensionServiceTest extends DummyEntity {
 	@Test
 	@DisplayName("[성공] BLOCK 2, REPORT 2인 유저 신고")
 	void addReportCntToThreeBlockUser() {
-		Users resultUser = userSuspensionService.addReportCnt(twoBlockUser);
+		lockname = REDISSON_LOCK_PREFIX + twoBlockUser.getUserId();
+		Users resultUser = userSuspensionService.addReportCnt(lockname, twoBlockUser.getUserId());
 
 		assertEquals(0, resultUser.getReportCnt());
 		assertEquals(3, resultUser.getBlockCnt());
