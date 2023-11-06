@@ -19,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReportService {
 
+	private static final String REDISSON_LOCK_PREFIX = "Id:";
 	private final ReportRepository reportRepository;
 	private final UsersRepositoryService usersRepositoryService;
 	private final UserSuspensionService userSuspensionService;
@@ -36,7 +37,8 @@ public class ReportService {
 				.build();
 		reportRepository.save(report);
 
-		userSuspensionService.addReportCnt(reportedUser);
+		String lockName = REDISSON_LOCK_PREFIX + reportedUser.getUserId();
+		userSuspensionService.addReportCnt(lockName, reportedUser.getUserId());
 	}
 
 	@Transactional(readOnly = true)
