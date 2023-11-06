@@ -34,7 +34,7 @@ public class Companies extends BaseTimeEntity {
 	private String address;
 	private String companyCategory;
 	@Column(nullable = false)
-	private Boolean isDeleted;
+	private Boolean isDeleted = false;
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "file_id")
 	private Files files;
