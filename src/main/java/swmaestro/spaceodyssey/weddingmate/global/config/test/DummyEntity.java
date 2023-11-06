@@ -1,5 +1,6 @@
 package swmaestro.spaceodyssey.weddingmate.global.config.test;
 
+import swmaestro.spaceodyssey.weddingmate.domain.company.entity.Companies;
 import swmaestro.spaceodyssey.weddingmate.domain.file.entity.Files;
 import swmaestro.spaceodyssey.weddingmate.domain.item.entity.Items;
 import swmaestro.spaceodyssey.weddingmate.domain.like.entity.UserLikes;
@@ -20,12 +21,14 @@ public class DummyEntity {
 	public Users newMockUser(String nickname) {
 		Files files = newMockFile();
 		return Users.builder()
-				.authProvider(AuthProvider.KAKAO)
-				.authProviderId("1234567")
-				.email(nickname + "@gmail.com")
-				.nickname(nickname)
-				.profileImage(files)
-				.build();
+			.authProvider(AuthProvider.KAKAO)
+			.authProviderId("test")
+			.email(nickname + "@gmail.com")
+			.nickname(nickname)
+			.profileImage(files)
+			.age("20")
+			.gender("여성")
+			.build();
 	}
 
 	public Planners newMockPlanner(Users users) {
@@ -113,5 +116,13 @@ public class DummyEntity {
 				.reportItemType(reportItemType)
 				.reportItemId(reportItemId)
 				.build();
+	}
+
+	public Companies mockCompany() {
+		return Companies.builder()
+			.name("test")
+			.address("testAddress")
+			.category("드레스")
+			.build();
 	}
 }
