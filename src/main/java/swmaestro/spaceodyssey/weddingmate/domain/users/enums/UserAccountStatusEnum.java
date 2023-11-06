@@ -10,7 +10,7 @@ public enum UserAccountStatusEnum {
 	NON_ELIGIBLE("비대상"),
 	SUSPENDED("정지"),
 	WITHDRAW("탈퇴"),
-	BANNED("재가입불가");
+	BANNED("영구정지");
 
 	private String value;
 }
