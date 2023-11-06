@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.company.entity.Companies;
-import swmaestro.spaceodyssey.weddingmate.domain.company.service.CompaniesService;
+import swmaestro.spaceodyssey.weddingmate.domain.company.service.CompaniesRepositoryService;
 import swmaestro.spaceodyssey.weddingmate.domain.file.service.FilesRepositoryService;
 import swmaestro.spaceodyssey.weddingmate.domain.item.dto.ItemSearchResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.item.entity.Items;
@@ -30,7 +30,7 @@ import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserUnAuthorize
 @RequiredArgsConstructor
 @Transactional
 public class ItemsService {
-	private final CompaniesService companiesService;
+	private final CompaniesRepositoryService companiesRepositoryService;
 
 	private final ItemsRepository itemsRepository;
 	private final ItemsRepositoryService itemsRepositoryService;
@@ -58,7 +58,7 @@ public class ItemsService {
 
 	private void setItemCompanies(Items items, ItemSaveReqDto itemSaveReqDto) {
 		if (itemSaveReqDto.getCompanyId() != null) {
-			Companies companies = companiesService.findCompanyById(itemSaveReqDto.getCompanyId());
+			Companies companies = companiesRepositoryService.findCompanyById(itemSaveReqDto.getCompanyId());
 			items.setCompanies(companies);
 			items.setCompanyName(companies.getName());
 		} else if (itemSaveReqDto.getCompanyName() != null) {
@@ -95,7 +95,7 @@ public class ItemsService {
 
 		// companyId 또는 company 정보 업데이트 로직
 		if (itemUpdateReqDto.getCompanyId() != null) {
-			Companies companies = companiesService.findCompanyById(itemUpdateReqDto.getCompanyId());
+			Companies companies = companiesRepositoryService.findCompanyById(itemUpdateReqDto.getCompanyId());
 			items.setCompanies(companies);
 			items.setCompanyName(companies.getName());
 		} else if (itemUpdateReqDto.getCompanyName() != null) {
