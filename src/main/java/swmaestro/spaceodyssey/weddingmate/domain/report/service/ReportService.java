@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import swmaestro.spaceodyssey.weddingmate.domain.report.dto.ReportByReportedResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.report.dto.ReportByReporterResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.report.dto.ReportReqDto;
@@ -29,6 +30,7 @@ public class ReportService {
 
 	@Transactional
 	public void makeReport(Users user, ReportReqDto reqDto) {
+		System.out.println("makeReport(부모) CurrentTransactionName: " + TransactionSynchronizationManager.getCurrentTransactionName());
 		Users reportedUser = usersRepositoryService.findUserById(reqDto.getReportedUserId());
 		Report report = Report.builder()
 				.reporterUser(user)
