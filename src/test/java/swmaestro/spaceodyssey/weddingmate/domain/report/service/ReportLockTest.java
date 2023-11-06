@@ -16,7 +16,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @SpringBootTest
-public class ReportLockTest extends DummyEntity {
+class ReportLockTest extends DummyEntity {
 
 	private static final String REDISSON_LOCK_PREFIX = "Id:";
 
@@ -58,8 +58,6 @@ public class ReportLockTest extends DummyEntity {
 		Users pUsers = usersRepository.findById(reportedUser.getUserId())
 				.orElseThrow(UserNameNotFoundException::new);
 
-		System.out.println(pUsers.getReportCnt());
-		System.out.println(pUsers.getBlockCnt());
 		Assertions.assertThat(pUsers.getReportCnt()).isEqualTo(numberOfThreads % 3);
 		Assertions.assertThat(pUsers.getBlockCnt()).isEqualTo(numberOfThreads / 3);
 	}

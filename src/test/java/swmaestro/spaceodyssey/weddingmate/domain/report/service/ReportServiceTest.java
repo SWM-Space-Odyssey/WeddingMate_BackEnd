@@ -41,11 +41,13 @@ class ReportServiceTest extends DummyEntity {
 	Report itemReport;
 	@InjectMocks
 	private ReportService reportService;
+
+	@Mock
+	private UserSuspensionService userSuspensionService;
+
 	@Mock
 	private UsersRepositoryService usersRepositoryService;
 	@Mock
-	private UserSuspensionService userSuspensionService;
-	@Mock //진짜 객체 주입
 	private ReportMapper reportMapper;
 	@Mock
 	private ReportRepository reportRepository;
@@ -83,15 +85,10 @@ class ReportServiceTest extends DummyEntity {
 						report.getReportItemType().equals(reqDto.getReportItemType()) &&
 						report.getReportItemId().equals(reqDto.getReportedItemId())
 		));
-		verify(userSuspensionService).addReportCnt(lockname, reportedUser.getUserId());
-
 		verify(reportRepository, times(1)).save(any());
 		verify(userSuspensionService, times(1)).addReportCnt(lockname, reportedUser.getUserId());
 
 		// then
-		// 해당 서비스에서는 userSuspensionService를 검증하는 것이 아님
-		// 따라서 그냥 자체적으로 1 올려줌
-		reportedUser.incrementReportCnt();
 		Assertions.assertThat(reportedUser.getReportCnt())
 				.isEqualTo(1);
 	}
