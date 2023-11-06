@@ -13,15 +13,15 @@ public class CompanyResDto {
 	private String name;
 	private String address;
 	private List<CompanyItemResDto> itemList;
-	private Boolean isMore;
+	private Boolean isMoreThanNineImages;
 	private List<String> imageList;
 
 	@Builder
-	public CompanyResDto(String name, String address, List<CompanyItemResDto> itemList, List<String> imageList, Boolean isMore) {
+	public CompanyResDto(String name, String address, List<CompanyItemResDto> itemList, List<String> imageList, Boolean isMoreThanNineImages) {
 		this.name = name;
 		this.address = address;
 		this.itemList = itemList;
 		this.imageList = imageList;
-		this.isMore = isMore;
+		this.isMoreThanNineImages = isMoreThanNineImages;
 	}
 }

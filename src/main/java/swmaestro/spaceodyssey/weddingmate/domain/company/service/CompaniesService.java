@@ -30,7 +30,7 @@ public class CompaniesService {
 			.address(company.getAddress())
 			.imageList(imageList)
 			.itemList(company.getItems().stream().map(companyMapper::entityToItemDto).limit(2).toList())
-			.isMore(isMore)
+			.isMoreThanNineImages(isMore)
 			.build();
 	}
 
