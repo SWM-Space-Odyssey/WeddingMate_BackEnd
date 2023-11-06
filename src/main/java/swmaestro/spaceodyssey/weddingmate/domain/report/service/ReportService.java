@@ -1,6 +1,7 @@
 package swmaestro.spaceodyssey.weddingmate.domain.report.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import swmaestro.spaceodyssey.weddingmate.domain.report.dto.ReportByReportedResDto;
@@ -15,6 +16,7 @@ import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserUnAuthorize
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ReportService {
@@ -37,8 +39,12 @@ public class ReportService {
 				.build();
 		reportRepository.save(report);
 
-		String lockName = REDISSON_LOCK_PREFIX + reportedUser.getUserId();
-		userSuspensionService.addReportCnt(lockName, reportedUser.getUserId());
+		try {
+			String lockName = REDISSON_LOCK_PREFIX + reportedUser.getUserId();
+			userSuspensionService.addReportCnt(lockName, reportedUser.getUserId());
+		} catch (IllegalStateException e) {
+			log.info("user의 신고 횟수 증가에서 예외 발생");
+		}
 	}
 
 	@Transactional(readOnly = true)
