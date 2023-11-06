@@ -2,7 +2,6 @@ package swmaestro.spaceodyssey.weddingmate.domain.report.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 import swmaestro.spaceodyssey.weddingmate.domain.users.enums.SuspensionPeriodEnum;
 import swmaestro.spaceodyssey.weddingmate.domain.users.enums.UserAccountStatusEnum;
@@ -19,22 +18,20 @@ public class UserSuspensionService {
 	private final UsersRepositoryService usersRepositoryService;
 
 	@DistributedLock(key = "#lockName")
-	public Users addReportCnt(String lockName, Long userId) {
-		Users pUsers = usersRepositoryService.findUserById(userId);
-		pUsers.incrementReportCnt();
-		checkReportCnt(pUsers);
-		return pUsers;
+	public void addReportCnt(String lockName, Long userId) {
+		Users pUser = usersRepositoryService.findUserById(userId);
+		pUser.incrementReportCnt();
+		checkReportCnt(pUser.getUserId());
 	}
 
-	@Transactional
-	public void checkReportCnt(Users user) {
-		if (user.getReportCnt() == UserConstant.REPORT_LIMIT) {
-			user.resetReportCnt();
-			blockUser(user);
+	public void checkReportCnt(Long userId) {
+		Users pUser = usersRepositoryService.findUserById(userId);
+		if (pUser.getReportCnt() == UserConstant.REPORT_LIMIT) {
+			pUser.resetReportCnt();
+			blockUser(pUser);
 		}
 	}
 
-	@Transactional
 	public void blockUser(Users user) {
 		user.setAccountStatusToSuspended();
 		user.incrementBlockCnt();
@@ -45,7 +42,6 @@ public class UserSuspensionService {
 		}
 	}
 
-	@Transactional
 	public void setSuspensionPeriodByBlockCnt(Users user) {
 		SuspensionPeriodEnum period = SuspensionPeriodEnum.getByBlockCnt(user.getBlockCnt());
 		if (period != null) {
@@ -54,14 +50,12 @@ public class UserSuspensionService {
 		}
 	}
 
-	@Transactional
 	public void checkBlockedCnt(Users user) {
 		if (user.getBlockCnt().equals(UserConstant.BLOCKED_LIMIT)) {
 			banUser(user);
 		}
 	}
 
-	@Transactional
 	public void banUser(Users user) {
 		user.setAccountStatusToBanned();
 	}
