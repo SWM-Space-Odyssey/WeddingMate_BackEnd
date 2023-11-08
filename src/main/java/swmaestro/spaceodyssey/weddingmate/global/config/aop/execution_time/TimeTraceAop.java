@@ -1,4 +1,4 @@
-package swmaestro.spaceodyssey.weddingmate.global.config.aop.executionTime;
+package swmaestro.spaceodyssey.weddingmate.global.config.aop.execution_time;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

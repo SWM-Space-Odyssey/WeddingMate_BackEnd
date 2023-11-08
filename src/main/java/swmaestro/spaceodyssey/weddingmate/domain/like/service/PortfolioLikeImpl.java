@@ -10,7 +10,7 @@ import swmaestro.spaceodyssey.weddingmate.domain.like.mapper.LikesMapper;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.entity.Portfolios;
 import swmaestro.spaceodyssey.weddingmate.domain.portfolio.service.PortfolioRepositoryService;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
-import swmaestro.spaceodyssey.weddingmate.global.config.aop.distributedLock.DistributedLock;
+import swmaestro.spaceodyssey.weddingmate.global.config.aop.distributed_lock.DistributedLock;
 
 import java.util.List;
 

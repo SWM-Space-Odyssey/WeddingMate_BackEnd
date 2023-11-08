@@ -1,4 +1,4 @@
-package swmaestro.spaceodyssey.weddingmate.global.config.aop.distributedLock;
+package swmaestro.spaceodyssey.weddingmate.global.config.aop.distributed_lock;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;

@@ -1,4 +1,4 @@
-package swmaestro.spaceodyssey.weddingmate.global.config.aop.distributedLock;
+package swmaestro.spaceodyssey.weddingmate.global.config.aop.distributed_lock;
 
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;

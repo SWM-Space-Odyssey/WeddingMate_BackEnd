@@ -8,7 +8,7 @@ import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 import swmaestro.spaceodyssey.weddingmate.domain.users.enums.SuspensionPeriodEnum;
 import swmaestro.spaceodyssey.weddingmate.domain.users.enums.UserAccountStatusEnum;
 import swmaestro.spaceodyssey.weddingmate.domain.users.service.repositoryservice.UsersRepositoryService;
-import swmaestro.spaceodyssey.weddingmate.global.config.aop.distributedLock.DistributedLock;
+import swmaestro.spaceodyssey.weddingmate.global.config.aop.distributed_lock.DistributedLock;
 import swmaestro.spaceodyssey.weddingmate.global.constant.UserConstant;
 
 import java.time.LocalDateTime;
