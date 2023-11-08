@@ -1,4 +1,4 @@
-package swmaestro.spaceodyssey.weddingmate.global.config.aop.DistributedLock;
+package swmaestro.spaceodyssey.weddingmate.global.config.aop.distributedLock;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

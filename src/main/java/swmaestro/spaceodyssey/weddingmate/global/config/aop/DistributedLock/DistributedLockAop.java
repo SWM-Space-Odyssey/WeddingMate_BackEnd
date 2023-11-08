@@ -1,19 +1,17 @@
-package swmaestro.spaceodyssey.weddingmate.global.config.aop.DistributedLock;
+package swmaestro.spaceodyssey.weddingmate.global.config.aop.distributedLock;
 
-import java.lang.reflect.Method;
-import java.time.LocalDateTime;
-
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.lang.reflect.Method;
+import java.time.LocalDateTime;
 
 @Aspect
 @Component
@@ -43,7 +41,7 @@ public class DistributedLockAop {
 			if (!available) {
 				return false;
 			}
-			log.info("get lock success {}" , key);
+			log.info("get lock success {}", key);
 			return aopForTransaction.proceed(joinPoint);
 		} catch (InterruptedException e) {
 			throw new InterruptedException();
