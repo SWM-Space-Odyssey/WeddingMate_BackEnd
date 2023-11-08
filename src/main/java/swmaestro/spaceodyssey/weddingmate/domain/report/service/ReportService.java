@@ -30,7 +30,7 @@ public class ReportService {
 
 	@Transactional
 	public void makeReport(Users user, ReportReqDto reqDto) {
-		System.out.println("makeReport(부모) CurrentTransactionName: " + TransactionSynchronizationManager.getCurrentTransactionName());
+		log.info("makeReport(부모) CurrentTransactionName: " + TransactionSynchronizationManager.getCurrentTransactionName());
 		Users reportedUser = usersRepositoryService.findUserById(reqDto.getReportedUserId());
 		Report report = Report.builder()
 				.reporterUser(user)
