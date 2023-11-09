@@ -1,32 +1,44 @@
 package swmaestro.spaceodyssey.weddingmate.domain.report.service;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 import swmaestro.spaceodyssey.weddingmate.domain.users.enums.SuspensionPeriodEnum;
 import swmaestro.spaceodyssey.weddingmate.domain.users.enums.UserAccountStatusEnum;
+import swmaestro.spaceodyssey.weddingmate.domain.users.service.repositoryservice.UsersRepositoryService;
+import swmaestro.spaceodyssey.weddingmate.global.config.aop.distributed_lock.DistributedLock;
 import swmaestro.spaceodyssey.weddingmate.global.constant.UserConstant;
 
 import java.time.LocalDateTime;
 
+@Slf4j
+@RequiredArgsConstructor
 @Service
-@Transactional
 public class UserSuspensionService {
 
-	public Users addReportCnt(Users user) {
-		user.incrementReportCnt();
-		checkReportCnt(user);
-		return user;
+	private final UsersRepositoryService usersRepositoryService;
+
+	@DistributedLock(key = "#lockName")
+	public void addReportCnt(String lockName, Long userId) {
+		log.info("addReportCnt CurrentTransactionName: " + TransactionSynchronizationManager.getCurrentTransactionName());
+		Users pUser = usersRepositoryService.findUserById(userId);
+		pUser.incrementReportCnt();
+		checkReportCnt(pUser.getUserId());
 	}
 
-	private void checkReportCnt(Users user) {
-		if (user.getReportCnt() == UserConstant.REPORT_LIMIT) {
-			user.resetReportCnt();
-			blockUser(user);
+	public void checkReportCnt(Long userId) {
+		log.info("checkReportCnt CurrentTransactionName: " + TransactionSynchronizationManager.getCurrentTransactionName());
+		Users pUser = usersRepositoryService.findUserById(userId);
+		if (pUser.getReportCnt() == UserConstant.REPORT_LIMIT) {
+			pUser.resetReportCnt();
+			blockUser(pUser);
 		}
 	}
 
-	private void blockUser(Users user) {
+	public void blockUser(Users user) {
+		log.info("blockUser CurrentTransactionName: " + TransactionSynchronizationManager.getCurrentTransactionName());
 		user.setAccountStatusToSuspended();
 		user.incrementBlockCnt();
 		checkBlockedCnt(user);
@@ -36,7 +48,8 @@ public class UserSuspensionService {
 		}
 	}
 
-	private void setSuspensionPeriodByBlockCnt(Users user) {
+	public void setSuspensionPeriodByBlockCnt(Users user) {
+		log.info("setSuspensionPeriodByBlockCnt CurrentTransactionName: " + TransactionSynchronizationManager.getCurrentTransactionName());
 		SuspensionPeriodEnum period = SuspensionPeriodEnum.getByBlockCnt(user.getBlockCnt());
 		if (period != null) {
 			LocalDateTime newSuspensionEndTime = LocalDateTime.now().plusDays(period.getDays());
@@ -44,13 +57,15 @@ public class UserSuspensionService {
 		}
 	}
 
-	private void checkBlockedCnt(Users user) {
+	public void checkBlockedCnt(Users user) {
+		log.info("checkBlockedCnt CurrentTransactionName: " + TransactionSynchronizationManager.getCurrentTransactionName());
 		if (user.getBlockCnt().equals(UserConstant.BLOCKED_LIMIT)) {
 			banUser(user);
 		}
 	}
 
-	private void banUser(Users user) {
+	public void banUser(Users user) {
+		log.info("banUser CurrentTransactionName: " + TransactionSynchronizationManager.getCurrentTransactionName());
 		user.setAccountStatusToBanned();
 	}
 }

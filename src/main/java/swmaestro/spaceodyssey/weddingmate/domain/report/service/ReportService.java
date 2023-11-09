@@ -1,8 +1,10 @@
 package swmaestro.spaceodyssey.weddingmate.domain.report.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import swmaestro.spaceodyssey.weddingmate.domain.report.dto.ReportByReportedResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.report.dto.ReportByReporterResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.report.dto.ReportReqDto;
@@ -15,10 +17,12 @@ import swmaestro.spaceodyssey.weddingmate.global.exception.users.UserUnAuthorize
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ReportService {
 
+	private static final String REDISSON_LOCK_PREFIX = "Id:";
 	private final ReportRepository reportRepository;
 	private final UsersRepositoryService usersRepositoryService;
 	private final UserSuspensionService userSuspensionService;
@@ -26,6 +30,7 @@ public class ReportService {
 
 	@Transactional
 	public void makeReport(Users user, ReportReqDto reqDto) {
+		log.info("makeReport(부모) CurrentTransactionName: " + TransactionSynchronizationManager.getCurrentTransactionName());
 		Users reportedUser = usersRepositoryService.findUserById(reqDto.getReportedUserId());
 		Report report = Report.builder()
 				.reporterUser(user)
@@ -36,7 +41,12 @@ public class ReportService {
 				.build();
 		reportRepository.save(report);
 
-		userSuspensionService.addReportCnt(reportedUser);
+		try {
+			String lockName = REDISSON_LOCK_PREFIX + reportedUser.getUserId();
+			userSuspensionService.addReportCnt(lockName, reportedUser.getUserId());
+		} catch (IllegalStateException e) {
+			log.info("user의 신고 횟수 증가에서 예외 발생");
+		}
 	}
 
 	@Transactional(readOnly = true)

@@ -1,4 +1,4 @@
-package swmaestro.spaceodyssey.weddingmate.global.config.aop.ExecutionTime;
+package swmaestro.spaceodyssey.weddingmate.global.config.aop.execution_time;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
