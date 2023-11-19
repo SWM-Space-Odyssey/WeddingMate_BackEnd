@@ -8,8 +8,10 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import swmaestro.spaceodyssey.weddingmate.domain.company.dto.CompanyItemResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.company.dto.CompanyResDto;
+import swmaestro.spaceodyssey.weddingmate.domain.company.dto.CompanySearchResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.company.entity.Companies;
 import swmaestro.spaceodyssey.weddingmate.domain.company.mapper.CompanyMapper;
+import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 
 @Service
 @Transactional
@@ -44,5 +46,13 @@ public class CompaniesService {
 		Companies company = companiesRepositoryService.findCompanyById(id);
 
 		return companyMapper.entityToImageDto(company);
+	}
+
+	public List<CompanySearchResDto> searchCompanyByFullText(Users user, String keyword) {
+		List<Companies> companies = companiesRepositoryService.searchCompaniesByFullText(keyword);
+
+		return companies.stream()
+			.map(company -> companyMapper.entityToSearchDto(company, user))
+			.toList();
 	}
 }

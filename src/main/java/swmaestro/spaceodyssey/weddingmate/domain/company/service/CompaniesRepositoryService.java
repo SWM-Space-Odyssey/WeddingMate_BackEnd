@@ -1,5 +1,7 @@
 package swmaestro.spaceodyssey.weddingmate.domain.company.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,5 +20,9 @@ public class CompaniesRepositoryService {
 	public Companies findCompanyById(Long id) {
 		return companiesRepository.findById(id)
 			.orElseThrow(CompanyNotFoundException::new);
+	}
+
+	public List<Companies> searchCompaniesByFullText(String keyword) {
+		return companiesRepository.searchByFullText(keyword);
 	}
 }
