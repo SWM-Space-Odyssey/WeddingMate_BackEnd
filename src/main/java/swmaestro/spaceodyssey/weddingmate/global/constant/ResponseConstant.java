@@ -94,4 +94,15 @@ public class ResponseConstant {
 
 	/* REPORT */
 	public static final String REPORT_CREATE_SUCCESS = "신고가 성공적으로 접수되었습니다.";
+
+	/* POST */
+	public static final String POST_NOTFOUND = "해당 포스트를 찾을 수 없습니다.";
+	public static final String POST_CREATE_SUCCESS = "해당 포스트를 생성했습니다.";
+	public static final String POST_UPDATE_SUCCESS = "해당 포스트를 수정했습니다.";
+	public static final String POST_DELETE_SUCCESS = "해당 포스트를 삭제했습니다.";
+
+	/* COMMENT */
+	public static final String COMMENT_NOTFOUND = "해당 댓글을 찾을 수 없습니다.";
+	public static final String COMMENT_CREATE_SUCCESS = "해당 댓글을 생성했습니다.";
+	public static final String COMMENT_DELETE_SUCCESS = "해당 댓글을 삭제했습니다.";
 }
