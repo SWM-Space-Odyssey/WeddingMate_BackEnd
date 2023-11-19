@@ -11,6 +11,8 @@ import swmaestro.spaceodyssey.weddingmate.domain.company.dto.CompanyResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.company.dto.CompanySearchResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.company.entity.Companies;
 import swmaestro.spaceodyssey.weddingmate.domain.company.mapper.CompanyMapper;
+import swmaestro.spaceodyssey.weddingmate.domain.like.enums.LikeEnum;
+import swmaestro.spaceodyssey.weddingmate.domain.like.repository.LikesRepository;
 import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 
 @Service
@@ -19,6 +21,7 @@ import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 public class CompaniesService {
 	private final CompaniesRepositoryService companiesRepositoryService;
 	private final CompanyMapper companyMapper;
+	private final LikesRepository likesRepository;
 
 	public CompanyResDto findById(Long id) {
 		Companies company = companiesRepositoryService.findCompanyById(id);
@@ -52,7 +55,14 @@ public class CompaniesService {
 		List<Companies> companies = companiesRepositoryService.searchCompaniesByFullText(keyword);
 
 		return companies.stream()
-			.map(company -> companyMapper.entityToSearchDto(company, user))
+			.map(company -> {
+				boolean isLiked = isCompanyLikedByUser(user, company.getCompanyId());
+				return CompanySearchResDto.fromLiked(company, isLiked);
+			})
 			.toList();
+	}
+
+	private boolean isCompanyLikedByUser(Users users, Long companyId) {
+		return !likesRepository.findByUsersAndLikeTypeAndLikedId(users, LikeEnum.company, companyId).isEmpty();
 	}
 }

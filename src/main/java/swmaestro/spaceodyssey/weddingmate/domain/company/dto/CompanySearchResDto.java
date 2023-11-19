@@ -1,25 +1,19 @@
 package swmaestro.spaceodyssey.weddingmate.domain.company.dto;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import swmaestro.spaceodyssey.weddingmate.domain.company.entity.Companies;
 
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CompanySearchResDto {
-	private String name;
-	private String repImg;
-	private String category;
-	private Boolean isLiked;
-	private Long companyId;
+public record CompanySearchResDto(String name, String category, boolean isLiked, Long companyId) {
 
-	@Builder
-	public CompanySearchResDto(String name, String repImg, String category, Boolean isLiked, Long companyId) {
-		this.name = name;
-		this.repImg = repImg;
-		this.category = category;
-		this.isLiked = isLiked;
-		this.companyId = companyId;
+	private static CompanySearchResDto of(final Companies company, final boolean isLiked) {
+		return new CompanySearchResDto(
+			company.getName(),
+			company.getCategory(),
+			isLiked,
+			company.getCompanyId()
+		);
+	}
+
+	public static CompanySearchResDto fromLiked(final Companies company, final boolean isLiked) {
+		return of(company, isLiked);
 	}
 }
