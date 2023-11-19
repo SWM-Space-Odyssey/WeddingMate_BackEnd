@@ -57,7 +57,7 @@ public class CompaniesService {
 		return companies.stream()
 			.map(company -> {
 				boolean isLiked = isCompanyLikedByUser(user, company.getCompanyId());
-				return CompanySearchResDto.fromLiked(company, isLiked);
+				return CompanySearchResDto.of(company, isLiked);
 			})
 			.toList();
 	}
