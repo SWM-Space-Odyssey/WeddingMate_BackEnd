@@ -10,9 +10,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,7 +34,7 @@ public class Companies extends BaseTimeEntity {
 	private Long companyId;
 	private String name;
 	private String address;
-	private String companyCategory;
+	private String category;
 	@Column(nullable = false)
 	private Boolean isDeleted = false;
 	@OneToOne(cascade = CascadeType.ALL)
@@ -45,7 +47,7 @@ public class Companies extends BaseTimeEntity {
 	public Companies(String name, String address, String category) {
 		this.name = name;
 		this.address = address;
-		this.companyCategory = category;
+		this.category = category;
 		this.likeCount = 0;
 	}
 

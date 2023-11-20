@@ -11,11 +11,13 @@ import swmaestro.spaceodyssey.weddingmate.domain.company.entity.Companies;
 import swmaestro.spaceodyssey.weddingmate.domain.file.entity.Files;
 import swmaestro.spaceodyssey.weddingmate.domain.file.repository.FilesRepository;
 import swmaestro.spaceodyssey.weddingmate.domain.item.entity.Items;
+import swmaestro.spaceodyssey.weddingmate.domain.like.repository.LikesRepository;
 
 @Component
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class CompanyMapper {
-	private final FilesRepository filesRepository;
+		private final FilesRepository filesRepository;
+		private final LikesRepository likesRepository;
 
 	public List<String> entityToImageDtoByLimit(Companies company) {
 
@@ -45,6 +47,5 @@ public class CompanyMapper {
 			.itemDate(item.getItemDate())
 			.build();
 	}
-
 
 }
