@@ -39,7 +39,11 @@ public class CommentService {
 	public void deleteComment(Users user, Long id) {
 		Comments comment = commentRepositoryService.findById(id);
 
+		Posts post = postRepositoryService.findPostById(comment.getPosts().getPostId());
+
 		verifyUserIsWriter(comment, user);
+
+		post.deleteCntComment();
 
 		comment.deleteComment();
 	}

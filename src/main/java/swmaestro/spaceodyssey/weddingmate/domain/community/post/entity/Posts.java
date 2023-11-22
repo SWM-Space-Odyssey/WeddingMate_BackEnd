@@ -76,6 +76,17 @@ public class Posts extends BaseTimeEntity {
 		this.commentCount += 1;
 	}
 
+	public void deleteCntComment() {
+		validateCntComment();
+		this.commentCount -= 1;
+	}
+
+	private void validateCntComment() {
+		if (commentCount < 1) {
+			throw new IllegalArgumentException();
+		}
+	}
+
 	public void addViewCount() {
 		this.viewCount += 1;
 	}
