@@ -76,6 +76,10 @@ public class Posts extends BaseTimeEntity {
 		this.commentCount += 1;
 	}
 
+	public void deleteCntComment() {
+		this.commentCount -= 1;
+	}
+
 	public void addViewCount() {
 		this.viewCount += 1;
 	}
