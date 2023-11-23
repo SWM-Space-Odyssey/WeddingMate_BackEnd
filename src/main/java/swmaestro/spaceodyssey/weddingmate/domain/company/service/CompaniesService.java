@@ -1,23 +1,68 @@
 package swmaestro.spaceodyssey.weddingmate.domain.company.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import swmaestro.spaceodyssey.weddingmate.domain.company.dto.CompanyItemResDto;
+import swmaestro.spaceodyssey.weddingmate.domain.company.dto.CompanyResDto;
+import swmaestro.spaceodyssey.weddingmate.domain.company.dto.CompanySearchResDto;
 import swmaestro.spaceodyssey.weddingmate.domain.company.entity.Companies;
-import swmaestro.spaceodyssey.weddingmate.domain.company.repository.CompaniesRepository;
-import swmaestro.spaceodyssey.weddingmate.global.exception.company.CompanyNotFoundException;
+import swmaestro.spaceodyssey.weddingmate.domain.company.mapper.CompanyMapper;
+import swmaestro.spaceodyssey.weddingmate.domain.like.enums.LikeEnum;
+import swmaestro.spaceodyssey.weddingmate.domain.like.repository.LikesRepository;
+import swmaestro.spaceodyssey.weddingmate.domain.users.entity.Users;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class CompaniesService {
-	private final CompaniesRepository companiesRepository;
-	/*================== Repository 접근 ==================*/
-	@Transactional(readOnly = true)
-	public Companies findCompanyById(Long id) {
-		return companiesRepository.findById(id)
-			.orElseThrow(CompanyNotFoundException::new);
+	private final CompaniesRepositoryService companiesRepositoryService;
+	private final CompanyMapper companyMapper;
+	private final LikesRepository likesRepository;
+
+	public CompanyResDto findById(Long id) {
+		Companies company = companiesRepositoryService.findCompanyById(id);
+
+		List<String> imageList = companyMapper.entityToImageDtoByLimit(company);
+
+		boolean isMore = imageList.size() == 10;
+
+		return CompanyResDto.builder()
+			.name(company.getName())
+			.address(company.getAddress())
+			.imageList(imageList)
+			.itemList(company.getItems().stream().map(companyMapper::entityToItemDto).limit(2).toList())
+			.isMoreThanNineImages(isMore)
+			.build();
 	}
 
+	public List<CompanyItemResDto> findItemById(Long id) {
+		Companies company = companiesRepositoryService.findCompanyById(id);
+
+		return company.getItems().stream().map(companyMapper::entityToItemDto).toList();
+	}
+
+	public List<String> findImagesById(Long id) {
+		Companies company = companiesRepositoryService.findCompanyById(id);
+
+		return companyMapper.entityToImageDto(company);
+	}
+
+	public List<CompanySearchResDto> searchCompanyByFullText(Users user, String keyword) {
+		List<Companies> companies = companiesRepositoryService.searchCompaniesByFullText(keyword);
+
+		return companies.stream()
+			.map(company -> {
+				boolean isLiked = isCompanyLikedByUser(user, company.getCompanyId());
+				return CompanySearchResDto.of(company, isLiked);
+			})
+			.toList();
+	}
+
+	private boolean isCompanyLikedByUser(Users users, Long companyId) {
+		return !likesRepository.findByUsersAndLikeTypeAndLikedId(users, LikeEnum.company, companyId).isEmpty();
+	}
 }

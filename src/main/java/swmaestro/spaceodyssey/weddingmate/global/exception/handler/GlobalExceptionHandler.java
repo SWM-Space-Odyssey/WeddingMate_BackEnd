@@ -7,6 +7,8 @@ import swmaestro.spaceodyssey.weddingmate.global.dto.ApiResponse;
 import swmaestro.spaceodyssey.weddingmate.global.exception.category.CategoryNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.chat.ChatRoomNotAuthorizedException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.chat.ChatRoomNotFoundException;
+import swmaestro.spaceodyssey.weddingmate.global.exception.community.comment.CommentNotFoundException;
+import swmaestro.spaceodyssey.weddingmate.global.exception.community.post.PostNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.company.CompanyNotFoundException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileKakaoProfileDownloadFailureException;
 import swmaestro.spaceodyssey.weddingmate.global.exception.file.FileMalformedUrlException;
@@ -210,5 +212,16 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(CompanyNotFoundException.class)
 	protected final ApiResponse<Object> handleCompanyNotFundException(CompanyNotFoundException e) {
 		return ErrorResponse.toErrorResponseEntity(ErrorCode.COMPANY_NOTFOUND, e.getMessage());
+	}
+
+	/*================== Community Exception ==================*/
+	@ExceptionHandler(PostNotFoundException.class)
+	protected final ApiResponse<Object> handlePostNotFundException(PostNotFoundException e) {
+		return ErrorResponse.toErrorResponseEntity(ErrorCode.POST_NOTFOUND, e.getMessage());
+	}
+
+	@ExceptionHandler(CommentNotFoundException.class)
+	protected final ApiResponse<Object> handleCommentNotFundException(CommentNotFoundException e) {
+		return ErrorResponse.toErrorResponseEntity(ErrorCode.COMMENT_NOTFOUND, e.getMessage());
 	}
 }

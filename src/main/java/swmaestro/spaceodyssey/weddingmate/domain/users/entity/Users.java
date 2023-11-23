@@ -17,6 +17,7 @@ import swmaestro.spaceodyssey.weddingmate.domain.users.enums.UserAccountStatusEn
 import swmaestro.spaceodyssey.weddingmate.domain.users.enums.UserRegisterStatusEnum;
 import swmaestro.spaceodyssey.weddingmate.global.entity.BaseTimeEntity;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @SuppressWarnings("checkstyle:RegexpMultiline")
@@ -73,6 +74,9 @@ public class Users extends BaseTimeEntity {
 
 	@Column(nullable = false)
 	private Integer reportCnt = 0;
+
+	@Column
+	private LocalDateTime suspensionEndTime;
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "planner_id")
@@ -137,6 +141,26 @@ public class Users extends BaseTimeEntity {
 		}
 	}
 
+	public void setSuspensionEndTime(LocalDateTime suspensionEndTime) {
+		this.suspensionEndTime = suspensionEndTime;
+	}
+
+	public void resetReportCnt() {
+		this.reportCnt = 0;
+	}
+
+	public void setAccountStatusToNormal() {
+		this.accountStatus = UserAccountStatusEnum.NORMAL;
+	}
+
+	public void setAccountStatusToSuspended() {
+		this.accountStatus = UserAccountStatusEnum.SUSPENDED;
+	}
+
+	public void setAccountStatusToBanned() {
+		this.accountStatus = UserAccountStatusEnum.BANNED;
+	}
+
 	public void setAccountStatusToNotEligible() {
 		this.accountStatus = UserAccountStatusEnum.NON_ELIGIBLE;
 	}
@@ -147,5 +171,13 @@ public class Users extends BaseTimeEntity {
 
 	public void updateProfileImage(Files profileImage) {
 		this.profileImage = profileImage;
+	}
+
+	public void incrementReportCnt() {
+		this.reportCnt++;
+	}
+
+	public void incrementBlockCnt() {
+		this.blockCnt++;
 	}
 }
