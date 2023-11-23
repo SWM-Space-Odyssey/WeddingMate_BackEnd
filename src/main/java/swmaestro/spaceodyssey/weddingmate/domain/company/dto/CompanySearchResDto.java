@@ -1,8 +1,10 @@
 package swmaestro.spaceodyssey.weddingmate.domain.company.dto;
 
 import lombok.Builder;
+import lombok.Getter;
 import swmaestro.spaceodyssey.weddingmate.domain.company.entity.Companies;
 
+@Getter
 public class CompanySearchResDto {
 	private String name;
 	private String category;
